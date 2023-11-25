@@ -1,15 +1,19 @@
 package com.tje.cinema;
 
+import java.util.ArrayList;
+
 public class User {
     private int id;
     private String email;
     private UserType userType;
+    private ArrayList<Reservation> reservations;
 
 
     public User(int id, String email, UserType userType) {
         this.id = id;
         this.email = email;
         this.userType = userType;
+        this.reservations = new ArrayList<Reservation>();
     }
 
     public int getId() {
@@ -37,8 +41,16 @@ public class User {
         this.userType = userType;
     }
 
+    public ArrayList<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(ArrayList<Reservation> reservations) {
+        this.reservations = reservations;
+    }
 
     public static enum UserType {
         REGISTERED, ADMIN
     }
+
 }
