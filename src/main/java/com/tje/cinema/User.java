@@ -5,15 +5,17 @@ import java.util.ArrayList;
 public class User {
     private int id;
     private String email;
+    private String password;
     private UserType userType;
-    private ArrayList<Reservation> reservations;
+    private ArrayList<Order> orders;
 
 
-    public User(int id, String email, UserType userType) {
+    public User(int id, String email,String password) {
         this.id = id;
         this.email = email;
-        this.userType = userType;
-        this.reservations = new ArrayList<Reservation>();
+        this.password = password;
+        this.userType = UserType.REGISTERED;
+        this.orders = new ArrayList<Order>();
     }
 
     public int getId() {
@@ -32,6 +34,13 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public UserType getUserType() {
         return userType;
@@ -41,12 +50,12 @@ public class User {
         this.userType = userType;
     }
 
-    public ArrayList<Reservation> getReservations() {
-        return reservations;
+    public ArrayList<Order> getOrders() {
+        return orders;
     }
 
-    public void setReservations(ArrayList<Reservation> reservations) {
-        this.reservations = reservations;
+    public void addOrder(Order order) {
+        this.orders.add(order);
     }
 
     public static enum UserType {
