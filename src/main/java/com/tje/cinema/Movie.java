@@ -10,6 +10,10 @@ public class Movie {
     private String director;
     private String trailerLink;
     private ArrayList<String> photos;
+    public Movie(int id, String title){
+        this.id = id;
+        this.title = title;
+    }
 
     public Movie(int id, String title, String genre, int year, String director, String trailerLink, ArrayList<String> photos) {
         this.id = id;

@@ -3,10 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        img {
+            max-width: 640px;
+            height: fit-content;
+        }
+
+    </style>
 </head>
 <body>
     <div>
-        <h1>Movies'details</h1>
+        <h1 th:text="${movie.getTitle()}"></h1>
+        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/RDE6Uz73A7g?si=mIf9HyfFDeHXWHxL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><p th:text="'Year: ' +${movie.getYear()}"></p>
+        <p th:text="'Genre: ' +${movie.getGenre()}"></p>
+        <p th:text="'Director: ' +${movie.getDirector()}"></p>
+        <div th:each="photo, iter: ${movie.getPhotos()}">
+            <img th:src="${photo}">
+        </div>
+
     </div>
 </body>
 </html>

@@ -2,11 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Repertuar</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
     <div>
         <h1>Movies page</h1>
+        <div>
+            <a>Monday (29.01)</a>
+            <a>Tuesday (30.01)</a>
+            <a>Wednesday (31.01)</a>
+            <a>Thursday (01.02)</a>
+            <a>Friday (02.02)</a>
+            <a>Saturday (03.02)</a>
+            <a>Sunday (04.02)</a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <td>Movie</td>
+                    <td>Hour</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="movie : ${movies}">
+                    <td th:text="${movie.name}">Movie Name</td>
+                    <td th:text="${movie.hour}">Movie Hour</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

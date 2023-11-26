@@ -1,5 +1,6 @@
 package com.tje.cinema;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Repertuar {
@@ -13,9 +14,19 @@ public class Repertuar {
         this.seansList.add(seans);
     }
 
-//    def wyswietl_repertuar(dzien):
-//        for seans in lista_seansow:
-//            if seans.data == dzien:
-//    print(seans.pobierz_szczegoly_seansu())
+    public ArrayList<Seans> getSeansesByDate(LocalDate date){
+        System.out.println(date);
+        ArrayList<Seans> results = new ArrayList<Seans>();
+        for (int i = 0; i < seansList.size(); i++) {
+            Seans currentSeans = seansList.get(i);
+            if (currentSeans.getDateAndTime().toLocalDate().isEqual(date)){
+                results.add(currentSeans);
+            }
+        }
+
+        return results;
+    }
+
+
 
 }
