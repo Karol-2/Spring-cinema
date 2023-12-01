@@ -26,8 +26,8 @@
 
         <button type="submit">Register</button>
     </form>
-    <div>
-
+    <div th:if="${error}" class="error">
+        <p th:text="${error}"></p>
     </div>
 </body>
 </html>
