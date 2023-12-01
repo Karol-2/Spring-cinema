@@ -1,13 +1,10 @@
-package com.tje.cinema;
-
-import java.util.ArrayList;
+package com.tje.cinema.domain;
 
 public class User {
     private int id;
     private String email;
     private String password;
     private UserType userType;
-    private ArrayList<Order> orders;
 
 
     public User(int id, String email,String password) {
@@ -15,7 +12,6 @@ public class User {
         this.email = email;
         this.password = password;
         this.userType = UserType.REGISTERED;
-        this.orders = new ArrayList<Order>();
     }
 
     public int getId() {
@@ -50,13 +46,6 @@ public class User {
         this.userType = userType;
     }
 
-    public ArrayList<Order> getOrders() {
-        return orders;
-    }
-
-    public void addOrder(Order order) {
-        this.orders.add(order);
-    }
 
     public static enum UserType {
         REGISTERED, ADMIN

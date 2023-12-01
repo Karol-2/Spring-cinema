@@ -1,4 +1,4 @@
-package com.tje.cinema;
+package com.tje.cinema.domain;
 
 import java.util.ArrayList;
 

@@ -1,5 +1,11 @@
-package com.tje.cinema;
+package com.tje.cinema.controllers;
 
+import com.tje.cinema.domain.Movie;
+import com.tje.cinema.domain.Seans;
+import com.tje.cinema.services.MovieService;
+import com.tje.cinema.services.RepertuarService;
+import com.tje.cinema.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,25 +15,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Controller
 public class AppController {
 
-    private Repertuar repertuar;
-    private MovieDatabase movieDatabase;
-
-    public AppController() {
-        this.repertuar = new Repertuar();
-        this.movieDatabase = new MovieDatabase();
-        this.movieDatabase.addMovie(new Movie(1,"Ballada ptaków i węży"));
-
-        this.repertuar.addSeans(new Seans("poniedzialek-14",1, LocalDateTime.of(2024, 1, 29,14,0)));
-        this.repertuar.addSeans(new Seans("poniedzialek-18",1, LocalDateTime.of(2024, 1, 29,18,0)));
-        this.repertuar.addSeans(new Seans("wtorek-20",1, LocalDateTime.of(2024, 1, 30,20,0)));
+    private final MovieService movieService;
+    private final RepertuarService repertuarService;
+    private final UserService userService;
+    @Autowired
+    public AppController(MovieService movieService, RepertuarService repertuarService, UserService userService){
+        this.movieService = movieService;
+        this.repertuarService = repertuarService;
+        this.userService = userService;
     }
-
 
     @GetMapping("/")
     public String home(Model model) throws ParseException {
@@ -49,7 +50,7 @@ public class AppController {
         if (date == null) {
             date = LocalDate.now();
         }
-        ArrayList<Seans> movies = repertuar.getSeansesByDate(date);
+        ArrayList<Seans> movies = new ArrayList<>();
         model.addAttribute("movies", movies);
         model.addAttribute("selectedDate", date);
         return "moviesPage";

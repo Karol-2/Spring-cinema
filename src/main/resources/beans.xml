@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="1" class="com.tje.cinema.domain.Movie">
+        <constructor-arg name="id" value="1" />
+        <constructor-arg name="title" value="The Hunger Games: The Ballad of Songbirds &amp; Snakes"/>
+        <constructor-arg name="genre" value="Action"/>
+        <constructor-arg name="year" value="2023"/>
+        <constructor-arg name="director" value="Francis Lawrence"/>
+        <constructor-arg name="trailerLink" value="http://youtu.be/RDE6Uz73A7g?si=mIf9HyfFDeHXWHxL"/>
+        <constructor-arg name="photos" value="https://assets.teenvogue.com/photos/65561517b83d1658d07a687f/16:9/w_2560%2Cc_limit/boss-unit-220920-01273-r.jpeg,https://i.abcnewsfe.com/a/3ba96479-7825-47f4-9280-17e92c5aac27/the-hunger-games-the-ballad-of-songbirds-snakes2-ht-ml-231102_1698933416892_hpMain_16x9.jpg?w=992"/>
+    </bean>
+
+
+
+</beans>

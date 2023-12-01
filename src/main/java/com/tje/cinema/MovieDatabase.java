@@ -1,5 +1,7 @@
 package com.tje.cinema;
 
+import com.tje.cinema.domain.Movie;
+
 import java.util.ArrayList;
 
 public class MovieDatabase {

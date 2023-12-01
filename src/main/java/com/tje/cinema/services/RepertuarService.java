@@ -1,14 +1,16 @@
-package com.tje.cinema;
+package com.tje.cinema.services;
+
+import com.tje.cinema.domain.Seans;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Repertuar {
-    private ArrayList<Seans> seansList;
+@Service
+public class RepertuarService {
 
-    public Repertuar() {
-        this.seansList = new ArrayList<Seans>();
-    }
+    private final ArrayList<Seans> seansList = new ArrayList<Seans>();
+
 
     public void addSeans(Seans seans){
         this.seansList.add(seans);
@@ -26,7 +28,4 @@ public class Repertuar {
 
         return results;
     }
-
-
-
 }
