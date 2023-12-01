@@ -1,13 +1,20 @@
 package com.tje.cinema.services;
 
 import com.tje.cinema.domain.User;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
+
+    public UserService() {
+        this.setInitialUsers();
+    }
 
     private final List<User> userList = new ArrayList<>();
     private User loggedUser;
@@ -41,5 +48,13 @@ public class UserService {
         System.out.println("Wylogowany został użytkownik: ");
         System.out.println(loggedUser.toString());
         this.loggedUser = null;
+    }
+
+    public void setInitialUsers() {
+        ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+
+        // Dodanie użytkowników z beans
+        Map<String, User> userBeans = context.getBeansOfType(User.class);
+        userBeans.values().forEach(user -> this.saveUser(user));
     }
 }

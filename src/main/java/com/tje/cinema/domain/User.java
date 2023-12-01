@@ -9,8 +9,7 @@ public class User {
     private String password;
     private UserType userType;
 
-    public User() {
-    }
+    public User() {}
 
     public User(String email, String name,String password) {
         this.email = email;
