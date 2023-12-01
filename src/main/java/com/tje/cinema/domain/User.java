@@ -1,13 +1,14 @@
 package com.tje.cinema.domain;
 
-public class User {
+import com.tje.cinema.interfaces.UserInterface;
+
+public class User implements UserInterface {
 
     private Long id;
     private String email;
     private String name;
 
     private String password;
-    private UserType userType;
 
     public User() {}
 
@@ -15,7 +16,6 @@ public class User {
         this.email = email;
         this.name = name;
         this.password = password;
-        this.userType = UserType.REGISTERED;
     }
 
     public Long getId() {
@@ -50,18 +50,6 @@ public class User {
         this.password = password;
     }
 
-    public UserType getUserType() {
-        return userType;
-    }
-
-    public void setUserType(UserType userType) {
-        this.userType = userType;
-    }
-
-
-    public static enum UserType {
-        REGISTERED, ADMIN
-    }
     @Override
     public String toString(){
         return "User:{" +
