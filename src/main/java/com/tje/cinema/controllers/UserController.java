@@ -37,4 +37,28 @@ public class UserController {
 
         return "redirect:/login";
     }
+
+    @PostMapping("/login")
+    public String loginUser(@RequestParam("email") String email,
+                               @RequestParam("password") String password,
+                               Model model){
+
+        try {
+            User user = userService.getUserByEmail(email);
+            if(password.equals(user.getPassword())){
+                userService.setLoggedUser(user);
+            } else{
+                model.addAttribute("error", "Password doesn't match");
+                return "loginPage";
+            }
+
+
+        } catch (RuntimeException e){
+            model.addAttribute("error", e.getMessage());
+            return "loginPage";
+        }
+
+
+        return "redirect:/movies";
+    }
 }

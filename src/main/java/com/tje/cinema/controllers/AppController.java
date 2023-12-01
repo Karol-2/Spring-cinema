@@ -51,6 +51,8 @@ public class AppController {
             date = LocalDate.now();
         }
         ArrayList<Seans> movies = new ArrayList<>();
+
+        model.addAttribute("user", userService.getLoggedUser());
         model.addAttribute("movies", movies);
         model.addAttribute("selectedDate", date);
         return "moviesPage";
