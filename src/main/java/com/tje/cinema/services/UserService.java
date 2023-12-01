@@ -10,6 +10,7 @@ import java.util.List;
 public class UserService {
 
     private final List<User> userList = new ArrayList<>();
+    private long userIdCounter = 1;
 
     public User getUserByEmail(String email) throws RuntimeException  {
         return userList.stream()
@@ -19,6 +20,8 @@ public class UserService {
     }
 
     public void saveUser(User user) {
+        user.setId(userIdCounter++);
+        System.out.println(user.toString());
         userList.add(user);
     }
 }

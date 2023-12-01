@@ -7,9 +7,13 @@
 <body>
     <h2>Register</h2>
 
-    <form>
+    <form action="/register" method="post">
         <label for="email">Email:</label>
-        <input type="text" id="email" name="email" required />
+        <input type="email" id="email" name="email" required />
+        <br/>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required />
         <br/>
 
         <label for="password">Password:</label>
@@ -22,5 +26,8 @@
 
         <button type="submit">Register</button>
     </form>
+    <div>
+
+    </div>
 </body>
 </html>
