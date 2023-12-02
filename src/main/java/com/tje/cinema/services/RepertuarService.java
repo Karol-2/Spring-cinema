@@ -5,11 +5,12 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class RepertuarService {
 
-    private final ArrayList<Seans> seansList = new ArrayList<Seans>();
+    private final List<Seans> seansList = new ArrayList<Seans>();
 
 
     public void addSeans(Seans seans){

@@ -30,6 +30,12 @@ public class MovieService {
     public List<Movie> getAllMovies(){
         return this.movieDatabase;
     }
+    public Movie getMovieById(long id) throws RuntimeException {
+        return movieDatabase.stream()
+                .filter(movie -> movie.getId()==(id))
+                .findFirst()
+                .orElseThrow(()-> new RuntimeException("Movie not found with id: " + id));
+    }
 
     public  ArrayList<Movie> getMoviesByID(int id){
         ArrayList<Movie> result = new ArrayList<Movie>();

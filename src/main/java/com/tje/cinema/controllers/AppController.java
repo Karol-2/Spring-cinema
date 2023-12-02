@@ -63,13 +63,15 @@ public class AppController {
     @GetMapping("/movies/details/{movieId}")
     public String movieDetails(@PathVariable Long movieId, Model model) throws ParseException {
 
-//        ArrayList<String> photos = new ArrayList<>();
-//        photos.add("https://assets.teenvogue.com/photos/65561517b83d1658d07a687f/16:9/w_2560%2Cc_limit/boss-unit-220920-01273-r.jpeg");
-//        photos.add("https://i.abcnewsfe.com/a/3ba96479-7825-47f4-9280-17e92c5aac27/the-hunger-games-the-ballad-of-songbirds-snakes2-ht-ml-231102_1698933416892_hpMain_16x9.jpg?w=992");
-//        Movie movie = new Movie(1,"The Hunger Games: The Ballad of Songbirds & Snakes","Action",
-//                2023,"Francis Lawrence","http://youtu.be/RDE6Uz73A7g?si=mIf9HyfFDeHXWHxL",photos);
-//
-//        model.addAttribute("movie", movie);
+        try{
+            Movie movie = this.movieService.getMovieById(movieId);
+            model.addAttribute("movie", movie);
+        } catch (RuntimeException e){
+            model.addAttribute("error", e.getMessage());
+        }
+
+
+
 
         return "movieDetailsPage";
     }

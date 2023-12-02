@@ -12,7 +12,7 @@
     </style>
 </head>
 <body>
-    <div>
+    <div th:if="${movie}">
         <h1 th:text="${movie.getTitle()}"></h1>
         <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/RDE6Uz73A7g?si=mIf9HyfFDeHXWHxL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><p th:text="'Year: ' +${movie.getYear()}"></p>
         <p th:text="'Genre: ' +${movie.getGenre()}"></p>
@@ -21,6 +21,9 @@
             <img th:src="${photo}">
         </div>
 
+    </div>
+    <div th:if="${error}">
+        <h1 th:text="${error.toUpperCase()}"></h1>
     </div>
 </body>
 </html>
