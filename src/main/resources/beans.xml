@@ -3,15 +3,80 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<!--    <bean id="m-1" class="com.tje.cinema.domain.Movie">-->
-<!--        <constructor-arg name="id" value="1" />-->
-<!--        <constructor-arg name="title" value="The Hunger Games: The Ballad of Songbirds &amp; Snakes"/>-->
-<!--        <constructor-arg name="genre" value="Action"/>-->
-<!--        <constructor-arg name="year" value="2023"/>-->
-<!--        <constructor-arg name="director" value="Francis Lawrence"/>-->
-<!--        <constructor-arg name="trailerLink" value="http://youtu.be/RDE6Uz73A7g?si=mIf9HyfFDeHXWHxL"/>-->
-<!--        <constructor-arg name="photos" value="https://assets.teenvogue.com/photos/65561517b83d1658d07a687f/16:9/w_2560%2Cc_limit/boss-unit-220920-01273-r.jpeg,https://i.abcnewsfe.com/a/3ba96479-7825-47f4-9280-17e92c5aac27/the-hunger-games-the-ballad-of-songbirds-snakes2-ht-ml-231102_1698933416892_hpMain_16x9.jpg?w=992"/>-->
-<!--    </bean>-->
+    <bean id="m-1" class="com.tje.cinema.domain.Movie">
+        <property name="title" value="The Hunger Games: The Ballad of Songbirds &amp; Snakes"/>
+        <property name="genre" value="Action"/>
+        <property name="year" value="2023"/>
+        <property name="director" value="Francis Lawrence"/>
+        <property name="trailerLink" value="http://youtu.be/RDE6Uz73A7g?si=mIf9HyfFDeHXWHxL"/>
+        <property name="photos" >
+            <list>
+                <value>https://m.media-amazon.com/images/M/MV5BOTZmMmY2MzctMjU2Yy00YjJlLTk1NjAtY2U4MmMxOWZkZWY4XkEyXkFqcGdeQXVyMjM4NTM5NDY@._V1_FMjpg_UX1000_.jpg</value>
+                <value>https://assets.teenvogue.com/photos/65561517b83d1658d07a687f/16:9/w_2560%2Cc_limit/boss-unit-220920-01273-r.jpeg</value>
+                <value>https://i.abcnewsfe.com/a/3ba96479-7825-47f4-9280-17e92c5aac27/the-hunger-games-the-ballad-of-songbirds-snakes2-ht-ml-231102_1698933416892_hpMain_16x9.jpg?w=992</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="m-2" class="com.tje.cinema.domain.Movie">
+        <property name="title" value="Taylor Swift The Eras Tour Movie"/>
+        <property name="genre" value="Concert"/>
+        <property name="year" value="2023"/>
+        <property name="director" value="Sam Wrench"/>
+        <property name="trailerLink" value="https://youtu.be/KudedLV0tP0?si=hjzq_w_XEOWyZ4g9"/>
+        <property name="photos" >
+            <list>
+                <value>https://fwcdn.pl/fpo/11/18/10041118/8089102.3.jpg</value>
+                <value>https://www.rollingstone.com/wp-content/uploads/2023/10/TSErasTour2.jpg?w=1581&amp;h=1054&amp;crop=1</value>
+                <value>https://media.cnn.com/api/v1/images/stellar/prod/231010091346-01-concert-film-audience.jpg?c=16x9&amp;q=h_720,w_1280,c_fill</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="m-3" class="com.tje.cinema.domain.Movie">
+        <property name="title" value="Star Wars: The Empire Strikes Back"/>
+        <property name="genre" value="Action"/>
+        <property name="year" value="1982"/>
+        <property name="director" value="Irvin Kershner"/>
+        <property name="trailerLink" value="https://youtu.be/JNwNXF9Y6kY?si=E9zj-a9JpIOHqKbL"/>
+        <property name="photos" >
+            <list>
+                <value>https://upload.wikimedia.org/wikipedia/en/3/3f/The_Empire_Strikes_Back_%281980_film%29.jpg</value>
+                <value>https://variety.com/wp-content/uploads/1980/05/Empire-Strikes-Back.jpg</value>
+                <value>https://variety.com/wp-content/uploads/2017/05/empire-strikes-back.jpg</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="m-4" class="com.tje.cinema.domain.Movie">
+        <property name="title" value="Avengers: Endgame"/>
+        <property name="genre" value="Action, Sci-Fi"/>
+        <property name="year" value="2019"/>
+        <property name="director" value="Anthony Russo, Joe Russo"/>
+        <property name="trailerLink" value="https://youtu.be/TcMBFSGVi1c?si=k4IL4PRbAe7YechW"/>
+        <property name="photos" >
+            <list>
+                <value>https://eplakaty.pl/upload/55945118_642104989550450_3522676135445921792_o.jpg</value>
+                <value>https://gfx.rozrywka.radiozet.pl/var/radiozetrozrywka/storage/images/filmy/avengers-endgame-nia-dacosta-o-scenie-a-force/19589500-1-pol-PL/Ta-scena-z-filmu-Marvela-zdenerwowala-rezyserke-The-Marvels-.-Dlaczego_content.jpg</value>
+                <value>https://m.natemat.pl/bd96c32292ec8bb8f994c8b39f4a19dd,0,0,0,0.jpg</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="m-5" class="com.tje.cinema.domain.Movie">
+        <property name="title" value="The Peasants"/>
+        <property name="genre" value="Drama"/>
+        <property name="year" value="2023"/>
+        <property name="director" value="DK Welchman, Hugh Welchman"/>
+        <property name="trailerLink" value="https://youtu.be/rILKSimhfA4?si=f64SwI-tC9TIixy3"/>
+        <property name="photos" >
+            <list>
+                <value>https://next-film.pl/wp-content/uploads/2013/01/CHLOPI-plakat-cyfrowy-LOGA-1210.jpg</value>
+                <value>https://cdn-portal.img.wroclaw.pl/kultura/files/news/421263/chlopi-animacja-premiera-pazdziernik-2023-2.jpg?imgeng=/w_1900</value>
+                <value>https://filmwszkole.pl/wp-content/uploads/2023/09/chlopi-adaptacja-malarska.jpg</value>
+            </list>
+        </property>
+    </bean>
 
     <bean id="u-1" class="com.tje.cinema.domain.User">
          <property name="email" value="user1@example.com"/>

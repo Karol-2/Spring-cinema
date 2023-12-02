@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class AppController {
@@ -32,6 +33,8 @@ public class AppController {
 
     @GetMapping("/")
     public String home(Model model) throws ParseException {
+        List<Movie> movies = this.movieService.getAllMovies();
+        model.addAttribute("movies", movies);
         return "homePage";
     }
 
@@ -52,7 +55,6 @@ public class AppController {
         }
         ArrayList<Seans> movies = new ArrayList<>();
 
-        model.addAttribute("user", userService.getLoggedUser());
         model.addAttribute("movies", movies);
         model.addAttribute("selectedDate", date);
         return "moviesPage";
@@ -61,13 +63,13 @@ public class AppController {
     @GetMapping("/movies/details/{movieId}")
     public String movieDetails(@PathVariable Long movieId, Model model) throws ParseException {
 
-        ArrayList<String> photos = new ArrayList<>();
-        photos.add("https://assets.teenvogue.com/photos/65561517b83d1658d07a687f/16:9/w_2560%2Cc_limit/boss-unit-220920-01273-r.jpeg");
-        photos.add("https://i.abcnewsfe.com/a/3ba96479-7825-47f4-9280-17e92c5aac27/the-hunger-games-the-ballad-of-songbirds-snakes2-ht-ml-231102_1698933416892_hpMain_16x9.jpg?w=992");
-        Movie movie = new Movie(1,"The Hunger Games: The Ballad of Songbirds & Snakes","Action",
-                2023,"Francis Lawrence","http://youtu.be/RDE6Uz73A7g?si=mIf9HyfFDeHXWHxL",photos);
-
-        model.addAttribute("movie", movie);
+//        ArrayList<String> photos = new ArrayList<>();
+//        photos.add("https://assets.teenvogue.com/photos/65561517b83d1658d07a687f/16:9/w_2560%2Cc_limit/boss-unit-220920-01273-r.jpeg");
+//        photos.add("https://i.abcnewsfe.com/a/3ba96479-7825-47f4-9280-17e92c5aac27/the-hunger-games-the-ballad-of-songbirds-snakes2-ht-ml-231102_1698933416892_hpMain_16x9.jpg?w=992");
+//        Movie movie = new Movie(1,"The Hunger Games: The Ballad of Songbirds & Snakes","Action",
+//                2023,"Francis Lawrence","http://youtu.be/RDE6Uz73A7g?si=mIf9HyfFDeHXWHxL",photos);
+//
+//        model.addAttribute("movie", movie);
 
         return "movieDetailsPage";
     }

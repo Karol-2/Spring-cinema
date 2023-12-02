@@ -1,22 +1,19 @@
 package com.tje.cinema.domain;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Movie {
-    private int id;
+    private long id;
     private String title;
     private String genre;
     private int year;
     private String director;
     private String trailerLink;
-    private ArrayList<String> photos;
-    public Movie(int id, String title){
-        this.id = id;
-        this.title = title;
-    }
+    private List<String> photos;
+    public Movie(){}
 
-    public Movie(int id, String title, String genre, int year, String director, String trailerLink, ArrayList<String> photos) {
-        this.id = id;
+    public Movie(String title, String genre, int year, String director, String trailerLink, ArrayList<String> photos) {
         this.title = title;
         this.genre = genre;
         this.year = year;
@@ -25,11 +22,11 @@ public class Movie {
         this.photos = photos;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -73,11 +70,11 @@ public class Movie {
         this.trailerLink = trailerLink;
     }
 
-    public ArrayList<String> getPhotos() {
+    public List<String> getPhotos() {
         return photos;
     }
 
-    public void setPhotos(ArrayList<String> photos) {
+    public void setPhotos(List<String> photos) {
         this.photos = photos;
     }
 }

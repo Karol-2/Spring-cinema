@@ -46,7 +46,8 @@ public class UserController {
         try {
             User user = userService.getUserByEmail(email);
             if(password.equals(user.getPassword())){
-                userService.setLoggedUser(user);
+                model.addAttribute("user", user);
+                return "moviesPage";
             } else{
                 model.addAttribute("error", "Password doesn't match");
                 return "loginPage";
@@ -59,6 +60,6 @@ public class UserController {
         }
 
 
-        return "redirect:/movies";
+
     }
 }
