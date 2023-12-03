@@ -1,23 +1,32 @@
 package com.tje.cinema.domain;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Seans {
-    private String seansId;
+    private Long seansId;
     private int movieId;
+    private Movie movie;
     private LocalDateTime dateAndTime;
-
-    public Seans(String seansId, int movieId, LocalDateTime dateAndTime) {
-        this.seansId = seansId;
+    public Seans(){};
+    public Seans(Movie movie, LocalDateTime dateAndTime) {
+        this.movie = movie;
+        this.dateAndTime = dateAndTime;
+    }
+    public Seans(int movieId, LocalDateTime dateAndTime) {
         this.movieId = movieId;
         this.dateAndTime = dateAndTime;
     }
 
-    public String getSeansId() {
+    public static Seans createSeansFromString(int movieId, String dateAndTimeString) {
+        return new Seans(movieId, LocalDateTime.parse(dateAndTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")));
+    }
+
+    public Long getSeansId() {
         return seansId;
     }
 
-    public void setSeansId(String seansId) {
+    public void setSeansId(Long seansId) {
         this.seansId = seansId;
     }
 
@@ -35,5 +44,13 @@ public class Seans {
 
     public void setDateAndTime(LocalDateTime dateAndTime) {
         this.dateAndTime = dateAndTime;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 }

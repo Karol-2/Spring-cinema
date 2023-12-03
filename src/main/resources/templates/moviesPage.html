@@ -27,34 +27,47 @@
 <body>
 
     <div>
-        <nav>
-            <h1 th:text="'Logged as: ' +${user.getName()}"></h1>
-            <button onclick="logout()">Log out</button>
-        </nav>
+<!--        <nav>-->
+<!--            <h1 th:text="'Logged as: ' +${user.getName()}"></h1>-->
+<!--            <button onclick="logout()">Log out</button>-->
+<!--        </nav>-->
         <h1>Movies page</h1>
         <div>
-            <a>Monday (29.01)</a>
-            <a>Tuesday (30.01)</a>
-            <a>Wednesday (31.01)</a>
-            <a>Thursday (01.02)</a>
-            <a>Friday (02.02)</a>
-            <a>Saturday (03.02)</a>
-            <a>Sunday (04.02)</a>
+            <a th:href="@{/movies(date='2024-01-29')}">Monday (29.01)</a>
+            <a th:href="@{/movies(date='2024-01-30')}">Tuesday (30.01)</a>
+            <a th:href="@{/movies(date='2024-01-31')}">Wednesday (31.01)</a>
+            <a th:href="@{/movies(date='2024-02-01')}">Thursday (01.02)</a>
+            <a th:href="@{/movies(date='2024-02-02')}">Friday (02.02)</a>
+            <a th:href="@{/movies(date='2024-02-03')}">Saturday (03.02)</a>
+            <a th:href="@{/movies(date='2024-02-04')}">Sunday (04.02)</a>
         </div>
-        <table>
+        <h1 th:text="'Screenings for ' + ${selectedDate}"></h1>
+
+
+        <table th:if="${seances.size()>0}">
             <thead>
                 <tr>
                     <td>Movie</td>
                     <td>Hour</td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="movie : ${movies}">
-                    <td th:text="${movie.name}">Movie Name</td>
-                    <td th:text="${movie.hour}">Movie Hour</td>
+                <tr th:each="seance : ${seances}">
+                    <td>
+                        <a th:href="@{/movies/details/{id}(id=${seance.getMovie().getId()})}" th:text="${seance.getMovie().getTitle()}"></a>
+                    </td>
+                    <td th:text="${seance.getDateAndTime().toLocalTime()}">Movie Hour</td>
+                    <td>
+                        <button> Buy a ticket </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
+
+        <div th:if="${seances.size()==0}">
+            <h3> There are no showings for this day. Checkout other dates!</h3>
+        </div>
     </div>
 </body>
 </html>

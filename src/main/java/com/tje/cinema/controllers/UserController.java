@@ -47,7 +47,7 @@ public class UserController {
             User user = userService.getUserByEmail(email);
             if(password.equals(user.getPassword())){
                 model.addAttribute("user", user);
-                return "moviesPage";
+                return "moviesPage"; //TODO: fix this to redirect
             } else{
                 model.addAttribute("error", "Password doesn't match");
                 return "loginPage";

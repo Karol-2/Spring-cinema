@@ -28,8 +28,7 @@ public class UserService {
 
     public void saveUser(User user) {
         user.setId(userIdCounter++);
-        System.out.println("Utworzono użytkownika: ");
-        System.out.println(user);
+        System.out.println("Utworzono użytkownika: "+ user);
         userList.add(user);
     }
 

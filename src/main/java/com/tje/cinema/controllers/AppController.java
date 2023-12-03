@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -53,9 +52,9 @@ public class AppController {
         if (date == null) {
             date = LocalDate.now();
         }
-        ArrayList<Seans> movies = new ArrayList<>();
+        List<Seans> seances = this.repertuarService.getSeansesByDate(date);
 
-        model.addAttribute("movies", movies);
+        model.addAttribute("seances", seances);
         model.addAttribute("selectedDate", date);
         return "moviesPage";
     }
@@ -69,9 +68,6 @@ public class AppController {
         } catch (RuntimeException e){
             model.addAttribute("error", e.getMessage());
         }
-
-
-
 
         return "movieDetailsPage";
     }
