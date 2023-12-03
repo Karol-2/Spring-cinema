@@ -23,7 +23,7 @@
         <property name="genre" value="Concert"/>
         <property name="year" value="2023"/>
         <property name="director" value="Sam Wrench"/>
-        <property name="trailerLink" value="https://youtu.be/KudedLV0tP0?si=hjzq_w_XEOWyZ4g9"/>
+        <property name="trailerLink" value="https://www.youtube-nocookie.com/embed/KudedLV0tP0?si=y3p2to5t6jNbN7i0"/>
         <property name="photos" >
             <list>
                 <value>https://fwcdn.pl/fpo/11/18/10041118/8089102.3.jpg</value>
@@ -38,7 +38,7 @@
         <property name="genre" value="Action"/>
         <property name="year" value="1982"/>
         <property name="director" value="Irvin Kershner"/>
-        <property name="trailerLink" value="https://youtu.be/JNwNXF9Y6kY?si=E9zj-a9JpIOHqKbL"/>
+        <property name="trailerLink" value="https://www.youtube-nocookie.com/embed/JNwNXF9Y6kY?si=KoyPi1I7YoD-X1Qw"/>
         <property name="photos" >
             <list>
                 <value>https://upload.wikimedia.org/wikipedia/en/3/3f/The_Empire_Strikes_Back_%281980_film%29.jpg</value>
@@ -53,7 +53,7 @@
         <property name="genre" value="Action, Sci-Fi"/>
         <property name="year" value="2019"/>
         <property name="director" value="Anthony Russo, Joe Russo"/>
-        <property name="trailerLink" value="https://youtu.be/TcMBFSGVi1c?si=b3ffgHcRT4sjt07_"/>
+        <property name="trailerLink" value="https://www.youtube-nocookie.com/embed/TcMBFSGVi1c?si=Esm35vxRTbN_fFbi"/>
         <property name="photos" >
             <list>
                 <value>https://eplakaty.pl/upload/55945118_642104989550450_3522676135445921792_o.jpg</value>
@@ -68,7 +68,7 @@
         <property name="genre" value="Drama"/>
         <property name="year" value="2023"/>
         <property name="director" value="DK Welchman, Hugh Welchman"/>
-        <property name="trailerLink" value="https://youtu.be/rILKSimhfA4?si=f64SwI-tC9TIixy3"/>
+        <property name="trailerLink" value="https://www.youtube-nocookie.com/embed/rILKSimhfA4?si=p9EJ0HS-EKO0QHc7"/>
         <property name="photos" >
             <list>
                 <value>https://next-film.pl/wp-content/uploads/2013/01/CHLOPI-plakat-cyfrowy-LOGA-1210.jpg</value>

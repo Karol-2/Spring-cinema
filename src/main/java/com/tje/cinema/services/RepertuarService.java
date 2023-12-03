@@ -32,7 +32,6 @@ public class RepertuarService {
     }
 
     public List<Seans> getSeansesByDate(LocalDate date){
-        System.out.println(date);
         return seansDatabase.stream()
                 .filter(seans -> seans.getDateAndTime().toLocalDate().isEqual(date))
                 .map(seans -> {

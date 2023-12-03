@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+
 @Controller
 public class UserController {
 
@@ -47,7 +49,8 @@ public class UserController {
             User user = userService.getUserByEmail(email);
             if(password.equals(user.getPassword())){
                 model.addAttribute("user", user);
-                return "moviesPage"; //TODO: fix this to redirect
+                model.addAttribute("selectedDate", LocalDate.now());
+                return "redirect:/movies";
             } else{
                 model.addAttribute("error", "Password doesn't match");
                 return "loginPage";
