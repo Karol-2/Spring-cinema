@@ -26,9 +26,16 @@ public class RepertuarService {
 
 
     public void addSeans(Seans seans){
-        System.out.println("Dodanie senasu dla "+ seans.getMovieId() + ", " + seans.getDateAndTime());
+        System.out.println("Dodanie senasu, o id" + seans.getSeansId() + " dla "+ seans.getMovieId() + ", " + seans.getDateAndTime());
         seans.setSeansId(seansIdCounter++);
         this.seansDatabase.add(seans);
+    }
+
+    public Seans getSeansById (long id){
+        return seansDatabase.stream()
+                .filter(seans -> seans.getSeansId().equals(id))
+                .findFirst()
+                .orElseThrow(()-> new RuntimeException("Seans not found with id: " + id));
     }
 
     public List<Seans> getSeansesByDate(LocalDate date){

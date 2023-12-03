@@ -53,14 +53,16 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="seance : ${seances}">
+                <tr th:each="seans : ${seances}">
                     <td>
-                        <a th:href="@{/movies/details/{id}(id=${seance.getMovie().getId()})}" th:text="${seance.getMovie().getTitle()}"></a>
+                        <a th:href="@{/movies/details/{id}(id=${seans.getMovie().getId()})}" th:text="${seans.getMovie().getTitle()}"></a>
                     </td>
-                    <td th:text="${seance.getDateAndTime().toLocalTime()}">Movie Hour</td>
+                    <td th:text="${seans.getDateAndTime().toLocalTime()}">Movie Hour</td>
+
                     <td>
-                        <button> Buy a ticket </button>
+                        <a th:href="@{'/seats/' + ${seans.getSeansId()}}" >Buy a ticket</a>
                     </td>
+
                 </tr>
             </tbody>
         </table>

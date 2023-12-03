@@ -23,8 +23,9 @@ public class AppController {
     private final MovieService movieService;
     private final RepertuarService repertuarService;
     private final UserService userService;
+
     @Autowired
-    public AppController(MovieService movieService, RepertuarService repertuarService, UserService userService){
+    public AppController(MovieService movieService, RepertuarService repertuarService, UserService userService) {
         this.movieService = movieService;
         this.repertuarService = repertuarService;
         this.userService = userService;
@@ -55,20 +56,34 @@ public class AppController {
         List<Seans> seances = this.repertuarService.getSeansesByDate(date);
 
         model.addAttribute("seances", seances);
+        System.out.println(seances);
         model.addAttribute("selectedDate", date);
         return "moviesPage";
     }
 
+    @GetMapping("/seats/{seansId}")
+    public String seats(@PathVariable Long seansId,Model model) throws ParseException {
+        try {
+            Seans seans = this.repertuarService.getSeansById(seansId);
+            model.addAttribute("seansId", seans.getSeansId());
+        } catch (RuntimeException e) {
+            return "redirect:/movies";
+        }
+        return "seatPage";
+    }
+
+
     @GetMapping("/movies/details/{movieId}")
     public String movieDetails(@PathVariable Long movieId, Model model) throws ParseException {
 
-        try{
+        try {
             Movie movie = this.movieService.getMovieById(movieId);
             model.addAttribute("movie", movie);
-        } catch (RuntimeException e){
+        } catch (RuntimeException e) {
             model.addAttribute("error", e.getMessage());
         }
 
         return "movieDetailsPage";
     }
+
 }

@@ -53,4 +53,14 @@ public class Seans {
     public void setMovie(Movie movie) {
         this.movie = movie;
     }
+
+    @Override
+    public String toString(){
+        return "Seans:{" +
+                " id: " + getSeansId()+
+                ", movie: "+ getMovie() +
+                ", dateTime: "+ getDateAndTime() +
+                ", movieId: "+ getMovieId() +
+                "}";
+    }
 }

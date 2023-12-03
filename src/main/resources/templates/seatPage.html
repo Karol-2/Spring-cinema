@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Choose a seat</title>
+    <style>
+        .row {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <form method="post" th:action="@{'/seats?seansId=' + ${seansId}}">
+            <div class="row">
+                <input type="checkbox" name="seat" value="A-1">
+                <input type="checkbox" name="seat" value="A-2">
+                <input type="checkbox" name="seat" value="A-3">
+                <input type="checkbox" name="seat" value="A-4">
+                <input type="checkbox" name="seat" value="A-5">
+                <input type="checkbox" name="seat" value="A-6">
+                <input type="checkbox" name="seat" value="A-7">
+                <input type="checkbox" name="seat" value="A-8">
+                <input type="checkbox" name="seat" value="A-9">
+                <input type="checkbox" name="seat" value="A-10">
+            </div>
+            <div class="row">
+                <input type="checkbox" name="seat" value="B-1">
+                <input type="checkbox" name="seat" value="B-2">
+                <input type="checkbox" name="seat" value="B-3">
+                <input type="checkbox" name="seat" value="B-4">
+                <input type="checkbox" name="seat" value="B-5">
+                <input type="checkbox" name="seat" value="B-6">
+                <input type="checkbox" name="seat" value="B-7">
+                <input type="checkbox" name="seat" value="B-8">
+                <input type="checkbox" name="seat" value="B-9">
+                <input type="checkbox" name="seat" value="B-10">
+            </div>
+
+            <button type="submit">Next</button>
+        </form>
+        <div th:if="${error}" class="error">
+            <h1 th:text="${error}"></h1>
+        </div>
+    </div>
+</body>
+</html>

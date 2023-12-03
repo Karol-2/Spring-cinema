@@ -8,7 +8,7 @@
         <property name="genre" value="Action"/>
         <property name="year" value="2023"/>
         <property name="director" value="Francis Lawrence"/>
-        <property name="trailerLink" value="http://youtu.be/RDE6Uz73A7g?si=mIf9HyfFDeHXWHxL"/>
+        <property name="trailerLink" value="https://www.youtube-nocookie.com/embed/RDE6Uz73A7g?si=tRQglMUq44Qtp_0A"/>
         <property name="photos" >
             <list>
                 <value>https://m.media-amazon.com/images/M/MV5BOTZmMmY2MzctMjU2Yy00YjJlLTk1NjAtY2U4MmMxOWZkZWY4XkEyXkFqcGdeQXVyMjM4NTM5NDY@._V1_FMjpg_UX1000_.jpg</value>
