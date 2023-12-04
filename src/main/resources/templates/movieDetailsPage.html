@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>CinemaTricity</title>
+    <link th:href="@{/styles/index.css}" rel="stylesheet" />
     <style>
         img {
             max-width: 640px;
@@ -14,10 +15,10 @@
 <body>
 <nav>
     <h3>Hello, <span th:text="${session.user.getName()}"></span>!</h3>
-    <a href="/movies">Repertuar</a>
-    <a href="/orders">My Orders</a>
-    <a href="/cart">Cart</a>
-    <a href="/logout">Log out</a>
+    <a class="nav-element" href="/movies">Repertuar</a>
+    <a class="nav-element" href="/orders">My Orders</a>
+    <a class="nav-element" href="/cart">Cart</a>
+    <a class="nav-element" href="/logout">Log out</a>
 </nav>
     <div th:if="${movie}">
         <h1 th:text="${movie.getTitle()}"></h1>

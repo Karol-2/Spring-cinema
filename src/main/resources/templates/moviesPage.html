@@ -18,16 +18,17 @@
             background-color: #f2f2f2;
         }
     </style>
+    <link th:href="@{/styles/index.css}" rel="stylesheet" />
 </head>
 <body>
 
     <div>
         <nav>
             <h3>Hello, <span th:text="${session.user.getName()}"></span>!</h3>
-            <a href="/movies">Repertuar</a>
-            <a href="/orders">My Orders</a>
-            <a href="/cart">Cart</a>
-            <a href="/logout">Log out</a>
+            <a class="nav-element" href="/movies">Repertuar</a>
+            <a class="nav-element" href="/orders">My Orders</a>
+            <a class="nav-element" href="/cart">Cart</a>
+            <a class="nav-element" href="/logout">Log out</a>
         </nav>
         <h1>Movies page</h1>
         <div>
