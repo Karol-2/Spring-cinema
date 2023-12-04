@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class OrderController {
     @PostMapping("/seats")
     public String handleSeatSelection(@RequestParam(name = "seat", required = false) String[] selectedSeats,
-                                      @RequestParam(name = "movieId", required = true) Long movieId,
+                                      @RequestParam(name = "seansId", required = true) Long seansId,
                                       Model model) {
-        System.out.println(movieId);
+        System.out.println(seansId);
         if (selectedSeats != null) {
             for (String seat : selectedSeats) {
                 System.out.println("Selected seat: " + seat);

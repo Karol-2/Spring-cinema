@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Seans {
     private Long seansId;
-    private int movieId;
+    private long movieId;
     private Movie movie;
     private LocalDateTime dateAndTime;
     public Seans(){};
@@ -14,6 +14,12 @@ public class Seans {
         this.dateAndTime = dateAndTime;
     }
     public Seans(int movieId, LocalDateTime dateAndTime) {
+        this.movieId = movieId;
+        this.dateAndTime = dateAndTime;
+    }
+    public Seans(long id,Movie movie,long movieId, LocalDateTime dateAndTime) {
+        this.seansId = id;
+        this.movie = movie;
         this.movieId = movieId;
         this.dateAndTime = dateAndTime;
     }
@@ -30,11 +36,11 @@ public class Seans {
         this.seansId = seansId;
     }
 
-    public int getMovieId() {
+    public long getMovieId() {
         return movieId;
     }
 
-    public void setMovieId(int movieId) {
+    public void setMovieId(long movieId) {
         this.movieId = movieId;
     }
 

@@ -26,8 +26,14 @@ public class RepertuarService {
 
 
     public void addSeans(Seans seans){
-        System.out.println("Dodanie senasu, o id" + seans.getSeansId() + " dla "+ seans.getMovieId() + ", " + seans.getDateAndTime());
         seans.setSeansId(seansIdCounter++);
+        System.out.println("Dodanie senasu, o id" + seans.getSeansId() + " dla "+ seans.getMovieId() + ", " + seans.getDateAndTime());
+        this.seansDatabase.add(seans);
+    }
+
+    public void addSeans(Seans seans, long id){
+        seans.setSeansId(id);
+        System.out.println("Dodanie senasu, o id" + seans.getSeansId() + " dla "+ seans.getMovieId() + ", " + seans.getDateAndTime());
         this.seansDatabase.add(seans);
     }
 
@@ -43,7 +49,7 @@ public class RepertuarService {
                 .filter(seans -> seans.getDateAndTime().toLocalDate().isEqual(date))
                 .map(seans -> {
                     Movie movie = movieService.getMovieById(seans.getMovieId());
-                    return new Seans(movie,seans.getDateAndTime());
+                    return new Seans(seans.getSeansId(),movie,movie.getId(),seans.getDateAndTime());
                 })
                 .collect(Collectors.toList());
     }
@@ -53,6 +59,6 @@ public class RepertuarService {
 
         // Dodanie Seansów z beans
         Map<String, Seans> seansBeans = context.getBeansOfType(Seans.class);
-        seansBeans.values().forEach(seans -> this.addSeans(seans));
+        seansBeans.values().forEach(seans -> this.addSeans(seans,seansIdCounter++));
     }
 }
