@@ -27,12 +27,17 @@
             </li>
         </ul>
     </div>
-</div>
 
-    <button> Confirm Order</button>
+    <form method="get" action="/payment">
+        <input type="hidden" name="orderId" th:value="${session.order.orderId}" />
+        <button> Confirm Order</button>
+    </form>
+
     <form action="/clearCart" method="get">
         <button type="submit">Clear cart</button>
     </form>
+</div>
+
 
 
 </body>

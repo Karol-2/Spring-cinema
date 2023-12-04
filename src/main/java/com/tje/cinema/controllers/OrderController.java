@@ -71,11 +71,7 @@ public class OrderController {
 
         return "orderPage";
     }
-    @GetMapping("/payment")
-    public String payment(Model model) throws ParseException {
 
-        return "paymentPage";
-    }
     @GetMapping("/clearCart")
     public String clearCart(@SessionAttribute(name = "order", required = false) Order order, HttpSession session) {
         session.removeAttribute("order");
