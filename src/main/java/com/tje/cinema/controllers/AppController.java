@@ -38,15 +38,7 @@ public class AppController {
         return "homePage";
     }
 
-    @GetMapping("/login")
-    public String login(Model model) throws ParseException {
-        return "loginPage";
-    }
 
-    @GetMapping("/register")
-    public String register(Model model) throws ParseException {
-        return "registerPage";
-    }
 
     @GetMapping("/movies")
     public String showMovies(@RequestParam(name = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, Model model) {
@@ -84,6 +76,27 @@ public class AppController {
         }
 
         return "movieDetailsPage";
+    }
+
+    @GetMapping("/orders")
+    public String orders(Model model) throws ParseException {
+
+        return "userOrdersPage";
+    }
+    @GetMapping("/cart")
+    public String cart(Model model) throws ParseException {
+
+        return "cartPage";
+    }
+    @GetMapping("/order")
+    public String order(Model model) throws ParseException {
+
+        return "orderPage";
+    }
+    @GetMapping("/payment")
+    public String payment(Model model) throws ParseException {
+
+        return "paymentPage";
     }
 
 }

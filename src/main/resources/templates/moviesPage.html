@@ -18,19 +18,17 @@
             background-color: #f2f2f2;
         }
     </style>
-    <script>
-        function logout() {
-                window.location.href = '/';
-        }
-    </script>
 </head>
 <body>
 
     <div>
-<!--        <nav>-->
-<!--            <h1 th:text="'Logged as: ' +${user.getName()}"></h1>-->
-<!--            <button onclick="logout()">Log out</button>-->
-<!--        </nav>-->
+        <nav>
+            <h3>Hello, <span th:text="${session.user.getName()}"></span>!</h3>
+            <a href="/movies">Repertuar</a>
+            <a href="/orders">My Orders</a>
+            <a href="/cart">Cart</a>
+            <a href="/logout">Log out</a>
+        </nav>
         <h1>Movies page</h1>
         <div>
             <a th:href="@{/movies(date='2024-01-29')}">Monday (29.01)</a>
@@ -44,7 +42,7 @@
         <h1 th:text="'Screenings for ' + ${selectedDate}"></h1>
 
 
-        <table>
+        <table th:if="${seances.size()>0}">
             <thead>
                 <tr>
                     <td>Movie</td>
@@ -66,6 +64,9 @@
                 </tr>
             </tbody>
         </table>
+        <div th:if="${seances.size()==0}">
+            <h2>There are no screenings for thi day. Checkout other dates!</h2>
+        </div>
 
     </div>
 </body>

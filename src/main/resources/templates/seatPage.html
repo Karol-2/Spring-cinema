@@ -10,6 +10,13 @@
     </style>
 </head>
 <body>
+<nav>
+    <h3>Hello, <span th:text="${session.user.getName()}"></span>!</h3>
+    <a href="/movies">Repertuar</a>
+    <a href="/orders">My Orders</a>
+    <a href="/cart">Cart</a>
+    <a href="/logout">Log out</a>
+</nav>
     <div>
         <form method="post" th:action="@{'/seats?seansId=' + ${seansId}}">
             <div class="row">

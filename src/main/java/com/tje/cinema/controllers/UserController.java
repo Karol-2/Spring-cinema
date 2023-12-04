@@ -5,10 +5,12 @@ import com.tje.cinema.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.time.LocalDate;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class UserController {
@@ -16,23 +18,58 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/login")
+    public String showLoginPage(@RequestParam(name = "error", required = false) String error, Model model) {
+        model.addAttribute("error", error);
+        return "loginPage";
+    }
+
+    @PostMapping("/login")
+    public String loginUser(@RequestParam("email") String email,
+                            @RequestParam("password") String password,
+                            HttpSession session,
+                            RedirectAttributes redirectAttributes) {
+
+        try {
+            User user = userService.getUserByEmail(email);
+            if (password.equals(user.getPassword())) {
+                session.setAttribute("user", user);
+                return "redirect:/movies";
+            } else {
+                redirectAttributes.addAttribute("error", "Password doesn't match");
+                return "redirect:/login";
+            }
+
+        } catch (RuntimeException e) {
+            redirectAttributes.addAttribute("error", e.getMessage());
+            return "redirect:/login";
+        }
+    }
+
+    @GetMapping("/register")
+    public String showRegisterPage(@RequestParam(name = "error", required = false) String error, Model model) {
+        model.addAttribute("error", error);
+        return "registerPage";
+    }
+
     @PostMapping("/register")
     public String registerUser(@RequestParam("email") String email,
                                @RequestParam("name") String name,
                                @RequestParam("password") String password,
                                @RequestParam("passwordConf") String passwordConf,
-                               Model model){
+                               RedirectAttributes redirectAttributes) {
 
-        if (!passwordConf.equals(password)){
-            model.addAttribute("error", "Passwords do not match");
-            return "registerPage";
+        if (!passwordConf.equals(password)) {
+            redirectAttributes.addAttribute("error", "Passwords do not match");
+            return "redirect:/register";
         }
 
         try {
-            User user = userService.getUserByEmail(email);
-            model.addAttribute("error", "User with this email already exists!");
-            return "registerPage";
-        } catch (RuntimeException ignored){}
+            userService.getUserByEmail(email);
+            redirectAttributes.addAttribute("error", "User with this email already exists!");
+            return "redirect:/register";
+        } catch (RuntimeException ignored) {
+        }
 
         User newUser = new User(email, name, password);
         userService.saveUser(newUser);
@@ -40,29 +77,13 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @PostMapping("/login")
-    public String loginUser(@RequestParam("email") String email,
-                               @RequestParam("password") String password,
-                               Model model){
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("user");
+        session.invalidate();
 
-        try {
-            User user = userService.getUserByEmail(email);
-            if(password.equals(user.getPassword())){
-                model.addAttribute("user", user);
-                model.addAttribute("selectedDate", LocalDate.now());
-                return "redirect:/movies";
-            } else{
-                model.addAttribute("error", "Password doesn't match");
-                return "loginPage";
-            }
-
-
-        } catch (RuntimeException e){
-            model.addAttribute("error", e.getMessage());
-            return "loginPage";
-        }
-
-
-
+        return "redirect:/";
     }
+
+
 }

@@ -12,6 +12,13 @@
     </style>
 </head>
 <body>
+<nav>
+    <h3>Hello, <span th:text="${session.user.getName()}"></span>!</h3>
+    <a href="/movies">Repertuar</a>
+    <a href="/orders">My Orders</a>
+    <a href="/cart">Cart</a>
+    <a href="/logout">Log out</a>
+</nav>
     <div th:if="${movie}">
         <h1 th:text="${movie.getTitle()}"></h1>
        <iframe width="560" height="315" th:src="${movie.getTrailerLink()}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
