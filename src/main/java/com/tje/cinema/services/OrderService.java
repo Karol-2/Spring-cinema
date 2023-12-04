@@ -1,7 +1,40 @@
 package com.tje.cinema.services;
 
-public class OrderService {
+import com.tje.cinema.domain.Order;
+import org.springframework.stereotype.Service;
 
-    // tu trzymam wszystkie zamówienia, moge je dodawać, usuwać,
-    // pobierać wszystkie zamówienia danego użytkownika
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class OrderService {
+    private final List<Order> orderDatabase = new ArrayList<>();
+    private long orderIdCounter = 1;
+
+    public void addOrder(Order order){
+        order.setOrderId(orderIdCounter++);
+        orderDatabase.add(order);
+        System.out.println("Dodano Zamówienie z id: "+order.getOrderId());
+    }
+    public void removeOrder(Order order){
+        orderDatabase.remove(order);
+        System.out.println("Usunieto Zamówienie z id: "+order.getOrderId());
+    }
+
+    public void finalizeOrder(Order orderfinalized){
+        orderDatabase.stream()
+                .filter(order -> order.getOrderId() == orderfinalized.getOrderId())
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Order not found"))
+                .setStatus(Order.OrderStatus.COMPLETED);
+        System.out.println("Sfinalizowano Zamówienie z id: " + orderfinalized.getOrderId());
+    }
+
+
+    public List<Order> getOrdersByUserId(long userId){
+        return orderDatabase.stream()
+                .filter(order -> order.getOrderId() == userId)
+                .collect(Collectors.toList());
+    }
 }

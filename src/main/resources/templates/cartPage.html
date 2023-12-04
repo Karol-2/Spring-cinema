@@ -14,16 +14,19 @@
 </nav>
 
 <h1>Cart</h1>
-<h3>Here are your reservations:</h3>
+
 <div th:if="${session.order != null}">
+    <h3>Here are your reservations:</h3>
     <div th:each="reservation : ${session.order.getReservations()}">
         <ul>
-            <li th:text="${reservation.getId()}"></li>
-            <li th:text="${reservation.getSeansId()}"></li>
-            <li th:text="${reservation.getSeans().getDateAndTime()}"></li>
-            <li th:text="${reservation.getReservedSeats()}"></li>
+            <li th:text="'Movie: '+${reservation.getSeansId()}"></li>
+            <li th:text="'Date: '+ ${reservation.getSeans().getDateAndTime()}"></li>
+            <li th:text="'Your seats: '+${reservation.getReservedSeats()}"></li>
             <li>
-                <button>Change Seats</button>
+                <button disabled>Change Seats</button>
+            </li>
+            <li>
+                <button disabled>Remove Reservation</button>
             </li>
         </ul>
     </div>
@@ -33,9 +36,13 @@
         <button> Confirm Order</button>
     </form>
 
-    <form action="/clearCart" method="get">
+    <form action="/clearCart" method="post">
         <button type="submit">Clear cart</button>
     </form>
+</div>
+
+<div th:if="${session.order == null}">
+    <h1>Your cart is empty.</h1>
 </div>
 
 

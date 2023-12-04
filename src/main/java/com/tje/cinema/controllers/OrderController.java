@@ -4,6 +4,7 @@ import com.tje.cinema.domain.Order;
 import com.tje.cinema.domain.Reservation;
 import com.tje.cinema.domain.Seans;
 import com.tje.cinema.domain.User;
+import com.tje.cinema.services.OrderService;
 import com.tje.cinema.services.RepertuarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,13 +24,15 @@ import java.util.List;
 public class OrderController {
     @Autowired
     private RepertuarService repertuarService;
+    @Autowired
+    private OrderService orderService;
 
     @PostMapping("/seats")
     public String handleSeatSelection(@RequestParam(name = "seat", required = false) List<String> selectedSeats,
                                       @RequestParam(name = "seansId", required = true) Long seansId,
                                       HttpSession session,
                                       Model model) {
-        System.out.println(seansId);
+//        System.out.println(seansId);
         if (selectedSeats != null) {
             // create reservation
             Seans seans = repertuarService.getSeansById(seansId);
@@ -50,29 +53,26 @@ public class OrderController {
             return "redirect:/cart";
 
         } else {
-            System.out.println("No seats selected");
+//            System.out.println("No seats selected");
             model.addAttribute("error","Choose at least one seat!");
         }
         return "seatPage";
     }
 
     @GetMapping("/orders")
-    public String orders(Model model) throws ParseException {
+    public String orders(Model model,  HttpSession session) throws ParseException {
+        User user = (User)session.getAttribute("user");
+        List<Order> orders= orderService.getOrdersByUserId(user.getId());
 
+        model.addAttribute("orders",orders);
         return "userOrdersPage";
     }
     @GetMapping("/cart")
     public String cart(Model model) throws ParseException {
-
         return "cartPage";
     }
-    @GetMapping("/order")
-    public String order(Model model) throws ParseException {
 
-        return "orderPage";
-    }
-
-    @GetMapping("/clearCart")
+    @PostMapping("/clearCart")
     public String clearCart(@SessionAttribute(name = "order", required = false) Order order, HttpSession session) {
         session.removeAttribute("order");
         return "redirect:/cart";

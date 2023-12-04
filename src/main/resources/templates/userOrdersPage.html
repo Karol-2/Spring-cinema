@@ -12,6 +12,21 @@
     <a href="/cart">Cart</a>
     <a href="/logout">Log out</a>
 </nav>
-  <h1> Users orders page</h1>
+  <h1> Your orders</h1>
+<div th:if="${orders.size() > 0}">
+
+    <div th:each="order : ${orders}">
+        <h2 th:text="'Order number: '+${order.getOrderId()}"></h2>
+        <p th:text="'Price:' +${order.getPrice()}+'PLN'"></p>
+        <p th:text="'Date: '+${order.getDate()}"></p>
+        <p th:text="'Status: '+ ${order.getStatus()}"></p>
+        <div th:each="reservation : ${order.getReservations()}">
+            <p th:text="'Movie: '+${reservation.getSeansId()}"></p>
+            <p th:text="'Seats: '+${reservation.getReservedSeats()}"></p>
+        </div>
+
+    </div>
+
+</div>
 </body>
 </html>

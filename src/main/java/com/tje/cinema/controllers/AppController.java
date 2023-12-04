@@ -48,7 +48,7 @@ public class AppController {
         List<Seans> seances = this.repertuarService.getSeansesByDate(date);
 
         model.addAttribute("seances", seances);
-        System.out.println(seances);
+//        System.out.println(seances);
         model.addAttribute("selectedDate", date);
         return "moviesPage";
     }
