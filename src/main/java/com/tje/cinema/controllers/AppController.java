@@ -78,25 +78,6 @@ public class AppController {
         return "movieDetailsPage";
     }
 
-    @GetMapping("/orders")
-    public String orders(Model model) throws ParseException {
 
-        return "userOrdersPage";
-    }
-    @GetMapping("/cart")
-    public String cart(Model model) throws ParseException {
-
-        return "cartPage";
-    }
-    @GetMapping("/order")
-    public String order(Model model) throws ParseException {
-
-        return "orderPage";
-    }
-    @GetMapping("/payment")
-    public String payment(Model model) throws ParseException {
-
-        return "paymentPage";
-    }
 
 }

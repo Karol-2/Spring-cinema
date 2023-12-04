@@ -12,6 +12,28 @@
     <a href="/cart">Cart</a>
     <a href="/logout">Log out</a>
 </nav>
-  <h1>cart</h1>
+
+<h1>Cart</h1>
+<h3>Here are your reservations:</h3>
+<div th:if="${session.order != null}">
+    <div th:each="reservation : ${session.order.getReservations()}">
+        <ul>
+            <li th:text="${reservation.getId()}"></li>
+            <li th:text="${reservation.getSeansId()}"></li>
+            <li th:text="${reservation.getSeans().getDateAndTime()}"></li>
+            <li th:text="${reservation.getReservedSeats()}"></li>
+            <li>
+                <button>Change Seats</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+    <button> Confirm Order</button>
+    <form action="/clearCart" method="get">
+        <button type="submit">Clear cart</button>
+    </form>
+
+
 </body>
 </html>

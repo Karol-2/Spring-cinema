@@ -23,6 +23,9 @@ public class Seans {
         this.movieId = movieId;
         this.dateAndTime = dateAndTime;
     }
+    public String getMovieTitle(){
+        return this.movie.getTitle();
+    }
 
     public static Seans createSeansFromString(int movieId, String dateAndTimeString) {
         return new Seans(movieId, LocalDateTime.parse(dateAndTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")));

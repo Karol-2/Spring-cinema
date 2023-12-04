@@ -1,34 +1,37 @@
 package com.tje.cinema.domain;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class Order {
-    private int orderId;
-    private String seansId;
+    private long orderId;
     private double price;
-    private ArrayList<String> seats;
+    private List<Reservation> reservations;
+    private LocalDateTime date;
+    private User user;
+    private OrderStatus status;
 
-    public Order(int orderId, String seansId, double price, ArrayList<String> seats) {
-        this.orderId = orderId;
-        this.seansId = seansId;
+    public Order() {}
+    public Order(double price, List<Reservation> reservations,LocalDateTime date,User user ){
         this.price = price;
-        this.seats = seats;
+        this.reservations = reservations;
+        this.date = date;
+        this.user = user;
+        this.status = OrderStatus.NEW;
+    }
+    public void addReservation(Reservation reservation){
+        this.reservations.add(reservation);
+    }
+    public enum OrderStatus{
+        NEW, CANCELLED, COMPLETED
     }
 
-    public int getOrderId() {
+    public long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(long orderId) {
         this.orderId = orderId;
-    }
-
-    public String getSeansId() {
-        return seansId;
-    }
-
-    public void setSeansId(String seansId) {
-        this.seansId = seansId;
     }
 
     public double getPrice() {
@@ -39,11 +42,35 @@ public class Order {
         this.price = price;
     }
 
-    public ArrayList<String> getSeats() {
-        return seats;
+    public List<Reservation> getReservations() {
+        return reservations;
     }
 
-    public void setSeats(ArrayList<String> seats) {
-        this.seats = seats;
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 }
