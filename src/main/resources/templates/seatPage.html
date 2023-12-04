@@ -19,6 +19,8 @@
     <a class="nav-element" href="/logout">Log out</a>
 </nav>
     <div>
+        <h2 th:text="${seans.getMovie().getTitle()}"></h2>
+        <h3 th:text="${seans.getDateAndTime()}"></h3>
         <form method="post" th:action="@{'/seats?seansId=' + ${seansId}}">
             <div class="row">
                 <input type="checkbox" name="seat" value="A-1">

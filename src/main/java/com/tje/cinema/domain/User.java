@@ -9,6 +9,7 @@ public class User implements UserInterface {
     private String name;
 
     private String password;
+    private UserType userType;
 
     public User() {}
 
@@ -16,6 +17,7 @@ public class User implements UserInterface {
         this.email = email;
         this.name = name;
         this.password = password;
+        this.userType = UserType.REGISTERED;
     }
 
     public Long getId() {
@@ -50,6 +52,14 @@ public class User implements UserInterface {
         this.password = password;
     }
 
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+
     @Override
     public String toString(){
         return "User:{" +
@@ -59,5 +69,10 @@ public class User implements UserInterface {
                 ", password: "+ getPassword() +
                 "}";
     }
+
+    public static enum UserType {
+        REGISTERED, ADMIN
+    }
+
 
 }

@@ -7,11 +7,13 @@ import java.time.LocalDateTime;
 public class AdminUser extends User implements AdminUserInterface {
     private boolean hasAdminAccess;
     private LocalDateTime dateAdminGranted;
+    public AdminUser(){}
 
     public AdminUser(String email,String name, String password,boolean hasAdminAccess) {
         super(email,name,password);
         this.hasAdminAccess = hasAdminAccess;
         this.dateAdminGranted = LocalDateTime.now();
+        this.setUserType(UserType.ADMIN);
     }
 
     public boolean isHasAdminAccess() {
@@ -29,4 +31,17 @@ public class AdminUser extends User implements AdminUserInterface {
     public void setDateAdminGranted(LocalDateTime dateAdminGranted) {
         this.dateAdminGranted = dateAdminGranted;
     }
+
+    @Override
+    public String toString(){
+        return "User:{" +
+                " id: " + getId()+
+                ", email: "+ getEmail() +
+                ", name: "+ getName() +
+                ", password: "+ getPassword() +
+                ", userType: "+ getUserType() +
+                ", isAdmin: "+ isHasAdminAccess() +
+                "}";
+    }
+
 }

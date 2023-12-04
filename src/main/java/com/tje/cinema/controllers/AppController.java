@@ -57,6 +57,7 @@ public class AppController {
     public String seats(@PathVariable Long seansId,Model model) throws ParseException {
         try {
             Seans seans = this.repertuarService.getSeansById(seansId);
+            model.addAttribute("seans", seans);
             model.addAttribute("seansId", seans.getSeansId());
         } catch (RuntimeException e) {
             return "redirect:/movies";

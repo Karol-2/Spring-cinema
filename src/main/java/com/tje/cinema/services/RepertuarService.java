@@ -66,4 +66,6 @@ public class RepertuarService {
         Map<String, Seans> seansBeans = context.getBeansOfType(Seans.class);
         seansBeans.values().forEach(seans -> this.addSeans(seans,seansIdCounter++));
     }
+
+
 }

@@ -1,5 +1,6 @@
 package com.tje.cinema.controllers;
 
+import com.tje.cinema.domain.AdminUser;
 import com.tje.cinema.domain.User;
 import com.tje.cinema.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,17 +31,27 @@ public class UserController {
                             HttpSession session,
                             RedirectAttributes redirectAttributes) {
 
-        try {
+        try { // sprawdzanie czy istnieje taki user
             User user = userService.getUserByEmail(email);
-            if (password.equals(user.getPassword())) {
+
+            try { // czy jest moze adminem
+                AdminUser adminUser = (AdminUser) user;
+                System.out.println(adminUser);
+                if(adminUser.isHasAdminAccess()){
+                    session.setAttribute("adminuser", adminUser);
+                    return "redirect:/admin";
+                }
+            } catch (RuntimeException ignored){}
+
+            if (password.equals(user.getPassword())) { // czy hasła pasują
                 session.setAttribute("user", user);
                 return "redirect:/movies";
-            } else {
+            } else { // hasła nie pasują
                 redirectAttributes.addAttribute("error", "Password doesn't match");
                 return "redirect:/login";
             }
 
-        } catch (RuntimeException e) {
+        } catch (RuntimeException e) { //nie ma takiego loginu
             redirectAttributes.addAttribute("error", e.getMessage());
             return "redirect:/login";
         }
@@ -83,6 +94,10 @@ public class UserController {
         session.invalidate();
 
         return "redirect:/";
+    }
+    @GetMapping("/admin")
+    public String admin(HttpSession session) {
+        return "adminPanelPage";
     }
 
 
