@@ -25,6 +25,7 @@
         <p th:text="'Year: ' +${movie.getYear()}"></p>
         <p th:text="'Genre: ' +${movie.getGenre()}"></p>
         <p th:text="'Director: ' +${movie.getDirector()}"></p>
+        <p th:text="'Cast: ' +${movie.getActors()}"></p>
         <div th:each="photo, iter: ${movie.getPhotos()}">
             <img th:src="${photo}">
         </div>

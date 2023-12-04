@@ -8,6 +8,7 @@
         <property name="genre" value="Action"/>
         <property name="year" value="2023"/>
         <property name="director" value="Francis Lawrence"/>
+        <property name="actors" value="Tom Blyth, Rachel Zegler, Josh Andrés Rivera, Peter Dinklage, Viola Davis, Hunter Schafer"/>
         <property name="trailerLink" value="https://www.youtube-nocookie.com/embed/RDE6Uz73A7g?si=tRQglMUq44Qtp_0A"/>
         <property name="photos" >
             <list>
@@ -23,6 +24,7 @@
         <property name="genre" value="Concert"/>
         <property name="year" value="2023"/>
         <property name="director" value="Sam Wrench"/>
+        <property name="actors" value="Taylor Swift, Mike Meadows, Max Bernstein, Paul Sidoti, Amos Heller, Matt Billingslea, Karina DePiano"/>
         <property name="trailerLink" value="https://www.youtube-nocookie.com/embed/KudedLV0tP0?si=y3p2to5t6jNbN7i0"/>
         <property name="photos" >
             <list>
@@ -38,6 +40,7 @@
         <property name="genre" value="Action"/>
         <property name="year" value="1982"/>
         <property name="director" value="Irvin Kershner"/>
+        <property name="actors" value="Mark Hamill, Harrison Ford, Carrie Fisher, Billy Dee Williams, Anthony Daniels, David Prowse, Peter Mayhew, Kenny Baker"/>
         <property name="trailerLink" value="https://www.youtube-nocookie.com/embed/JNwNXF9Y6kY?si=KoyPi1I7YoD-X1Qw"/>
         <property name="photos" >
             <list>
@@ -53,6 +56,7 @@
         <property name="genre" value="Action, Sci-Fi"/>
         <property name="year" value="2019"/>
         <property name="director" value="Anthony Russo, Joe Russo"/>
+        <property name="actors" value="Robert Downey Jr., Chris Evans, Mark Ruffal,o Chris Hemsworth, Scarlett Johansson, Jeremy Renner"/>
         <property name="trailerLink" value="https://www.youtube-nocookie.com/embed/TcMBFSGVi1c?si=Esm35vxRTbN_fFbi"/>
         <property name="photos" >
             <list>
@@ -68,6 +72,7 @@
         <property name="genre" value="Drama"/>
         <property name="year" value="2023"/>
         <property name="director" value="DK Welchman, Hugh Welchman"/>
+        <property name="actors" value="Kamila Urzędowska, Robert Gulaczyk, Mirosław Baka, Ewa Kasprzyk, Sonia Mietielica, Andrzej Konopka, Małgorzata Kożuchowska, Sonia Bohosiewicz, Julia Wieniawa"/>
         <property name="trailerLink" value="https://www.youtube-nocookie.com/embed/rILKSimhfA4?si=p9EJ0HS-EKO0QHc7"/>
         <property name="photos" >
             <list>
