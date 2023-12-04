@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,9 @@ import java.util.stream.Collectors;
 public class RepertuarService {
     @Autowired
     private MovieService movieService;
-    public RepertuarService(){
-        this.setInitialSeanses();
+    @PostConstruct
+    public void initialize() {
+        setInitialSeanses();
     }
 
     private final List<Seans> seansDatabase = new ArrayList<Seans>();
@@ -32,7 +34,10 @@ public class RepertuarService {
     }
 
     public void addSeans(Seans seans, long id){
+        Movie movieObj = movieService.getMovieById(seans.getMovieId());
+        seans.setMovie(movieObj);
         seans.setSeansId(id);
+
         System.out.println("Dodanie senasu, o id" + seans.getSeansId() + " dla "+ seans.getMovieId() + ", " + seans.getDateAndTime());
         this.seansDatabase.add(seans);
     }

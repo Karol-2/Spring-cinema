@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Cart</title>
 </head>
 <body>
 <nav>
@@ -19,7 +19,7 @@
     <h3>Here are your reservations:</h3>
     <div th:each="reservation : ${session.order.getReservations()}">
         <ul>
-            <li th:text="'Movie: '+${reservation.getSeansId()}"></li>
+            <li th:text="${reservation.getSeans().getMovie().getTitle()}"></li>
             <li th:text="'Date: '+ ${reservation.getSeans().getDateAndTime()}"></li>
             <li th:text="'Your seats: '+${reservation.getReservedSeats()}"></li>
             <li>

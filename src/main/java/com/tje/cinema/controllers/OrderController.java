@@ -63,7 +63,6 @@ public class OrderController {
     public String orders(Model model,  HttpSession session) throws ParseException {
         User user = (User)session.getAttribute("user");
         List<Order> orders= orderService.getOrdersByUserId(user.getId());
-
         model.addAttribute("orders",orders);
         return "userOrdersPage";
     }

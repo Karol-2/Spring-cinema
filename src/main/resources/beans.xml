@@ -107,7 +107,7 @@
     <bean id="u-1" class="com.tje.cinema.domain.User">
          <property name="email" value="user1@example.com"/>
          <property name="name" value="user1"/>
-         <property name="password" value="password1"/>
+         <property name="password" value="ABC!@#abc123"/>
     </bean>
     <bean id="u-2" class="com.tje.cinema.domain.User">
           <property name="email" value="user2@example.com"/>

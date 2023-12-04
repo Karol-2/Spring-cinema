@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>CinemaTricity</title>
 </head>
 <body>
 <nav>
@@ -20,8 +20,10 @@
         <p th:text="'Price:' +${order.getPrice()}+'PLN'"></p>
         <p th:text="'Date: '+${order.getDate()}"></p>
         <p th:text="'Status: '+ ${order.getStatus()}"></p>
+        <p th:text="'Tickets:'"></p>
         <div th:each="reservation : ${order.getReservations()}">
-            <p th:text="'Movie: '+${reservation.getSeansId()}"></p>
+            <p th:text="'Movie: '+${reservation.getSeans().getMovie().getTitle()}"></p>
+            <p th:text="'Date and time: '+${reservation.getSeans().getDateAndTime()}"></p>
             <p th:text="'Seats: '+${reservation.getReservedSeats()}"></p>
         </div>
 

@@ -73,4 +73,16 @@ public class Order {
     public void setStatus(OrderStatus status) {
         this.status = status;
     }
+
+    @Override
+    public String toString(){
+        return "Order:{" +
+                " id: " + getOrderId()+
+                ", userId: "+ getUser().getId() +
+                ", reservations: "+ getReservations() +
+                ", status: "+ getStatus() +
+                ", date: "+ getDate() +
+                ", price: "+ getPrice() +
+                "}";
+    }
 }
