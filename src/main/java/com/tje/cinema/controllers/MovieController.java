@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class MovieController {
@@ -75,7 +76,7 @@ public class MovieController {
 
     @PostMapping("/seats")
     public String handleSeatSelection(@RequestParam(name = "seat", required = false) List<String> selectedSeats,
-                                      @RequestParam(name = "seansId", required = true) Long seansId,
+                                      @RequestParam(name = "seansId") Long seansId,
                                       HttpSession session,
                                       Model model) {
 //        System.out.println(seansId);
@@ -109,7 +110,7 @@ public class MovieController {
     public String seatsEdit(@PathVariable String seansId,
                             @RequestParam("previousSeats") String previousSeatsParam,
                             Model model) throws ParseException {
-        Long seansIdLong = Long.parseLong(seansId);
+        long seansIdLong = Long.parseLong(seansId);
         String[] previousSeats = previousSeatsParam
                 .replaceAll("\\[", "")
                 .replaceAll("\\]", "")
@@ -129,30 +130,44 @@ public class MovieController {
     }
 
     @PostMapping("/editReservation")
-            public String editReservation(@RequestParam(name = "seat", required = false) List<String> selectedSeats,
-                    @RequestParam(name = "seansId", required = true) Long seansId,
+    public String editReservation(@RequestParam(name = "seat", required = false) List<String> selectedSeats,
+                    @RequestParam(name = "seansId") Long seansId,
                     HttpSession session,
                     Model model) throws ParseException {
 
-                if (selectedSeats != null) {
+        if (selectedSeats != null) {
                     // find reservation
-                    Order userOrder = (Order)session.getAttribute("order");
-                    userOrder.getReservations().stream()
-                            .filter((res) -> res.getSeans().getSeansId().equals(seansId))
-                            .findFirst()
-                            .ifPresent((res) -> res.setReservedSeats(selectedSeats));
+            Order userOrder = (Order)session.getAttribute("order");
+            userOrder.getReservations().stream()
+                    .filter((res) -> res.getSeans().getSeansId().equals(seansId))
+                    .findFirst()
+                    .ifPresent((res) -> res.setReservedSeats(selectedSeats));
 
-                    session.setAttribute("order", userOrder);
+            session.setAttribute("order", userOrder);
 
-                    return "redirect:/cart";
+            return "redirect:/cart";
 
-        } else {
-            model.addAttribute("error","Choose at least one seat!");
         }
-        return "seatPage"; //TODO: this
+        model.addAttribute("error","Choose at least one seat!"); //TODO: fix redirecting after empty choice
+
+        return "redirect:/cart";
     }
 
+    @PostMapping("/deleteReservation")
+    public String deleteReservation(@RequestParam(name = "seansId") Long seansId,
+                                    HttpSession session) throws ParseException {
 
+        Order userOrder = (Order) session.getAttribute("order");
+        List<Reservation> updatedReservations = userOrder.getReservations().stream()
+                .filter(res -> !res.getSeans().getSeansId().equals(seansId))
+                .collect(Collectors.toList());
+
+        userOrder.setReservations(updatedReservations);
+
+        session.setAttribute("order", userOrder);
+
+        return "redirect:/cart";
+    }
 
 
 

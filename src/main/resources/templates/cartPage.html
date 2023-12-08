@@ -30,23 +30,31 @@
                 </form>
             </li>
             <li>
-                <button disabled>Remove Reservation</button>
+                <form method="post" action="/deleteReservation">
+                    <input type="hidden" name="seansId" th:value="${reservation.getSeans().getSeansId()}" />
+                    <button type="submit">Remove Reservation</button>
+                </form>
+
             </li>
         </ul>
     </div>
+    <div th:if="${session.order.getReservations().size()!=0}">
+        <form method="get" action="/payment">
+            <input type="hidden" name="orderId" th:value="${session.order.orderId}" />
+            <button> Confirm Order</button>
+        </form>
 
-    <form method="get" action="/payment">
-        <input type="hidden" name="orderId" th:value="${session.order.orderId}" />
-        <button> Confirm Order</button>
-    </form>
-
-    <form action="/clearCart" method="post">
-        <button type="submit">Clear cart</button>
-    </form>
+        <form action="/clearCart" method="post">
+            <button type="submit">Clear cart</button>
+        </form>
+    </div>
 </div>
 
+
 <div th:if="${session.order == null}">
-    <h1>Your cart is empty.</h1>
+    <div th:if="${session.order.getReservations().size()==0}">
+        <h1>Your cart is empty.</h1>
+    </div>
 </div>
 
 
