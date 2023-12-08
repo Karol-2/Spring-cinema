@@ -12,8 +12,8 @@ public class Order {
     private OrderStatus status;
 
     public Order() {}
-    public Order(double price, List<Reservation> reservations,LocalDateTime date,User user ){
-        this.price = price;
+    public Order(List<Reservation> reservations,LocalDateTime date,User user ){
+        this.price = calculateCost(reservations);
         this.reservations = reservations;
         this.date = date;
         this.user = user;
@@ -21,6 +21,7 @@ public class Order {
     }
     public void addReservation(Reservation reservation){
         this.reservations.add(reservation);
+        this.setPrice(calculateCost(this.getReservations()));
     }
     public enum OrderStatus{
         NEW, CANCELLED, COMPLETED
@@ -48,6 +49,7 @@ public class Order {
 
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
+        this.setPrice(calculateCost(this.getReservations()));
     }
 
     public LocalDateTime getDate() {
@@ -73,7 +75,6 @@ public class Order {
     public void setStatus(OrderStatus status) {
         this.status = status;
     }
-
     @Override
     public String toString(){
         return "Order:{" +
@@ -84,5 +85,9 @@ public class Order {
                 ", date: "+ getDate() +
                 ", price: "+ getPrice() +
                 "}";
+    }
+
+    public double calculateCost(List<Reservation> reservations){
+        return (reservations.stream().map(Reservation::getReservationCost).reduce(0.0, Double::sum));
     }
 }

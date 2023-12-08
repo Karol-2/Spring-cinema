@@ -94,7 +94,7 @@ public class MovieController {
             } else { // order doesn't exist - create new
                 List<Reservation> resArr = new ArrayList<>();
                 resArr.add(reservation);
-                Order order = new Order(1,resArr, LocalDateTime.now(),(User)session.getAttribute("user"));
+                Order order = new Order(resArr, LocalDateTime.now(),(User)session.getAttribute("user"));
                 session.setAttribute("order", order);
             }
             return "redirect:/cart";
@@ -142,6 +142,7 @@ public class MovieController {
                     .filter((res) -> res.getSeans().getSeansId().equals(seansId))
                     .findFirst()
                     .ifPresent((res) -> res.setReservedSeats(selectedSeats));
+            userOrder.setPrice(userOrder.calculateCost(userOrder.getReservations()));
 
             session.setAttribute("order", userOrder);
 
@@ -168,6 +169,8 @@ public class MovieController {
 
         return "redirect:/cart";
     }
+
+
 
 
 
