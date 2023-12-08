@@ -37,4 +37,5 @@ public class OrderController {
         session.removeAttribute("order");
         return "redirect:/cart";
     }
+
 }

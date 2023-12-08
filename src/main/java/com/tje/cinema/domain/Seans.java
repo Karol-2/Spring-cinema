@@ -126,7 +126,7 @@ public class Seans {
                 "}";
     }
 
-    private List<List<String>> generateSeatList(int seatCount) {
+    private List<List<String>> generateSeatList(int seatCount) { //TODO: make it more universal
         char rowA = 'A';
         char rowB = 'B';
         List<List<String>> seatList = new ArrayList<>();

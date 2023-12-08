@@ -24,7 +24,10 @@
             <li th:text="'Date: '+ ${reservation.getSeans().getDateAndTime()}"></li>
             <li th:text="'Your seats: '+${reservation.getReservedSeats()}"></li>
             <li>
-                <button disabled>Change Seats</button>
+                <form method="get" th:action="'/seats/'+${reservation.getSeans().getSeansId()}+'/edit'">
+                    <input type="hidden" name="previousSeats" th:value="${reservation.getReservedSeats()}" />
+                    <button type="submit">Change Seats</button>
+                </form>
             </li>
             <li>
                 <button disabled>Remove Reservation</button>

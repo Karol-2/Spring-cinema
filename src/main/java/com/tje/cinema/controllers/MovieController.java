@@ -64,13 +64,14 @@ public class MovieController {
             Seans seans = this.repertuarService.getSeansById(seansId);
             model.addAttribute("seans", seans);
             model.addAttribute("seansId", seans.getSeansId());
-            model.addAttribute("rows", Arrays.asList("A", "B"));
+            model.addAttribute("rows", Arrays.asList("A", "B")); //TODO: deledte?
             System.out.println(seans);
         } catch (RuntimeException e) {
             return "redirect:/movies";
         }
         return "seatPage";
     }
+
 
     @PostMapping("/seats")
     public String handleSeatSelection(@RequestParam(name = "seat", required = false) List<String> selectedSeats,
@@ -103,6 +104,55 @@ public class MovieController {
         }
         return "seatPage";
     }
+
+    @GetMapping("/seats/{seansId}/edit")
+    public String seatsEdit(@PathVariable String seansId,
+                            @RequestParam("previousSeats") String previousSeatsParam,
+                            Model model) throws ParseException {
+        Long seansIdLong = Long.parseLong(seansId);
+        String[] previousSeats = previousSeatsParam
+                .replaceAll("\\[", "")
+                .replaceAll("\\]", "")
+                .split(", ");
+        System.out.println("seansId: " + seansIdLong);
+        System.out.println("prev seats: " + Arrays.toString(previousSeats));
+
+        try {
+            Seans seans = this.repertuarService.getSeansById(seansIdLong);
+            model.addAttribute("previousSeats", previousSeats);
+            model.addAttribute("seans", seans);
+            System.out.println(seans);
+        } catch (RuntimeException e) {
+            return "redirect:/movies";
+        }
+        return "seatEditPage";
+    }
+
+    @PostMapping("/editReservation")
+            public String editReservation(@RequestParam(name = "seat", required = false) List<String> selectedSeats,
+                    @RequestParam(name = "seansId", required = true) Long seansId,
+                    HttpSession session,
+                    Model model) throws ParseException {
+
+                if (selectedSeats != null) {
+                    // find reservation
+                    Order userOrder = (Order)session.getAttribute("order");
+                    userOrder.getReservations().stream()
+                            .filter((res) -> res.getSeans().getSeansId().equals(seansId))
+                            .findFirst()
+                            .ifPresent((res) -> res.setReservedSeats(selectedSeats));
+
+                    session.setAttribute("order", userOrder);
+
+                    return "redirect:/cart";
+
+        } else {
+            model.addAttribute("error","Choose at least one seat!");
+        }
+        return "seatPage"; //TODO: this
+    }
+
+
 
 
 
