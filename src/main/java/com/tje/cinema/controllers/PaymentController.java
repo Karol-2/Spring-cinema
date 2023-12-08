@@ -1,7 +1,10 @@
 package com.tje.cinema.controllers;
 
 import com.tje.cinema.domain.Order;
+import com.tje.cinema.domain.Reservation;
+import com.tje.cinema.domain.Seans;
 import com.tje.cinema.services.OrderService;
+import com.tje.cinema.services.RepertuarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,12 +15,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 @Controller
 public class PaymentController {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private RepertuarService repertuarService;
     @GetMapping("/payment")
     public String payment(@RequestParam("orderId") Long orderId,
                           @RequestParam(name = "error", required = false) String error,
@@ -43,10 +50,22 @@ public class PaymentController {
                                   HttpSession session,
                                   Model model) throws ParseException {
         if (code.equals(response)){
-            //sukces, idź na myorders i zmień zamówienie na completed, usun z session order
+            //sukces
             Order order = (Order)session.getAttribute("order");
             orderService.finalizeOrder(order);
             session.removeAttribute("order");
+
+            // zarezerwowanie miejsc
+            List<Reservation> reservationsList = order.getReservations();
+            for (Reservation reservation : reservationsList) {
+
+                Seans seans = reservation.getSeans();
+                HashMap<Long, List<String>> existingSeats = seans.getTakenSeats();
+                existingSeats.put(orderId,reservation.getReservedSeats());
+                this.repertuarService.editSeans(seans.getSeansId(),seans);
+
+            }
+
 
             return "redirect:/orders";
         }

@@ -59,6 +59,22 @@ public class RepertuarService {
                 .collect(Collectors.toList());
     }
 
+    public void editSeans(long seansId, Seans updatedSeans) {
+        Seans existingSeans = getSeansById(seansId);
+
+        existingSeans.setMovieId(updatedSeans.getMovieId());
+        existingSeans.setDateAndTime(updatedSeans.getDateAndTime());
+        existingSeans.setTakenSeats(updatedSeans.getTakenSeats());
+
+        Movie movieObj = movieService.getMovieById(updatedSeans.getMovieId());
+        existingSeans.setMovie(movieObj);
+
+        System.out.println("Edycja seansu o id " + seansId);
+
+    }
+
+
+
     public void setInitialSeanses() {
         ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
 

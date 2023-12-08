@@ -3,6 +3,7 @@ package com.tje.cinema.domain;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Seans {
@@ -10,24 +11,30 @@ public class Seans {
     private long movieId;
     private Movie movie;
     private LocalDateTime dateAndTime;
-    private List<String> takenSeats;
+    private HashMap<Long, List<String>> takenSeats;
+
+    private List<List<String>> allSeats;
     public Seans(){};
     public Seans(Movie movie, LocalDateTime dateAndTime) {
         this.movie = movie;
         this.dateAndTime = dateAndTime;
-        this.takenSeats = new ArrayList<>();
+        this.takenSeats = new HashMap<>();
+        this.allSeats = this.generateSeatList(10);
     }
     public Seans(int movieId, LocalDateTime dateAndTime) {
         this.movieId = movieId;
         this.dateAndTime = dateAndTime;
-        this.takenSeats = new ArrayList<>();
+        this.takenSeats = new HashMap<>();
+        this.allSeats = new ArrayList<>();
+        this.allSeats = this.generateSeatList(10);
     }
     public Seans(long id,Movie movie,long movieId, LocalDateTime dateAndTime) {
         this.seansId = id;
         this.movie = movie;
         this.movieId = movieId;
         this.dateAndTime = dateAndTime;
-        this.takenSeats = new ArrayList<>();
+        this.takenSeats = new HashMap<>();
+        this.allSeats = this.generateSeatList(10);
     }
     public String getMovieTitle(){
         return this.movie.getTitle();
@@ -69,19 +76,41 @@ public class Seans {
         this.movie = movie;
     }
 
-    public List<String> getTakenSeats() {
+    public HashMap<Long, List<String>> getTakenSeats() {
         return takenSeats;
     }
 
-    public void addTakenSeats(String seat) {
-       this.takenSeats.add(seat);
-    }
-    public void removeTakenSeats(String seat) {
-        this.takenSeats.remove(seat);
+    public List<String> getTakenSeatsWithoutId(){
+
+        HashMap<Long, List<String>> takenSeats = this.getTakenSeats();
+        List<String> allSeats = new ArrayList<>();
+
+        for (List<String> seats : takenSeats.values()) {
+            allSeats.addAll(seats);
+        }
+
+        return allSeats;
     }
 
-    public void setTakenSeats(List<String> takenSeats) {
+    public void setTakenSeats(HashMap<Long, List<String>> takenSeats) {
         this.takenSeats = takenSeats;
+    }
+
+
+
+    public void addTakenSeats(List<String> seats, long orderId) {
+        this.takenSeats.put(orderId,seats);
+    }
+    public void removeTakenSeats(List<String> seats, long orderId) {
+        this.takenSeats.remove(orderId,seats);
+    }
+
+    public List<List<String>> getAllSeats() {
+        return allSeats;
+    }
+
+    public void setAllSeats(List<List<String>> allSeats) {
+        this.allSeats = allSeats;
     }
 
     @Override
@@ -92,6 +121,31 @@ public class Seans {
                 ", dateTime: "+ getDateAndTime() +
                 ", movieId: "+ getMovieId() +
                 ", takenSeats: "+ getTakenSeats() +
+                ", free: "+ getAllSeats() +
+
                 "}";
     }
+
+    private List<List<String>> generateSeatList(int seatCount) {
+        char rowA = 'A';
+        char rowB = 'B';
+        List<List<String>> seatList = new ArrayList<>();
+
+        List<String> seatsRowA = new ArrayList<>();
+        for (int i = 1; i <= seatCount; i++) {
+            String seatA = rowA + "-" + i;
+            seatsRowA.add(seatA);
+        }
+        seatList.add(seatsRowA);
+
+        List<String> seatsRowB = new ArrayList<>();
+        for (int i = 1; i <= seatCount; i++) {
+            String seatB = rowB + "-" + i;
+            seatsRowB.add(seatB);
+        }
+        seatList.add(seatsRowB);
+
+        return seatList;
+    }
+
 }
