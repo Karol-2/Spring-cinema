@@ -24,14 +24,14 @@
         <form method="post" th:action="@{'/seats?seansId=' + ${seansId}}">
 
             <div class="row" th:each="row: ${seans.getAllSeats()}">
-                <span th:each="seat : ${row}">
-                   <span th:if="${seans.takenSeatsWithoutId != null and seans.getAllSeats() != null}">
-                       <span th:if="${#lists.contains(seans.takenSeatsWithoutId, seat)}">X</span>
-                       <input th:unless="${#lists.contains(seans.takenSeatsWithoutId, seat)} and ${#lists.contains(seans.getAllSeats(), seat)}" type="checkbox" name="seat" th:value="${seat}">
-                    </span>
-
-                </span>
+    <span th:each="seat : ${row}">
+        <span th:if="${seans.takenSeatsWithoutId != null and seans.getAllSeats() != null}">
+            <span th:if="${#lists.contains(seans.takenSeatsWithoutId, seat)}">X</span>
+            <input th:unless="${#lists.contains(seans.takenSeatsWithoutId, seat)}" type="checkbox" name="seat" th:value="${seat}">
+        </span>
+    </span>
             </div>
+
 
 
 
