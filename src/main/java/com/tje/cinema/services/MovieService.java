@@ -24,7 +24,7 @@ public class MovieService {
         this.movieDatabase.add(movie);
         System.out.println("Dodano film: "+movie.getTitle());
     }
-    public void removeMovieById(int id) {
+    public void removeMovieById(long id) {
         movieDatabase.removeIf(movie -> movie.getId() == id);
     }
     public List<Movie> getAllMovies(){

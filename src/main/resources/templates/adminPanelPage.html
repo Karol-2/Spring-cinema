@@ -12,10 +12,10 @@
           <button type="submit">Add Movie</button>
       </form>
       <ol>
-          <li>
-              <p>movie title</p>
-              <button>Edit</button>
-              <button>Remove</button>
+          <li th:each="movie : ${movies}">
+              <p th:text="${movie.getTitle()}"></p>
+              <a th:href="@{'/movieForm/' + ${movie.id}}"><button>Edit</button></a>
+              <a th:href="@{'/remove-movie/' + ${movie.id}}"><button>Remove</button></a>
           </li>
       </ol>
 
