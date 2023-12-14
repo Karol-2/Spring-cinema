@@ -14,7 +14,11 @@ public class Seans {
     private HashMap<Long, List<String>> takenSeats;
 
     private List<List<String>> allSeats;
-    public Seans(){};
+    public Seans(){
+        System.out.println("Konstukrotre pusty");
+        this.takenSeats = new HashMap<>();
+        this.allSeats = this.generateSeatList(10);
+    };
     public Seans(Movie movie, LocalDateTime dateAndTime) {
         this.movie = movie;
         this.dateAndTime = dateAndTime;

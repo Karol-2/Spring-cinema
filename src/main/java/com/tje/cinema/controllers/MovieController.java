@@ -106,7 +106,7 @@ public class MovieController {
     public String editMovie(@ModelAttribute("newMovie") Movie newMovie) {
         System.out.println("Zedytowano film: " + newMovie.getTitle());
         this.movieService.editMovie(newMovie.getId(),newMovie);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
 

@@ -20,14 +20,17 @@
       </ol>
 
       <h3>Screenings</h3>
-      <button>Add Screening</button>
+      <form action="/screeningsForm" method="post">
+          <button type="submit">Add Screening</button>
+      </form>
       <ol>
-          <li>
-              <p>movie title, date</p>
-              <button>Edit</button>
-              <button>Remove</button>
+          <li th:each="screening : ${screenings}">
+              <p th:text="${screening.getMovie().getTitle() + ', ' + screening.getDateAndTime()}"></p>
+              <a th:href="@{'/screeningsForm/' + ${screening.getSeansId()}}"><button>Edit</button></a>
+              <a th:href="@{'/remove-screening/' + ${screening.getSeansId()}}"><button>Remove</button></a>
           </li>
       </ol>
+
   </div>
   <h3>Statistics</h3>
     <div>

@@ -2,8 +2,10 @@ package com.tje.cinema.controllers;
 
 import com.tje.cinema.domain.AdminUser;
 import com.tje.cinema.domain.Movie;
+import com.tje.cinema.domain.Seans;
 import com.tje.cinema.domain.User;
 import com.tje.cinema.services.MovieService;
+import com.tje.cinema.services.RepertuarService;
 import com.tje.cinema.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private MovieService movieService;
+    @Autowired
+    private RepertuarService repertuarService;
 
     @GetMapping("/login")
     public String showLoginPage(@RequestParam(name = "error", required = false) String error, Model model) {
@@ -104,6 +108,9 @@ public class UserController {
     public String admin(HttpSession session, Model model) {
         List<Movie> moviesList = this.movieService.getAllMovies();
         model.addAttribute("movies", moviesList);
+
+        List<Seans> screenings = this.repertuarService.getAllSeans();
+        model.addAttribute("screenings", screenings);
         return "adminPanelPage";
     }
 

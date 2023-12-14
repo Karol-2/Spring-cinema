@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Movie Form</title>
+</head>
+<body>
+
+<h1>Add Screening</h1>
+<h2 th:text="${endpoint}"></h2>
+
+<form th:action="${endpoint}" method="post" th:object="${screening}">
+  <input type="hidden" id="seansId" name="seansId" th:if="${screening.seansId}" th:value="${screening.seansId}" />
+  <p>
+    <label for="movie">Movie:</label>
+    <select id="movie" name="movie" th:field="*{movie}" required>
+      <option th:each="movie : ${movies}" th:value="${movie.id}" th:text="${movie.title}"></option>
+    </select>
+  </p>
+  <p>
+    <label for="dateAndTime">Date and time:</label>
+    <input type="datetime-local" id="dateAndTime" name="dateAndTime" th:field="*{dateAndTime}" required>
+  </p>
+
+  <p>
+    <button type="submit">Save changes</button>
+  </p>
+</form>
+
+</body>
+</html>

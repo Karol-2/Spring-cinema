@@ -26,7 +26,7 @@ public class MovieService {
     }
     public void removeMovieById(long id) {
         movieDatabase.removeIf(movie -> movie.getId() == id);
-    }
+}
     public List<Movie> getAllMovies(){
         return this.movieDatabase;
     }

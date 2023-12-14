@@ -41,6 +41,12 @@ public class RepertuarService {
         System.out.println("Dodanie senasu, o id" + seans.getSeansId() + " dla "+ seans.getMovieId() + ", " + seans.getDateAndTime());
         this.seansDatabase.add(seans);
     }
+    public List<Seans> getAllSeans(){
+        return this.seansDatabase;
+    }
+    public void removeById(long id){
+        seansDatabase.removeIf(seans -> seans.getSeansId() == id);
+    }
 
     public Seans getSeansById (long id){
         return seansDatabase.stream()
