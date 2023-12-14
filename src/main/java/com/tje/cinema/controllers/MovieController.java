@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
@@ -169,6 +166,53 @@ public class MovieController {
 
         return "redirect:/cart";
     }
+
+    @PostMapping("/movieForm")
+    public String addMovie(Model model) throws ParseException {
+        model.addAttribute("newMovie", new Movie());
+        model.addAttribute("endpoint", "/add-movie");
+
+        return "movieForm";
+    }
+
+    @GetMapping("/movieForm")
+    public String movieForm(Model model) throws ParseException {
+        model.addAttribute("movie", new Movie());
+        model.addAttribute("endpoint", "/add-movie");
+
+        return "movieForm";
+    }
+
+    @GetMapping("/movieForm/{id}")
+    public String editMovieForm(@PathVariable Long id, Model model) {
+        Movie movie = this.movieService.getMovieById(id);
+
+        if (movie != null) {
+            model.addAttribute("movie", movie);
+            model.addAttribute("endpoint", "/edit-movie");
+            return "movieForm";
+        } else {
+            // Obsługa sytuacji, gdy film o podanym id nie istnieje
+            return "redirect:/movieList"; // Przekierowanie na listę filmów lub inną stronę
+        }
+    }
+    @PostMapping("/add-movie")
+    public String addMovie(@ModelAttribute("newMovie") Movie newMovie) {
+        System.out.println("Dodano film: " + newMovie.getTitle());
+        this.movieService.addMovie(newMovie);
+        return "redirect:/";
+    }
+
+    @PostMapping("/edit-movie")
+    public String editMovie(@ModelAttribute("newMovie") Movie newMovie) {
+        System.out.println("Zedytowano film: " + newMovie.getTitle());
+        this.movieService.editMovie(newMovie.getId(),newMovie);
+        return "redirect:/";
+    }
+
+
+
+
 
 
 

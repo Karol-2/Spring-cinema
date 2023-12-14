@@ -37,15 +37,27 @@ public class MovieService {
                 .orElseThrow(()-> new RuntimeException("Movie not found with id: " + id));
     }
 
-    public  ArrayList<Movie> getMoviesByID(int id){
-        ArrayList<Movie> result = new ArrayList<Movie>();
-        for (Movie movie : this.movieDatabase) {
-            if (id == movie.getId()) {
-                result.add(movie);
-            }
+    public void editMovie(long id, Movie updatedMovie) {
+        Movie existingMovie = getMovieById(id);
+
+        if (existingMovie != null) {
+            existingMovie.setTitle(updatedMovie.getTitle());
+            existingMovie.setGenre(updatedMovie.getGenre());
+            existingMovie.setYear(updatedMovie.getYear());
+            existingMovie.setDirector(updatedMovie.getDirector());
+            existingMovie.setActors(updatedMovie.getActors());
+            existingMovie.setTrailerLink(updatedMovie.getTrailerLink());
+            existingMovie.setPhotos(updatedMovie.getPhotos());
+
+            System.out.println("Zaktualizowano film: " + existingMovie.getTitle());
+        } else {
+
+            throw new RuntimeException("Movie not found with id: " + id);
         }
-        return result;
     }
+
+
+
 
 
     public void setInitialMovies() {

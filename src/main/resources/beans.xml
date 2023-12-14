@@ -108,17 +108,20 @@
          <property name="email" value="user1@example.com"/>
          <property name="name" value="user1"/>
          <property name="password" value="ABC!@#abc123"/>
+         <property name="userType" value="REGISTERED" />
     </bean>
     <bean id="u-2" class="com.tje.cinema.domain.User">
           <property name="email" value="user2@example.com"/>
           <property name="name" value="user2"/>
           <property name="password" value="password2"/>
+          <property name="userType" value="REGISTERED" />
     </bean>
     <bean id="u-1-admin" class="com.tje.cinema.domain.AdminUser">
         <property name="email" value="admin@cinematricity.com"/>
         <property name="name" value="adminKarol"/>
         <property name="password" value="itakniezgadniesz125"/>
         <property name="hasAdminAccess" value="true"/>
+        <property name="userType" value="ADMIN" />
     </bean>
 
     
