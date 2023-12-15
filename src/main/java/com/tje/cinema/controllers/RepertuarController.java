@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class RepertuarController {
@@ -52,11 +54,20 @@ public class RepertuarController {
         Seans screening = this.repertuarService.getSeansById(id);
 
         if (screening != null) {
-            List<Movie> moviesList = this.movieService.getAllMovies();
+            List<Movie> moviesList = this.movieService.getAllMovies().stream()
+                    .filter(movie -> movie.getId() != screening.getMovieId())
+                    .collect(Collectors.toList());
+
             model.addAttribute("movies", moviesList);
 
+            System.out.println(screening);
+            LocalDate date = screening.getDateAndTime().toLocalDate();
+            LocalTime time = screening.getDateAndTime().toLocalTime();
+
             model.addAttribute("screening", screening);
-            model.addAttribute("endpoint", "/screeningsForm");
+            model.addAttribute("date", date);
+            model.addAttribute("time", time);
+            model.addAttribute("endpoint", "/edit-screening");
             return "screeningForm";
         } else {
             // Obsługa sytuacji, gdy film o podanym id nie istnieje
@@ -64,15 +75,34 @@ public class RepertuarController {
         }
     }
 
+    @GetMapping("/edit-screening")
+    public String editScreening(
+            @RequestParam("seansId") Long seansId,
+            @RequestParam("movie") Long movieId,
+            @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            @RequestParam("time") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
+            Model model) {
+        // TODO: how it affects orders
+        LocalDateTime dateAndTime = LocalDateTime.of(date,time);
+        Movie movie = this.movieService.getMovieById(movieId);
+        Seans newSeans = new Seans(seansId,movie,movie.getId(),dateAndTime);
+        this.repertuarService.editSeans(seansId,newSeans);
+
+        return "redirect:/admin";
+    }
+
+
+
     @GetMapping("/add-screening")
     public String addScreening(
             @RequestParam("movie") Long movieId,
-            @RequestParam("dateAndTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateAndTime,
+            @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            @RequestParam("time") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
             Model model) {
 
+        LocalDateTime dateAndTime = LocalDateTime.of(date,time);
         Movie movie = this.movieService.getMovieById(movieId);
         Seans newSeans = new Seans(movieId,movie,movie.getId(),dateAndTime);
-        System.out.println(newSeans);
         this.repertuarService.addSeans(newSeans);
 
         return "redirect:/admin";

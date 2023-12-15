@@ -2,24 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Movie Form</title>
+  <title>Screening Form</title>
 </head>
 <body>
 
-<h1>Add Screening</h1>
 <h2 th:text="${endpoint}"></h2>
 
 <form th:action="${endpoint}" method="get" th:object="${screening}">
   <input type="hidden" id="seansId" name="seansId" th:if="${screening.seansId}" th:value="${screening.seansId}" />
   <p>
-    <label for="movie">Movie:</label>
     <select id="movie" name="movie" th:field="*{movie}" required>
+      <option th:if="${screening.movie != null}" th:value="${screening.movie.id}" th:text="${screening.movie.title}" th:selected="true"></option>
       <option th:each="movie : ${movies}" th:value="${movie.id}" th:text="${movie.title}"></option>
     </select>
   </p>
   <p>
-    <label for="dateAndTime">Date and time:</label>
-    <input type="datetime-local" id="dateAndTime" name="dateAndTime" th:field="*{dateAndTime}"  th:value="${#dates.format(screening.dateAndTime, 'yyyy-MM-ddTHH:mm:ss')}" required>
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" th:value="${date}" required>
+  </p>
+  <p>
+    <label for="time">Time:</label>
+    <input type="time" id="time" name="time" th:value="${time}" required>
   </p>
 
   <p>

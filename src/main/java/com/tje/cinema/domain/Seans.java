@@ -15,7 +15,6 @@ public class Seans {
 
     private List<List<String>> allSeats;
     public Seans(){
-        System.out.println("Konstukrotre pusty");
         this.takenSeats = new HashMap<>();
         this.allSeats = this.generateSeatList(10);
     };
