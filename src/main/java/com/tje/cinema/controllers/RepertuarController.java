@@ -8,10 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -58,6 +62,20 @@ public class RepertuarController {
             // Obsługa sytuacji, gdy film o podanym id nie istnieje
             return "redirect:/admin";
         }
+    }
+
+    @GetMapping("/add-screening")
+    public String addScreening(
+            @RequestParam("movie") Long movieId,
+            @RequestParam("dateAndTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateAndTime,
+            Model model) {
+
+        Movie movie = this.movieService.getMovieById(movieId);
+        Seans newSeans = new Seans(movieId,movie,movie.getId(),dateAndTime);
+        System.out.println(newSeans);
+        this.repertuarService.addSeans(newSeans);
+
+        return "redirect:/admin";
     }
 
     @GetMapping("/remove-screening/{id}")

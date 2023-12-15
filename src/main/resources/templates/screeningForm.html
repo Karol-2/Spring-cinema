@@ -9,7 +9,7 @@
 <h1>Add Screening</h1>
 <h2 th:text="${endpoint}"></h2>
 
-<form th:action="${endpoint}" method="post" th:object="${screening}">
+<form th:action="${endpoint}" method="get" th:object="${screening}">
   <input type="hidden" id="seansId" name="seansId" th:if="${screening.seansId}" th:value="${screening.seansId}" />
   <p>
     <label for="movie">Movie:</label>
@@ -19,7 +19,7 @@
   </p>
   <p>
     <label for="dateAndTime">Date and time:</label>
-    <input type="datetime-local" id="dateAndTime" name="dateAndTime" th:field="*{dateAndTime}" required>
+    <input type="datetime-local" id="dateAndTime" name="dateAndTime" th:field="*{dateAndTime}"  th:value="${#dates.format(screening.dateAndTime, 'yyyy-MM-ddTHH:mm:ss')}" required>
   </p>
 
   <p>
