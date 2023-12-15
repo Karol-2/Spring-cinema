@@ -12,6 +12,10 @@ public class OrderService {
     private final List<Order> orderDatabase = new ArrayList<>();
     private long orderIdCounter = 1;
 
+    public List<Order> getOrders(){
+        return this.orderDatabase;
+    }
+
     public void addOrder(Order order){
         order.setOrderId(orderIdCounter++);
         orderDatabase.add(order);

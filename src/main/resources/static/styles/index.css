@@ -8,3 +8,9 @@ nav{
 .nav-element{
     margin-left: 2rem;
 }
+
+.grid-two{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}

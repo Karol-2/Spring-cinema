@@ -2,6 +2,8 @@ package com.tje.cinema.domain;
 
 import com.tje.cinema.interfaces.UserInterface;
 
+import java.time.LocalDate;
+
 public class User implements UserInterface {
 
     private Long id;
@@ -10,6 +12,7 @@ public class User implements UserInterface {
 
     private String password;
     private UserType userType;
+    private LocalDate dateOfRegistration;
 
     public User() {}
 
@@ -18,6 +21,7 @@ public class User implements UserInterface {
         this.name = name;
         this.password = password;
         this.userType = UserType.REGISTERED;
+        this.dateOfRegistration = LocalDate.now();
     }
 
     public Long getId() {
@@ -58,6 +62,14 @@ public class User implements UserInterface {
 
     public void setUserType(UserType userType) {
         this.userType = userType;
+    }
+
+    public LocalDate getDateOfRegistration() {
+        return dateOfRegistration;
+    }
+
+    public void setDateOfRegistration(LocalDate dateOfRegistration) {
+        this.dateOfRegistration = dateOfRegistration;
     }
 
     @Override

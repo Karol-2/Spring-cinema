@@ -3,9 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Panel</title>
+    <link th:href="@{/styles/index.css}" rel="stylesheet" />
 </head>
 <body>
   <h1>Admin panel</h1>
+
+  <h3>Statistics</h3>
+  <div class="grid-two">
+      <div>
+          <h4>Selected period</h4>
+          <label>
+              <span>From</span>
+              <input type="date">
+              <span>To</span>
+              <input type="date">
+          </label>
+          <h4>Per day</h4>
+          <label>
+              <span>Select a day</span>
+              <input type="date">
+          </label>
+          <h4>Per month</h4>
+          <label>
+              <span>Select a month</span>
+              <input type="month">
+          </label>
+
+      </div>
+      <div>
+          <p th:text="'Number of Orders: '+ ${numOfOrders}"></p>
+          <p th:text="'Number of Screenings: '+ ${numOfScreenings}"></p>
+          <p th:text="'Movies shown: '+ ${numOfMovies}"></p>
+          <p th:text="'Most popular movie: '+ ${mostPopular}"></p>
+          <p th:text="'Sold seats: '+ ${numOfSeats}"></p>
+          <p th:text="'Money earned: '+ ${moneyEarned} + ' PLN'"></p>
+          <p th:text="'Earnings per customer: '+ ${earnings}+' PLN'"></p>
+          <p th:text="'Average percent of taken seats: '+ ${percentOfSeats}+'%'"></p>
+          <p th:text="'Users registered: '+ ${numOfUsers}"></p>
+      </div>
+  </div>
+
   <div>
       <h3>Movies</h3>
       <form action="/movieForm" method="get">
@@ -32,29 +69,7 @@
       </ol>
 
   </div>
-  <h3>Statistics</h3>
-    <div>
-        <h4>Per day</h4>
-        <label>
-            <span>Select a day</span>
-            <input type="date">
-        </label>
-        <p>Number of Orders: 5</p>
-        <p>Sold seats: 7</p>
-        <p>Money earned: 69.00PLN</p>
-        <p>Numbers of screenings: 3</p>
-    </div>
-  <div>
-      <h4>Per month</h4>
-      <label>
-          <span>Select a month</span>
-          <input type="month">
-      </label>
-      <p>Number of Orders: 5</p>
-      <p>Sold seats: 7</p>
-      <p>Money earned: 69.00PLN</p>
-      <p>Numbers of screenings: 3</p>
-  </div>
+
 
 
 </body>

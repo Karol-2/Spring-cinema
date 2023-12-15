@@ -32,6 +32,10 @@ public class UserService {
         userList.add(user);
     }
 
+    public List<User> getUserList(){
+        return this.userList;
+    }
+
 
     public void setInitialUsers() {
         ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
