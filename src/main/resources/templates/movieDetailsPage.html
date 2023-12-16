@@ -28,7 +28,7 @@
         <p th:text="'Director: ' +${movie.getDirector()}"></p>
         <p th:text="'Cast: ' +${movie.getActors()}"></p>
         <div th:each="photo, iter: ${movie.getPhotos()}">
-            <img th:src="${photo}">
+            <img th:src="${photo}" alt="movie photo">
         </div>
 
     </div>

@@ -30,7 +30,7 @@
         <h2>Currently showing:</h2>
         <div id="posters">
             <div th:each="movie, iter: ${movies}">
-                <img th:src="${movie.getPhotos()[0]}">
+                <img th:src="${movie.getPhotos()[0]}" alt="Movie poster">
             </div>
         </div>
 

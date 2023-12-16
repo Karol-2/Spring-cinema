@@ -21,10 +21,16 @@ import java.util.Random;
 
 @Controller
 public class PaymentController {
+
+    private final OrderService orderService;
+    private final RepertuarService repertuarService;
+
     @Autowired
-    private OrderService orderService;
-    @Autowired
-    private RepertuarService repertuarService;
+    public PaymentController(OrderService orderService, RepertuarService repertuarService) {
+        this.orderService = orderService;
+        this.repertuarService = repertuarService;
+    }
+
     @GetMapping("/payment")
     public String payment(@RequestParam("orderId") Long orderId,
                           @RequestParam(name = "error", required = false) String error,

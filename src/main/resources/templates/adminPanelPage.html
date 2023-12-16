@@ -13,24 +13,24 @@
       <div>
           <h4>Selected period</h4>
           <form th:action="@{/admin/period}" method="get">
-              <span>From</span>
-              <input type="date" name="dateFrom">
-              <span>To</span>
-              <input type="date" name="dateTo">
+              <label for="dateFrom">From</label>
+              <input type="date" name="dateFrom" id="dateFrom">
+              <label for="dateTo">To</label>
+              <input type="date" name="dateTo" id="dateTo">
               <button type="submit"> Show </button>
           </form>
 
           <h4>Selected day</h4>
           <form th:action="@{/admin/day}" method="get">
-              <span>Select a day</span>
-              <input type="date" name="selectedDay">
+              <label for="selectedDay">Select a day</label>
+              <input type="date" name="selectedDay" id="selectedDay">
               <button type="submit"> Show </button>
           </form>
 
           <h4>Selected month</h4>
           <form th:action="@{/admin/month}" method="get">
-              <span>Select a month</span>
-              <input type="month" name="selectedMonth">
+              <label for="selectedMonth">Select a month</label>
+              <input type="month" name="selectedMonth" id="selectedMonth">
               <button type="submit"> Show </button>
           </form>
       </div>

@@ -16,8 +16,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class RepertuarService {
+    private final MovieService movieService;
     @Autowired
-    private MovieService movieService;
+    public RepertuarService(MovieService movieService) {
+        this.movieService = movieService;
+    }
+
     @PostConstruct
     public void initialize() {
         setInitialSeanses();
@@ -76,10 +80,7 @@ public class RepertuarService {
         existingSeans.setMovie(movieObj);
 
         System.out.println("Edycja seansu o id " + seansId);
-
     }
-
-
 
     public void setInitialSeanses() {
         ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");

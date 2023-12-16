@@ -22,11 +22,15 @@ import java.util.stream.Collectors;
 @Controller
 public class OrderController {
 
-    @Autowired
-    private OrderService orderService;
+
+    private final OrderService orderService;
+    private final RepertuarService repertuarService;
 
     @Autowired
-    private RepertuarService repertuarService;
+    public OrderController(OrderService orderService, RepertuarService repertuarService) {
+        this.orderService = orderService;
+        this.repertuarService = repertuarService;
+    }
 
     @GetMapping("/orders")
     public String orders(Model model,  HttpSession session) throws ParseException {

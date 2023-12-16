@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Screening Form</title>
@@ -10,6 +10,7 @@
 
 <form th:action="${endpoint}" method="get" th:object="${screening}">
   <input type="hidden" id="seansId" name="seansId" th:if="${screening.seansId}" th:value="${screening.seansId}" />
+  <label for="movie">Movie:  </label>
   <p>
     <select id="movie" name="movie" th:field="*{movie}" required>
       <option th:if="${screening.movie != null}" th:value="${screening.movie.id}" th:text="${screening.movie.title}" th:selected="true"></option>

@@ -11,12 +11,16 @@ import java.util.stream.Collectors;
 @Service
 public class StatsService {
 
+
+    private final OrderService orderService;
+    private final RepertuarService repertuarService;
+    private final UserService userService;
     @Autowired
-    private OrderService orderService;
-    @Autowired
-    private RepertuarService repertuarService;
-    @Autowired
-    private UserService userService;
+    public StatsService(OrderService orderService, RepertuarService repertuarService, UserService userService) {
+        this.orderService = orderService;
+        this.repertuarService = repertuarService;
+        this.userService = userService;
+    }
 
     public long getNumberOfOrders(LocalDate dateFrom, LocalDate dateTo){
         return this.orderService.getOrders().stream()
@@ -102,6 +106,4 @@ public class StatsService {
                     && usr.getDateOfRegistration().isBefore(ChronoLocalDate.from(dateTo.atStartOfDay())))
             .count();
     }
-
-
 }

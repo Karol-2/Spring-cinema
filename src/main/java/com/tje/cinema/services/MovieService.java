@@ -56,10 +56,6 @@ public class MovieService {
         }
     }
 
-
-
-
-
     public void setInitialMovies() {
         ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
 

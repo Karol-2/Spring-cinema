@@ -6,7 +6,6 @@ import com.tje.cinema.domain.Seans;
 import com.tje.cinema.services.MovieService;
 import com.tje.cinema.services.RepertuarService;
 import com.tje.cinema.services.StatsService;
-import com.tje.cinema.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -21,15 +20,16 @@ import java.util.List;
 
 @Controller
 public class AdminController {
+    private final MovieService movieService;
+    private final RepertuarService repertuarService;
+    private final StatsService statsService;
 
     @Autowired
-    private UserService userService;
-    @Autowired
-    private MovieService movieService;
-    @Autowired
-    private RepertuarService repertuarService;
-    @Autowired
-    private StatsService statsService;
+    public AdminController(MovieService movieService, RepertuarService repertuarService, StatsService statsService){
+        this.movieService = movieService;
+        this.repertuarService = repertuarService;
+        this.statsService = statsService;
+    }
 
     @GetMapping("/admin")
     public String admin(HttpSession session, Model model) {

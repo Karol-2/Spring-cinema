@@ -22,10 +22,14 @@ import java.util.stream.Collectors;
 
 @Controller
 public class RepertuarController {
+
+    private final RepertuarService repertuarService;
+    private final MovieService movieService;
     @Autowired
-    private RepertuarService repertuarService ;
-    @Autowired
-    private MovieService movieService ;
+    public RepertuarController(RepertuarService repertuarService, MovieService movieService) {
+        this.repertuarService = repertuarService;
+        this.movieService = movieService;
+    }
 
     @PostMapping("/movies")
     public String showMovies(@RequestParam(name = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, Model model) {
