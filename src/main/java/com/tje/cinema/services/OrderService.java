@@ -20,9 +20,9 @@ public class OrderService {
         order.setOrderId(orderIdCounter++);
         orderDatabase.add(order);
         System.out.println("Dodano Zamówienie z id: "+order.getOrderId());
-        System.out.println("baza danych:[ ");
-        orderDatabase.forEach(o -> System.out.println(o.toString()));
-        System.out.println("] ");
+//        System.out.println("baza danych:[ ");
+//        orderDatabase.forEach(o -> System.out.println(o.toString()));
+//        System.out.println("] ");
     }
     public void removeOrder(Order order){
         orderDatabase.remove(order);

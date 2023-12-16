@@ -1,35 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Screening Form</title>
-</head>
+<head th:replace="fragments :: html-head"></head>
 <body>
+<div class="page">
 
-<h2 th:text="${endpoint}"></h2>
+  <h2 th:text="${endpoint}"></h2>
 
-<form th:action="${endpoint}" method="get" th:object="${screening}">
-  <input type="hidden" id="seansId" name="seansId" th:if="${screening.seansId}" th:value="${screening.seansId}" />
-  <label for="movie">Movie:  </label>
-  <p>
-    <select id="movie" name="movie" th:field="*{movie}" required>
-      <option th:if="${screening.movie != null}" th:value="${screening.movie.id}" th:text="${screening.movie.title}" th:selected="true"></option>
-      <option th:each="movie : ${movies}" th:value="${movie.id}" th:text="${movie.title}"></option>
-    </select>
-  </p>
-  <p>
-    <label for="date">Date:</label>
-    <input type="date" id="date" name="date" th:value="${date}" required>
-  </p>
-  <p>
-    <label for="time">Time:</label>
-    <input type="time" id="time" name="time" th:value="${time}" required>
-  </p>
+  <form th:action="${endpoint}" method="get" th:object="${screening}">
+    <input type="hidden" id="seansId" name="seansId" th:if="${screening.seansId}" th:value="${screening.seansId}" />
+    <label for="movie">Movie:  </label>
+    <p>
+      <select id="movie" name="movie" th:field="*{movie}" required>
+        <option th:if="${screening.movie != null}" th:value="${screening.movie.id}" th:text="${screening.movie.title}" th:selected="true"></option>
+        <option th:each="movie : ${movies}" th:value="${movie.id}" th:text="${movie.title}"></option>
+      </select>
+    </p>
+    <p>
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date" th:value="${date}" required>
+    </p>
+    <p>
+      <label for="time">Time:</label>
+      <input type="time" id="time" name="time" th:value="${time}" required>
+    </p>
 
-  <p>
-    <button type="submit">Save changes</button>
-  </p>
-</form>
-
+    <p>
+      <button type="submit">Save changes</button>
+    </p>
+  </form>
+</div>
 </body>
 </html>

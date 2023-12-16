@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="html-head">
+    <meta charset="UTF-8">
+    <title>Cinema Tricity</title>
+    <link th:href="@{/styles/index.css}" rel="stylesheet" />
+<body>
+
+<nav th:fragment="navbar">
+    <h3>Hello, <span th:text="${session.user.getName()}"></span>!</h3>
+    <a class="nav-element" href="/movies">Repertuar</a>
+    <a class="nav-element" href="/orders">My Orders</a>
+    <a class="nav-element" href="/cart">Cart</a>
+    <a class="nav-element" href="/logout">Log out</a>
+</nav>
+
+</body>
+</html>

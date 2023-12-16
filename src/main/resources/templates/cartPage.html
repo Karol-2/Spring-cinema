@@ -1,18 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Cart</title>
-    <link th:href="@{/styles/index.css}" rel="stylesheet" />
-</head>
+<head th:replace="fragments :: html-head"></head>
 <body>
-<nav>
-    <h3>Hello, <span th:text="${session.user.getName()}"></span>!</h3>
-    <a class="nav-element" href="/movies">Repertuar</a>
-    <a class="nav-element" href="/orders">My Orders</a>
-    <a class="nav-element" href="/cart">Cart</a>
-    <a class="nav-element" href="/logout">Log out</a>
-</nav>
+
+<div th:replace="fragments :: navbar"></div>
+<div class="page">
 
 <h1>Cart</h1>
 
@@ -56,6 +48,6 @@
 </div>
 
 
-
+</div>
 </body>
 </html>

@@ -1,51 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>CinemaTricity</title>
-    <link th:href="@{/styles/index.css}" rel="stylesheet" />
-    <style>
-        .row {
-            margin-bottom: 10px;
-        }
-    </style>
-</head>
+<head th:replace="fragments :: html-head"></head>
 <body>
-<nav>
-    <h3>Hello, <span th:text="${session.user.getName()}"></span>!</h3>
-    <a class="nav-element" href="/movies">Repertuar</a>
-    <a class="nav-element" href="/orders">My Orders</a>
-    <a class="nav-element" href="/cart">Cart</a>
-    <a class="nav-element" href="/logout">Log out</a>
-</nav>
-<h2 th:text="${seans.getMovie().getTitle()}"></h2>
-<h3 th:text="${seans.getDateAndTime()}"></h3>
+<div class="page">
+    <div th:replace="fragments :: navbar"></div>
+    <h2 th:text="${seans.getMovie().getTitle()}"></h2>
+    <h3 th:text="${seans.getDateAndTime()}"></h3>
 
-<form method="post" action="/editReservation">
+    <form method="post" action="/editReservation">
 
-    <div class="row" th:each="row: ${seans.getAllSeats()}">
-    <span th:each="seat : ${row}">
-        <span th:if="${seans.takenSeatsWithoutId != null and seans.getAllSeats() != null}">
-            <span th:if="${#lists.contains(seans.takenSeatsWithoutId, seat)}">X</span>
-            <span  th:unless="${#lists.contains(seans.takenSeatsWithoutId, seat)}">
-                <input th:if="${#lists.contains(previousSeats,seat)}"  type="checkbox" name="seat" th:value="${seat}" checked>
-                <input th:if="${!#lists.contains(previousSeats,seat)}"  type="checkbox" name="seat" th:value="${seat}">
+        <div class="row" th:each="row: ${seans.getAllSeats()}">
+        <span th:each="seat : ${row}">
+            <span th:if="${seans.takenSeatsWithoutId != null and seans.getAllSeats() != null}">
+                <span th:if="${#lists.contains(seans.takenSeatsWithoutId, seat)}">X</span>
+                <span  th:unless="${#lists.contains(seans.takenSeatsWithoutId, seat)}">
+                    <input th:if="${#lists.contains(previousSeats,seat)}"  type="checkbox" name="seat" th:value="${seat}" checked>
+                    <input th:if="${!#lists.contains(previousSeats,seat)}"  type="checkbox" name="seat" th:value="${seat}">
+                </span>
+
+
             </span>
-
-
         </span>
-    </span>
+        </div>
+        <input type="hidden" name="seansId" th:value="${seans.getSeansId()}" />
+
+
+        <button type="submit">Save</button>
+    </form>
+    <div th:if="${error}" class="error">
+        <h1 th:text="${error}"></h1>
     </div>
-    <input type="hidden" name="seansId" th:value="${seans.getSeansId()}" />
-
-
-
-
-    <button type="submit">Save</button>
-</form>
-<div th:if="${error}" class="error">
-    <h1 th:text="${error}"></h1>
 </div>
-
 </body>
 </html>

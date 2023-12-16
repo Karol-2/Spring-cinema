@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>BLIK Pay</title>
-</head>
+<head th:replace="fragments :: html-head"></head>
 <body>
-<h1>Payment</h1>
-<h2 th:text="'Order id: ' + ${session.order.orderId}"></h2>
-<h2 th:text="'Price: ' + ${session.order.getPrice()} + 'PLN'"></h2>
+<div class="page" >
+    <h1>Payment</h1>
+    <h2 th:text="'Order id: ' + ${session.order.orderId}"></h2>
+    <h2 th:text="'Price: ' + ${session.order.getPrice()} + 'PLN'"></h2>
 
-<p>To process your payment enter your BLIK code: </p>
-<form method="post" action="/payment">
-    <label>
-        <input type="number" name="response" placeholder="123456">
-        <input type="hidden" name="orderId" th:value="${session.order.orderId}" />
-        <input type="hidden" name="code" th:value="${code}" />
-    </label>
-    <button type="submit">Pay</button>
-</form>
-<div th:text="${error}"></div>
+    <p>To process your payment enter your BLIK code: </p>
+    <form method="post" action="/payment">
+        <label>
+            <input type="number" name="response" placeholder="123456">
+            <input type="hidden" name="orderId" th:value="${session.order.orderId}" />
+            <input type="hidden" name="code" th:value="${code}" />
+        </label>
+        <button type="submit">Pay</button>
+    </form>
+    <div th:text="${error}"></div>
 
-<h1>Your BLIK code: </h1>
-<p th:text="${code}"></p>
+    <h1>Your BLIK code: </h1>
+    <p th:text="${code}"></p>
+</div>
 </body>
 </html>

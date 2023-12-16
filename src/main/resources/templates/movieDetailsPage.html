@@ -1,25 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>CinemaTricity</title>
-    <link th:href="@{/styles/index.css}" rel="stylesheet" />
-    <style>
-        img {
-            max-width: 640px;
-            height: fit-content;
-        }
-
-    </style>
-</head>
+<head th:replace="fragments :: html-head"></head>
 <body>
-<nav>
-    <h3>Hello, <span th:text="${session.user.getName()}"></span>!</h3>
-    <a class="nav-element" href="/movies">Repertuar</a>
-    <a class="nav-element" href="/orders">My Orders</a>
-    <a class="nav-element" href="/cart">Cart</a>
-    <a class="nav-element" href="/logout">Log out</a>
-</nav>
+<div class="page">
+    <div th:replace="fragments :: navbar"></div>
+
     <div th:if="${movie}">
         <h1 th:text="${movie.getTitle()}"></h1>
        <iframe width="560" height="315" th:src="${movie.getTrailerLink()}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -28,12 +13,13 @@
         <p th:text="'Director: ' +${movie.getDirector()}"></p>
         <p th:text="'Cast: ' +${movie.getActors()}"></p>
         <div th:each="photo, iter: ${movie.getPhotos()}">
-            <img th:src="${photo}" alt="movie photo">
+            <img th:src="${photo}" alt="movie photo" class="photo-details">
         </div>
 
     </div>
     <div th:if="${error}">
         <h1 th:text="${error.toUpperCase()}"></h1>
     </div>
+</div>
 </body>
 </html>

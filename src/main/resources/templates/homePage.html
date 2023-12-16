@@ -1,21 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>CinemaTricity</title>
-    <style>
-        img {
-            max-width: 150px;
-            height: fit-content;
-        }
-        #posters {
-            display: flex;
-            flex-direction: row;
-        }
-
-    </style>
-</head>
+<head th:replace="fragments :: html-head"></head>
 <body>
+<div class="page">
     <div>
         <h1>Welcome to Cinema Tricity!</h1>
         <p>
@@ -30,11 +17,11 @@
         <h2>Currently showing:</h2>
         <div id="posters">
             <div th:each="movie, iter: ${movies}">
-                <img th:src="${movie.getPhotos()[0]}" alt="Movie poster">
+                <img th:src="${movie.getPhotos()[0]}" alt="Movie poster" class="pnoto">
             </div>
         </div>
 
     </div>
-
+</div>
 </body>
 </html>

@@ -1,35 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>CinemaTricity</title>
-    <link th:href="@{/styles/index.css}" rel="stylesheet" />
-</head>
+<head th:replace="fragments :: html-head"></head>
 <body>
-<nav>
-    <h3>Hello, <span th:text="${session.user.getName()}"></span>!</h3>
-    <a class="nav-element" href="/movies">Repertuar</a>
-    <a class="nav-element" href="/orders">My Orders</a>
-    <a class="nav-element" href="/cart">Cart</a>
-    <a class="nav-element" href="/logout">Log out</a>
-</nav>
-  <h1> Your orders</h1>
-<div th:if="${orders.size() > 0}">
+<div class="page">
+    <div th:replace="fragments :: navbar"></div>
+    <h1> Your orders</h1>
+    <div th:if="${orders.size() > 0}">
 
-    <div th:each="order : ${orders}">
-        <h2 th:text="'Order number: '+${order.getOrderId()}"></h2>
-        <p th:text="'Price:' +${order.getPrice()}+'PLN'"></p>
-        <p th:text="'Date: '+${order.getDate()}"></p>
-        <p th:text="'Status: '+ ${order.getStatus()}"></p>
-        <p th:text="'Tickets:'"></p>
-        <div th:each="reservation : ${order.getReservations()}">
-            <p th:text="'Movie: '+${reservation.getSeans().getMovie().getTitle()}"></p>
-            <p th:text="'Date and time: '+${reservation.getSeans().getDateAndTime()}"></p>
-            <p th:text="'Seats: '+${reservation.getReservedSeats()}"></p>
+        <div th:each="order : ${orders}">
+            <h2 th:text="'Order number: '+${order.getOrderId()}"></h2>
+            <p th:text="'Price:' +${order.getPrice()}+'PLN'"></p>
+            <p th:text="'Date: '+${order.getDate()}"></p>
+            <p th:text="'Status: '+ ${order.getStatus()}"></p>
+            <p th:text="'Tickets:'"></p>
+            <div th:each="reservation : ${order.getReservations()}">
+                <p th:text="'Movie: '+${reservation.getSeans().getMovie().getTitle()}"></p>
+                <p th:text="'Date and time: '+${reservation.getSeans().getDateAndTime()}"></p>
+                <p th:text="'Seats: '+${reservation.getReservedSeats()}"></p>
+            </div>
         </div>
-
     </div>
-
 </div>
 </body>
 </html>

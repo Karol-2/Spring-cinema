@@ -1,35 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>CinemaTricity</title>
-    <style>
-        table {
-            border-collapse: collapse;
-        }
-
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
-    <link th:href="@{/styles/index.css}" rel="stylesheet" />
-</head>
+<head th:replace="fragments :: html-head"></head>
 <body>
+<div class="page">
 
-    <div>
-        <nav>
-            <h3>Hello, <span th:text="${session.user.getName()}"></span>!</h3>
-            <a class="nav-element" href="/movies">Repertuar</a>
-            <a class="nav-element" href="/orders">My Orders</a>
-            <a class="nav-element" href="/cart">Cart</a>
-            <a class="nav-element" href="/logout">Log out</a>
-        </nav>
+        <div th:replace="fragments :: navbar"></div>
         <h1>Movies page</h1>
         <div>
             <a th:href="@{/movies(date='2024-01-29')}">Monday (29.01)</a>
@@ -69,6 +44,6 @@
             <h2>There are no screenings for this day. Checkout other dates!</h2>
         </div>
 
-    </div>
+</div>
 </body>
 </html>
