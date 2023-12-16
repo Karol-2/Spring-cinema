@@ -6,48 +6,47 @@
 <div th:replace="fragments :: navbar"></div>
 <div class="page">
 
-<h1>Cart</h1>
+    <h1>Cart</h1>
 
-<div th:if="${session.order != null}">
-    <div th:if="${session.order.getReservations().size()>0}">
-        <h3>Here are your reservations:</h3>
-        <div th:each="reservation : ${session.order.getReservations()}">
-            <ul>
-                <li th:text="${reservation.getSeans().getMovie().getTitle()}"></li>
-                <li th:text="'Date: '+ ${reservation.getSeans().getDateAndTime()}"></li>
-                <li th:text="'Your seats: '+${reservation.getReservedSeats()}"></li>
-                <li th:text="'Price: '+${reservation.getReservationCost()}"></li>
-                <li>
-                    <form method="get" th:action="'/seats/'+${reservation.getSeans().getSeansId()}+'/edit'">
-                        <input type="hidden" name="previousSeats" th:value="${reservation.getReservedSeats()}" />
-                        <button type="submit">Change Seats</button>
-                    </form>
-                </li>
-                <li>
-                    <form method="post" action="/deleteReservation">
-                        <input type="hidden" name="seansId" th:value="${reservation.getSeans().getSeansId()}" />
-                        <button type="submit">Remove Reservation</button>
-                    </form>
+    <div th:if="${session.order != null}">
+        <div th:if="${session.order.getReservations().size()>0}">
+            <h3>Here are your reservations:</h3>
+            <div th:each="reservation : ${session.order.getReservations()}">
+                <ul>
+                    <li th:text="${reservation.getSeans().getMovie().getTitle()}"></li>
+                    <li th:text="'Date: '+ ${reservation.getSeans().getDateAndTime()}"></li>
+                    <li th:text="'Your seats: '+${reservation.getReservedSeats()}"></li>
+                    <li th:text="'Price: '+${reservation.getReservationCost()}"></li>
+                    <li>
+                        <form method="get" th:action="'/seats/'+${reservation.getSeans().getSeansId()}+'/edit'">
+                            <input type="hidden" name="previousSeats" th:value="${reservation.getReservedSeats()}" />
+                            <button type="submit">Change Seats</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="/deleteReservation">
+                            <input type="hidden" name="seansId" th:value="${reservation.getSeans().getSeansId()}" />
+                            <button type="submit">Remove Reservation</button>
+                        </form>
 
-                </li>
-            </ul>
-        </div>
-        <div th:if="${session.order.getReservations().size()!=0}">
-            <p th:text="'TOTAL: '+${session.order.getPrice()}+'PLN'"></p>
-            <form method="get" action="/payment">
-                <input type="hidden" name="orderId" th:value="${session.order.orderId}" />
-                <button> Confirm Order</button>
-            </form>
+                    </li>
+                </ul>
+            </div>
+            <div th:if="${session.order.getReservations().size()!=0}">
+                <p th:text="'TOTAL: '+${session.order.getPrice()}+'PLN'"></p>
+                <form method="get" action="/payment">
+                    <input type="hidden" name="orderId" th:value="${session.order.orderId}" />
+                    <button> Confirm Order</button>
+                </form>
 
-            <form action="/clearCart" method="post">
-                <button type="submit">Clear cart</button>
-            </form>
+                <form action="/clearCart" method="post">
+                    <button type="submit">Clear cart</button>
+                </form>
+            </div>
         </div>
     </div>
 
 </div>
-
-
-</div>
+<div th:replace="fragments :: footer"></div>
 </body>
 </html>

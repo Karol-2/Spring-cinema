@@ -2,11 +2,12 @@
 <html lang="en">
 <head th:replace="fragments :: html-head"></head>
 <body>
+<div th:replace="fragments :: navbar-admin"></div>
 <div class="page">
-  <h1>Admin panel</h1>
+    <h1>Admin panel</h1>
 
-  <h2>Statistics</h2>
-  <div class="grid-two">
+    <h2>Statistics</h2>
+    <div class="grid-two">
       <div>
           <h4>Selected period</h4>
           <form th:action="@{/admin/period}" method="get">
@@ -78,5 +79,6 @@
 
 
 </div>
+<div th:replace="fragments :: footer"></div>
 </body>
 </html>

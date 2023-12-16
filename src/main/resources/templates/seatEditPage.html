@@ -2,8 +2,8 @@
 <html lang="en">
 <head th:replace="fragments :: html-head"></head>
 <body>
+<div th:replace="fragments :: navbar"></div>
 <div class="page">
-    <div th:replace="fragments :: navbar"></div>
     <h2 th:text="${seans.getMovie().getTitle()}"></h2>
     <h3 th:text="${seans.getDateAndTime()}"></h3>
 
@@ -31,5 +31,6 @@
         <h1 th:text="${error}"></h1>
     </div>
 </div>
+<div th:replace="fragments :: footer"></div>
 </body>
 </html>

@@ -2,8 +2,8 @@
 <html lang="en">
 <head th:replace="fragments :: html-head"></head>
 <body>
+<div th:replace="fragments :: navbar"></div>
 <div class="page">
-    <div th:replace="fragments :: navbar"></div>
 
     <div th:if="${movie}">
         <h1 th:text="${movie.getTitle()}"></h1>
@@ -21,5 +21,6 @@
         <h1 th:text="${error.toUpperCase()}"></h1>
     </div>
 </div>
+<div th:replace="fragments :: footer"></div>
 </body>
 </html>

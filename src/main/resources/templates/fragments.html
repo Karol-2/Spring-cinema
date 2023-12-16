@@ -14,5 +14,16 @@
     <a class="nav-element" href="/logout">Log out</a>
 </nav>
 
+<nav th:fragment="navbar-admin">
+    <h3>Hello, <span th:text="${session.user.getName()}"></span>!</h3>
+    <h5>YOU HAVE ADMINISTRATOR ACCESS</h5>
+    <a class="nav-element" href="/admin">Admin Panel</a>
+    <a class="nav-element" href="/logout">Log out</a>
+</nav>
+
+<footer th:fragment="footer">
+    <span>Cinema Tricity Spring App, created by Karol Krawczykiewicz 2023</span>
+</footer>
+
 </body>
 </html>

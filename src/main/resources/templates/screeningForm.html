@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:replace="fragments :: html-head"></head>
 <body>
+<div th:replace="fragments :: navbar-admin"></div>
 <div class="page">
-
   <h2 th:text="${endpoint}"></h2>
 
   <form th:action="${endpoint}" method="get" th:object="${screening}">
@@ -29,5 +29,6 @@
     </p>
   </form>
 </div>
+<div th:replace="fragments :: footer"></div>
 </body>
 </html>

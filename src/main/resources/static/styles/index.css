@@ -1,6 +1,21 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
 nav{
     background-color: #F5821E;
+    margin-left: 5px;
+    margin-right: 5px;
 }
+
+footer{
+    background-color: bisque;
+    text-align: center;
+    font-weight: lighter;
+    padding: 0;
+}
+
 .error{
    color: red;
 }

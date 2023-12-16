@@ -41,7 +41,7 @@ public class UserController {
                 AdminUser adminUser = (AdminUser) user;
                 System.out.println(adminUser);
                 if(adminUser.getUserType().equals(User.UserType.ADMIN)){
-                    session.setAttribute("adminuser", adminUser);
+                    session.setAttribute("user", adminUser);
                     return "redirect:/admin";
                 }
             } catch (RuntimeException ignored){}
