@@ -5,8 +5,7 @@
 <div th:replace="fragments :: navbar-admin"></div>
 <div class="page">
 
-  <h1>Add Movie</h1>
-  <h2 th:text="${endpoint}"></h2>
+  <h1>Movie Form</h1>
 
   <form th:action="${endpoint}" method="post" th:object="${movie}">
     <input type="hidden" id="id" name="id" th:if="${movie.id}" th:value="${movie.id}" />

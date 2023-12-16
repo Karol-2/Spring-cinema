@@ -4,14 +4,13 @@
 <body>
 <div class="page" >
     <h1>Payment</h1>
-    <h2 th:text="'Order id: ' + ${session.order.orderId}"></h2>
-    <h2 th:text="'Price: ' + ${session.order.getPrice()} + 'PLN'"></h2>
+    <h2 th:text="'Order id: ' + ${orderId}"></h2>
 
     <p>To process your payment enter your BLIK code: </p>
     <form method="post" action="/payment">
         <label>
-            <input type="number" name="response" placeholder="123456" >
-            <input type="hidden" name="orderId" th:value="${session.order.orderId}" />
+            <input type="number" name="response" placeholder="123456" required minlength="6" maxlength="6" >
+            <input type="hidden" name="orderId" th:value="${orderId}" />
             <input type="hidden" name="code" th:value="${code}" />
         </label>
         <button type="submit">Pay</button>

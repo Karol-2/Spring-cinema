@@ -4,8 +4,7 @@
 <body>
 <div th:replace="fragments :: navbar-admin"></div>
 <div class="page">
-  <h2 th:text="${endpoint}"></h2>
-
+  <h1>Screening Form</h1>
   <form th:action="${endpoint}" method="get" th:object="${screening}">
     <input type="hidden" id="seansId" name="seansId" th:if="${screening.seansId}" th:value="${screening.seansId}" />
     <label for="movie">Movie:  </label>

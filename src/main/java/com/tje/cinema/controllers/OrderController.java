@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,15 +40,38 @@ public class OrderController {
         return "userOrdersPage";
     }
     @GetMapping("/cart")
-    public String cart(Model model) throws ParseException {
+    public String cart(Model model,
+                       @RequestParam(name = "error", required = false) String error) throws ParseException {
+        model.addAttribute("error",error);
         return "cartPage";
     }
 
     @PostMapping("/order-validate")
-    public String validateOrder(HttpSession session){
+    public String validateOrder(HttpSession session, RedirectAttributes redirectAttributes){
         Order order = (Order)session.getAttribute("order");
+        //check if seats are still free
+        List<Reservation> reservations = order.getReservations();
+
+        for (int index = 0; index < reservations.size(); index++) {
+            Reservation reservation = reservations.get(index);
+            Seans seans = repertuarService.getSeansById(reservation.getSeansId());
+            if (new HashSet<>(seans.getTakenSeatsWithoutId()).containsAll(reservation.getReservedSeats())) {
+                String errorMessage = "Someone has already reserved your seats for " + seans.getMovieTitle() +
+                         ", those tickets will be removed from cart";
+
+                reservations.remove(index);  // remove from order
+                order.setReservations(reservations);
+
+                // inform user
+                redirectAttributes.addAttribute("error", errorMessage);
+                return "redirect:/cart";
+            }
+        }
+
+        //success
         orderService.addOrder(order);
-        //TODO: check if seats are still free
+        session.removeAttribute("order");
+
         return "redirect:/payment?orderId="+order.getOrderId();
     }
     @PostMapping("/clearCart")

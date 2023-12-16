@@ -34,13 +34,9 @@ public class PaymentController {
     @GetMapping("/payment")
     public String payment(@RequestParam("orderId") Long orderId,
                           @RequestParam(name = "error", required = false) String error,
-                          HttpSession session,
                           Model model) throws ParseException {
         Random random = new Random();
         int code = 100000 + random.nextInt(900000);
-
-        Order order = (Order)session.getAttribute("order");
-        orderService.addOrder(order);
 
         model.addAttribute("code",code);
         model.addAttribute("orderId",orderId);
@@ -57,8 +53,8 @@ public class PaymentController {
                                   Model model) throws ParseException {
         if (code.equals(response)){
             //sukces
-            Order order = (Order)session.getAttribute("order");
-            orderService.finalizeOrder(order);
+            Order order = orderService.getOrder(orderId);
+            orderService.finalizeOrder(orderId);
             session.removeAttribute("order");
 
             // zarezerwowanie miejsc
@@ -69,9 +65,7 @@ public class PaymentController {
                 HashMap<Long, List<String>> existingSeats = seans.getTakenSeats();
                 existingSeats.put(orderId,reservation.getReservedSeats());
                 this.repertuarService.editSeans(seans.getSeansId(),seans);
-
             }
-
 
             return "redirect:/orders";
         }
