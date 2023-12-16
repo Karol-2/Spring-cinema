@@ -120,7 +120,6 @@
         <property name="email" value="admin@cinematricity.com"/>
         <property name="name" value="adminKarol"/>
         <property name="password" value="itakniezgadniesz125"/>
-        <property name="hasAdminAccess" value="true"/>
         <property name="userType" value="ADMIN" />
     </bean>
 

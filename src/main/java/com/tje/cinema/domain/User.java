@@ -81,11 +81,12 @@ public class User implements UserInterface {
                 ", email: "+ getEmail() +
                 ", name: "+ getName() +
                 ", password: "+ getPassword() +
+                ", userType: "+ getUserType() +
                 ", DOR: "+ getDateOfRegistration() +
                 "}";
     }
 
-    public static enum UserType {
+    public enum UserType {
         REGISTERED, ADMIN
     }
 

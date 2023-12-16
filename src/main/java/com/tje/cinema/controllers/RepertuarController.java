@@ -91,8 +91,6 @@ public class RepertuarController {
         return "redirect:/admin";
     }
 
-
-
     @GetMapping("/add-screening")
     public String addScreening(
             @RequestParam("movie") Long movieId,

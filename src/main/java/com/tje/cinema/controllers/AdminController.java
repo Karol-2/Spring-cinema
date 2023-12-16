@@ -28,31 +28,15 @@ public class AdminController {
     private MovieService movieService;
     @Autowired
     private RepertuarService repertuarService;
-
     @Autowired
     private StatsService statsService;
 
     @GetMapping("/admin")
     public String admin(HttpSession session, Model model) {
-
-        LocalDate OD = LocalDate.of(2000,1,1);
-        LocalDate DO = LocalDate.of(3000,1,1);
-
-        List<Movie> moviesList = this.movieService.getAllMovies();
-        model.addAttribute("movies", moviesList);
-        List<Seans> screenings = this.repertuarService.getAllSeans();
-        model.addAttribute("screenings", screenings);
-        model.addAttribute("ticketPrice", Reservation.TICKET_COST);
-        model.addAttribute("numOfOrders",statsService.getNumberOfOrders(OD, DO));
-        model.addAttribute("numOfScreenings",statsService.getNumberOfScreenings(OD, DO));
-        model.addAttribute("numOfMovies",statsService.getNumberofMoviesShown(OD, DO));
-        model.addAttribute("mostPopular",statsService.getMostPopularMovie(OD, DO));
-        model.addAttribute("numOfSeats",statsService.getSoldSeats(OD, DO));
-        model.addAttribute("moneyEarned",statsService.getMoneyEarned(OD, DO));
-        model.addAttribute("earnings",statsService.getEarningsPerOrder(OD, DO));
-        model.addAttribute("percentOfSeats",statsService.getPercentOfTakenSeats(OD, DO));
-        model.addAttribute("numOfUsers",statsService.getNumberOfUsersReg(OD, DO));
-        return "adminPanelPage";
+        LocalDate testFrom = LocalDate.of(2000, 1, 1);
+        LocalDate testTo =  LocalDate.of(3000, 1, 1);
+        String title = "Statistics of all time";
+        return processAdminRequest(testFrom,testTo, model, title);
     }
 
     @GetMapping("/admin/period")
@@ -60,86 +44,48 @@ public class AdminController {
             @RequestParam(name = "dateFrom") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
             @RequestParam(name = "dateTo") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo,
             HttpSession session, Model model) {
-
-        LocalDate OD = dateFrom;
-        LocalDate DO = dateTo;
-
-
-        List<Movie> moviesList = this.movieService.getAllMovies();
-        model.addAttribute("movies", moviesList);
-        List<Seans> screenings = this.repertuarService.getAllSeans();
-        model.addAttribute("screenings", screenings);
-
-        model.addAttribute("statsType","Statistics from" + OD +" to "+ DO);
-
-        model.addAttribute("ticketPrice", Reservation.TICKET_COST);
-        model.addAttribute("numOfOrders",statsService.getNumberOfOrders(OD, DO));
-        model.addAttribute("numOfScreenings",statsService.getNumberOfScreenings(OD, DO));
-        model.addAttribute("numOfMovies",statsService.getNumberofMoviesShown(OD, DO));
-        model.addAttribute("mostPopular",statsService.getMostPopularMovie(OD, DO));
-        model.addAttribute("numOfSeats",statsService.getSoldSeats(OD, DO));
-        model.addAttribute("moneyEarned",statsService.getMoneyEarned(OD, DO));
-        model.addAttribute("earnings",statsService.getEarningsPerOrder(OD, DO));
-        model.addAttribute("percentOfSeats",statsService.getPercentOfTakenSeats(OD, DO));
-        model.addAttribute("numOfUsers",statsService.getNumberOfUsersReg(OD, DO));
-
-        return "adminPanelPage";
+        String title = "Statistics from " + dateFrom + " to " + dateTo;
+        return processAdminRequest(dateFrom, dateTo, model, title );
     }
 
     @GetMapping("/admin/day")
     public String adminByDay(
-            @RequestParam(name = "selectedDay")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate selectedDay,
+            @RequestParam(name = "selectedDay") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate selectedDay,
             HttpSession session, Model model) {
-
-        LocalDate OD = selectedDay;
-        LocalDate DO = selectedDay;
-
-        List<Movie> moviesList = this.movieService.getAllMovies();
-        model.addAttribute("movies", moviesList);
-        List<Seans> screenings = this.repertuarService.getAllSeans();
-        model.addAttribute("screenings", screenings);
-
-        model.addAttribute("statsType","Statistics for " + OD);
-
-        model.addAttribute("ticketPrice", Reservation.TICKET_COST);
-        model.addAttribute("numOfOrders",statsService.getNumberOfOrders(OD, DO));
-        model.addAttribute("numOfScreenings",statsService.getNumberOfScreenings(OD, DO));
-        model.addAttribute("numOfMovies",statsService.getNumberofMoviesShown(OD, DO));
-        model.addAttribute("mostPopular",statsService.getMostPopularMovie(OD, DO));
-        model.addAttribute("numOfSeats",statsService.getSoldSeats(OD, DO));
-        model.addAttribute("moneyEarned",statsService.getMoneyEarned(OD, DO));
-        model.addAttribute("earnings",statsService.getEarningsPerOrder(OD, DO));
-        model.addAttribute("percentOfSeats",statsService.getPercentOfTakenSeats(OD, DO));
-        model.addAttribute("numOfUsers",statsService.getNumberOfUsersReg(OD, DO));
-
-        return "adminPanelPage";
+        String title = "Statistics for " + selectedDay;
+        return processAdminRequest(selectedDay, selectedDay.plusDays(1), model, title);
+        //TODO: check dates range
     }
 
     @GetMapping("/admin/month")
     public String adminByMonth(
             @RequestParam(name = "selectedMonth") @DateTimeFormat(pattern = "yyyy-MM") YearMonth selectedMonth,
             HttpSession session, Model model) {
+        LocalDate startDate = selectedMonth.atDay(1);
+        LocalDate endDate = selectedMonth.atEndOfMonth();
+        String title = "Statistics from " + startDate + " to " + endDate;
+        return processAdminRequest(startDate, endDate, model, title );
+    }
 
-        LocalDate OD = selectedMonth.atDay(1);
-        LocalDate DO = selectedMonth.atEndOfMonth();
-
+    private String processAdminRequest(LocalDate startDate, LocalDate endDate, Model model, String statsType) {
         List<Movie> moviesList = this.movieService.getAllMovies();
         model.addAttribute("movies", moviesList);
+
         List<Seans> screenings = this.repertuarService.getAllSeans();
         model.addAttribute("screenings", screenings);
 
-        model.addAttribute("statsType","Statistics from " + OD +" to "+ DO);
+        model.addAttribute("statsType", statsType);
 
         model.addAttribute("ticketPrice", Reservation.TICKET_COST);
-        model.addAttribute("numOfOrders",statsService.getNumberOfOrders(OD, DO));
-        model.addAttribute("numOfScreenings",statsService.getNumberOfScreenings(OD, DO));
-        model.addAttribute("numOfMovies",statsService.getNumberofMoviesShown(OD, DO));
-        model.addAttribute("mostPopular",statsService.getMostPopularMovie(OD, DO));
-        model.addAttribute("numOfSeats",statsService.getSoldSeats(OD, DO));
-        model.addAttribute("moneyEarned",statsService.getMoneyEarned(OD, DO));
-        model.addAttribute("earnings",statsService.getEarningsPerOrder(OD, DO));
-        model.addAttribute("percentOfSeats",statsService.getPercentOfTakenSeats(OD, DO));
-        model.addAttribute("numOfUsers",statsService.getNumberOfUsersReg(OD, DO));
+        model.addAttribute("numOfOrders", statsService.getNumberOfOrders(startDate, endDate));
+        model.addAttribute("numOfScreenings", statsService.getNumberOfScreenings(startDate, endDate));
+        model.addAttribute("numOfMovies", statsService.getNumberofMoviesShown(startDate, endDate));
+        model.addAttribute("mostPopular", statsService.getMostPopularMovie(startDate, endDate));
+        model.addAttribute("numOfSeats", statsService.getSoldSeats(startDate, endDate));
+        model.addAttribute("moneyEarned", statsService.getMoneyEarned(startDate, endDate));
+        model.addAttribute("earnings", statsService.getEarningsPerOrder(startDate, endDate));
+        model.addAttribute("percentOfSeats", statsService.getPercentOfTakenSeats(startDate, endDate));
+        model.addAttribute("numOfUsers", statsService.getNumberOfUsersReg(startDate, endDate));
 
         return "adminPanelPage";
     }

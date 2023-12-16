@@ -38,7 +38,7 @@ public class UserController {
             try { // czy jest moze adminem
                 AdminUser adminUser = (AdminUser) user;
                 System.out.println(adminUser);
-                if(adminUser.isHasAdminAccess()){
+                if(adminUser.getUserType().equals(User.UserType.ADMIN)){
                     session.setAttribute("adminuser", adminUser);
                     return "redirect:/admin";
                 }
