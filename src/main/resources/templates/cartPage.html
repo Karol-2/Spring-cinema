@@ -34,7 +34,7 @@
             </div>
             <div th:if="${session.order.getReservations().size()!=0}">
                 <p th:text="'TOTAL: '+${session.order.getPrice()}+'PLN'"></p>
-                <form method="get" action="/payment">
+                <form method="post" action="/order-validate">
                     <input type="hidden" name="orderId" th:value="${session.order.orderId}" />
                     <button> Confirm Order</button>
                 </form>

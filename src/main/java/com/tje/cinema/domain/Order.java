@@ -12,82 +12,64 @@ public class Order {
     private OrderStatus status;
 
     public Order() {}
-    public Order(List<Reservation> reservations,LocalDateTime date,User user ){
+
+    public Order(List<Reservation> reservations, LocalDateTime date, User user) {
         this.price = calculateCost(reservations);
         this.reservations = reservations;
         this.date = date;
         this.user = user;
         this.status = OrderStatus.NEW;
     }
-    public void addReservation(Reservation reservation){
+
+    public void addReservation(Reservation reservation) {
         this.reservations.add(reservation);
         this.setPrice(calculateCost(this.getReservations()));
     }
-    public enum OrderStatus{
+
+    public enum OrderStatus {
         NEW, CANCELLED, COMPLETED
     }
 
-    public long getOrderId() {
-        return orderId;
-    }
+    public long getOrderId() { return orderId;}
 
-    public void setOrderId(long orderId) {
-        this.orderId = orderId;
-    }
+    public void setOrderId(long orderId) { this.orderId = orderId;}
 
-    public double getPrice() {
-        return price;
-    }
+    public double getPrice() { return price; }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
+    public void setPrice(double price) { this.price = price;}
 
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
+    public List<Reservation> getReservations() {return reservations;}
 
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
         this.setPrice(calculateCost(this.getReservations()));
     }
 
-    public LocalDateTime getDate() {
-        return date;
-    }
+    public LocalDateTime getDate() {return date;}
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
+    public void setDate(LocalDateTime date) {this.date = date;}
 
-    public User getUser() {
-        return user;
-    }
+    public User getUser() {return user;}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    public void setUser(User user) {this.user = user;}
 
-    public OrderStatus getStatus() {
-        return status;
-    }
+    public OrderStatus getStatus() {return status;}
 
-    public void setStatus(OrderStatus status) {
-        this.status = status;
-    }
+    public void setStatus(OrderStatus status) {this.status = status;}
+
     @Override
-    public String toString(){
+    public String toString() {
         return "Order:{" +
-                " id: " + getOrderId()+
-                ", userId: "+ getUser().getId() +
-                ", reservations: "+ getReservations() +
-                ", status: "+ getStatus() +
-                ", date: "+ getDate() +
-                ", price: "+ getPrice() +
+                " id: " + getOrderId() +
+                ", userId: " + getUser().getId() +
+                ", reservations: " + getReservations() +
+                ", status: " + getStatus() +
+                ", date: " + getDate() +
+                ", price: " + getPrice() +
                 "}";
     }
 
-    public double calculateCost(List<Reservation> reservations){
+    public double calculateCost(List<Reservation> reservations) {
         return (reservations.stream().map(Reservation::getReservationCost).reduce(0.0, Double::sum));
     }
 }

@@ -7,19 +7,19 @@
 
     <form action="/register" method="post">
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required />
+        <input type="email" id="email" name="email" required/>
         <br/>
 
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required />
+        <input type="text" id="name" name="name" required minlength="3" />
         <br/>
 
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password"  required />
+        <input type="password" id="password" name="password" required minlength="5" />
         <br/>
 
         <label for="passwordConf">Confirm password:</label>
-        <input type="password" id="passwordConf" name="passwordConf"  required />
+        <input type="password" id="passwordConf" name="passwordConf" required minlength="5" />
         <br/>
 
         <button type="submit">Register</button>

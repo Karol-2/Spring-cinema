@@ -12,24 +12,17 @@ public class Seans {
     private Movie movie;
     private LocalDateTime dateAndTime;
     private HashMap<Long, List<String>> takenSeats;
-
     private List<List<String>> allSeats;
     public Seans(){
         this.takenSeats = new HashMap<>();
-        this.allSeats = this.generateSeatList(10);
+        this.allSeats = this.generateSeatList(10,'A',2);
     };
-    public Seans(Movie movie, LocalDateTime dateAndTime) {
-        this.movie = movie;
-        this.dateAndTime = dateAndTime;
-        this.takenSeats = new HashMap<>();
-        this.allSeats = this.generateSeatList(10);
-    }
     public Seans(int movieId, LocalDateTime dateAndTime) {
         this.movieId = movieId;
         this.dateAndTime = dateAndTime;
         this.takenSeats = new HashMap<>();
         this.allSeats = new ArrayList<>();
-        this.allSeats = this.generateSeatList(10);
+        this.allSeats = this.generateSeatList(10,'A',2);
     }
     public Seans(long id,Movie movie,long movieId, LocalDateTime dateAndTime) {
         this.seansId = id;
@@ -37,7 +30,7 @@ public class Seans {
         this.movieId = movieId;
         this.dateAndTime = dateAndTime;
         this.takenSeats = new HashMap<>();
-        this.allSeats = this.generateSeatList(10);
+        this.allSeats = this.generateSeatList(10,'A',2);
     }
     public String getMovieTitle(){
         return this.movie.getTitle();
@@ -84,7 +77,6 @@ public class Seans {
     }
 
     public List<String> getTakenSeatsWithoutId(){
-
         HashMap<Long, List<String>> takenSeats = this.getTakenSeats();
         List<String> allSeats = new ArrayList<>();
 
@@ -99,11 +91,10 @@ public class Seans {
         this.takenSeats = takenSeats;
     }
 
-
-
     public void addTakenSeats(List<String> seats, long orderId) {
         this.takenSeats.put(orderId,seats);
     }
+
     public void removeTakenSeats(List<String> seats, long orderId) {
         this.takenSeats.remove(orderId,seats);
     }
@@ -129,24 +120,20 @@ public class Seans {
                 "}";
     }
 
-    private List<List<String>> generateSeatList(int seatCount) { //TODO: make it more universal
-        char rowA = 'A';
-        char rowB = 'B';
+    private List<List<String>> generateSeatList(int seatCount, char startRow, int rowCount) {
         List<List<String>> seatList = new ArrayList<>();
 
-        List<String> seatsRowA = new ArrayList<>();
-        for (int i = 1; i <= seatCount; i++) {
-            String seatA = rowA + "-" + i;
-            seatsRowA.add(seatA);
-        }
-        seatList.add(seatsRowA);
+        for (int row = 0; row < rowCount; row++) {
+            char currentRow = (char) (startRow + row);
+            List<String> seatsInRow = new ArrayList<>();
 
-        List<String> seatsRowB = new ArrayList<>();
-        for (int i = 1; i <= seatCount; i++) {
-            String seatB = rowB + "-" + i;
-            seatsRowB.add(seatB);
+            for (int seatNumber = 1; seatNumber <= seatCount; seatNumber++) {
+                String seatLabel = String.format("%s-%d", currentRow, seatNumber);
+                seatsInRow.add(seatLabel);
+            }
+
+            seatList.add(seatsInRow);
         }
-        seatList.add(seatsRowB);
 
         return seatList;
     }

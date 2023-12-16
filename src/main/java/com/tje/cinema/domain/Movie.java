@@ -12,9 +12,10 @@ public class Movie {
     private String actors;
     private String trailerLink;
     private List<String> photos;
-    public Movie(){}
 
-    public Movie(String title, String genre, int year, String director,String actors, String trailerLink, ArrayList<String> photos) {
+    public Movie() {}
+
+    public Movie(String title, String genre, int year, String director, String actors, String trailerLink, ArrayList<String> photos) {
         this.title = title;
         this.genre = genre;
         this.year = year;
@@ -80,11 +81,8 @@ public class Movie {
         this.photos = photos;
     }
 
-    public String getActors() {
-        return actors;
-    }
+    public String getActors() { return actors;}
 
-    public void setActors(String actors) {
-        this.actors = actors;
-    }
+    public void setActors(String actors) { this.actors = actors;}
+
 }

@@ -10,7 +10,7 @@
     <p>To process your payment enter your BLIK code: </p>
     <form method="post" action="/payment">
         <label>
-            <input type="number" name="response" placeholder="123456">
+            <input type="number" name="response" placeholder="123456" >
             <input type="hidden" name="orderId" th:value="${session.order.orderId}" />
             <input type="hidden" name="code" th:value="${code}" />
         </label>

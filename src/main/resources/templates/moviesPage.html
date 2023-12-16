@@ -4,7 +4,7 @@
 <body>
 <div th:replace="fragments :: navbar"></div>
 <div class="page">
-        <h1>Movies page</h1>
+        <h1>Screenings</h1>
         <div>
             <a th:href="@{/movies(date='2024-01-29')}">Monday (29.01)</a>
             <a th:href="@{/movies(date='2024-01-30')}">Tuesday (30.01)</a>
@@ -40,7 +40,7 @@
             </tbody>
         </table>
         <div th:if="${seances.size()==0}">
-            <h2>There are no screenings for this day. Checkout other dates!</h2>
+            <p>There are no screenings for this day. Checkout other dates!</p>
         </div>
 
 </div>
