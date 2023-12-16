@@ -125,7 +125,7 @@ public class UserController {
         model.addAttribute("mostPopular",statsService.getMostPopularMovie(OD, DO));
         model.addAttribute("numOfSeats",statsService.getSoldSeats(OD, DO));
         model.addAttribute("moneyEarned",statsService.getMoneyEarned(OD, DO));
-        model.addAttribute("earnings",statsService.getEarningsPerCustomer(OD, DO));
+        model.addAttribute("earnings",statsService.getEarningsPerOrder(OD, DO));
         model.addAttribute("percentOfSeats",statsService.getPercentOfTakenSeats(OD, DO));
         model.addAttribute("numOfUsers",statsService.getNumberOfUsersReg(OD, DO));
         return "adminPanelPage";

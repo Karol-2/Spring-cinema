@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,53 +20,67 @@ public class StatsService {
 
     public long getNumberOfOrders(LocalDate dateFrom, LocalDate dateTo){
         return this.orderService.getOrders().stream()
-                .filter(order -> order.getDate().isAfter(dateFrom.minusDays(1).atStartOfDay())
-                        && order.getDate().isBefore(dateTo.plusDays(1).atStartOfDay()))
+                .filter(order -> order.getDate().isAfter(dateFrom.atStartOfDay())
+                        && order.getDate().isBefore(dateTo.atStartOfDay()))
                 .count();
     }
 
     public long getNumberOfScreenings(LocalDate dateFrom, LocalDate dateTo){
         return this.repertuarService.getAllSeans().stream()
-                .filter(showing -> showing.getDateAndTime().isAfter(dateFrom.minusDays(1).atStartOfDay())
-                        && showing.getDateAndTime().isBefore(dateTo.plusDays(1).atStartOfDay()))
+                .filter(showing -> showing.getDateAndTime().isAfter(dateFrom.atStartOfDay())
+                        && showing.getDateAndTime().isBefore(dateTo.atStartOfDay()))
                 .count();
     }
 
     public long getNumberofMoviesShown(LocalDate dateFrom, LocalDate dateTo){
         return this.repertuarService.getAllSeans().stream()
-                .filter(showing -> showing.getDateAndTime().isAfter(dateFrom.minusDays(1).atStartOfDay())
-                        && showing.getDateAndTime().isBefore(dateTo.plusDays(1).atStartOfDay()))
+                .filter(showing -> showing.getDateAndTime().isAfter(dateFrom.atStartOfDay())
+                        && showing.getDateAndTime().isBefore(dateTo.atStartOfDay()))
                 .map( showing -> showing.getMovie())
                 .distinct()
                 .count();
     }
 
-    public String getMostPopularMovie(LocalDate dateFrom, LocalDate dateTo){
-        return "TEST";
-        //TODO: implement
+    public String getMostPopularMovie(LocalDate dateFrom, LocalDate dateTo) {
+        Map<String, Long> movieFrequencyMap = this.repertuarService.getAllSeans().stream()
+                .filter(show -> show.getDateAndTime().isAfter(dateFrom.atStartOfDay())
+                        && show.getDateAndTime().isBefore(dateTo.atStartOfDay()))
+                .collect(Collectors.groupingBy(
+                        show -> show.getMovie().getTitle(),
+                        Collectors.summingLong(show -> show.getTakenSeats().size())
+                ));
+
+        System.out.println(movieFrequencyMap);
+
+        if (movieFrequencyMap.values().stream().allMatch(count -> count == 0)) {
+            return "-";
+        }
+
+        return movieFrequencyMap.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse("-");
     }
 
     public long getSoldSeats(LocalDate dateFrom, LocalDate dateTo) {
         return this.orderService.getOrders().stream()
-                .filter(order -> order.getDate().isAfter(dateFrom.minusDays(1).atStartOfDay())
-                        && order.getDate().isBefore(dateTo.plusDays(1).atStartOfDay()))
-                .map(order -> order.getReservations().stream()
-                        .map(res -> res.getReservedSeats())
-                        .collect(Collectors.toList()))
-                .mapToLong(arr -> arr.size())
+                .filter(order -> order.getDate().isAfter(dateFrom.atStartOfDay())
+                        && order.getDate().isBefore(dateTo.atStartOfDay()))
+                .flatMap(order -> order.getReservations().stream()
+                        .map(reservation -> reservation.getReservedSeats()))
+                .mapToLong(list -> list.size())
                 .sum();
-
     }
 
     public double getMoneyEarned(LocalDate dateFrom, LocalDate dateTo) {
         return this.orderService.getOrders().stream()
-                .filter(order -> order.getDate().isAfter(dateFrom.minusDays(1).atStartOfDay())
-                        && order.getDate().isBefore(dateTo.plusDays(1).atStartOfDay()))
+                .filter(order -> order.getDate().isAfter(dateFrom.atStartOfDay())
+                        && order.getDate().isBefore(dateTo.atStartOfDay()))
                 .mapToDouble(order -> order.getPrice())
                 .reduce(0.0, (acc, price) -> acc + price);
     }
 
-    public double getEarningsPerCustomer(LocalDate dateFrom, LocalDate dateTo){
+    public double getEarningsPerOrder(LocalDate dateFrom, LocalDate dateTo){
         if (this.getNumberOfOrders(dateFrom,dateTo) > 0){
             return this.getMoneyEarned(dateFrom,dateTo) / this.getNumberOfOrders(dateFrom,dateTo);
         }
@@ -72,17 +88,21 @@ public class StatsService {
     }
 
     public double getPercentOfTakenSeats(LocalDate dateFrom, LocalDate dateTo){
-        return 404.13;
-        //TODO: implement
+        return this.orderService.getOrders().stream()
+                .filter(order -> order.getDate().isAfter(dateFrom.atStartOfDay())
+                        && order.getDate().isBefore(dateTo.atStartOfDay()))
+                .flatMap(order -> order.getReservations().stream()
+                        .map(reservation -> reservation.getReservedSeats()))
+                .mapToLong(list -> list.size())
+                .average()
+                .orElse(0.0);
     }
 
     public long getNumberOfUsersReg(LocalDate dateFrom, LocalDate dateTo){
-//        return this.userService.getUserList().stream()
-//            .filter(usr -> usr.getDateOfRegistration().isAfter(ChronoLocalDate.from(dateFrom.minusDays(1).atStartOfDay()))
-//                    && usr.getDateOfRegistration().isBefore(ChronoLocalDate.from(dateTo.plusDays(1).atStartOfDay())))
-//            .count();
-        //TODO: Check poprawność dodawania pola date
-        return 404;
+        return this.userService.getUserList().stream()
+            .filter(usr -> usr.getDateOfRegistration().isAfter(ChronoLocalDate.from(dateFrom.atStartOfDay()))
+                    && usr.getDateOfRegistration().isBefore(ChronoLocalDate.from(dateTo.atStartOfDay())))
+            .count();
     }
 
 

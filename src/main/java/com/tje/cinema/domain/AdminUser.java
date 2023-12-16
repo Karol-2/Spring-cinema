@@ -41,6 +41,7 @@ public class AdminUser extends User implements AdminUserInterface {
                 ", password: "+ getPassword() +
                 ", userType: "+ getUserType() +
                 ", isAdmin: "+ isHasAdminAccess() +
+                ", DOR: "+ getDateOfRegistration() +
                 "}";
     }
 

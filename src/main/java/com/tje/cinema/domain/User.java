@@ -14,7 +14,9 @@ public class User implements UserInterface {
     private UserType userType;
     private LocalDate dateOfRegistration;
 
-    public User() {}
+    public User() {
+        this.dateOfRegistration = LocalDate.now();
+    }
 
     public User(String email, String name,String password) {
         this.email = email;
@@ -79,6 +81,7 @@ public class User implements UserInterface {
                 ", email: "+ getEmail() +
                 ", name: "+ getName() +
                 ", password: "+ getPassword() +
+                ", DOR: "+ getDateOfRegistration() +
                 "}";
     }
 
