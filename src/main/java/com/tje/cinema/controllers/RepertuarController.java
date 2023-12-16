@@ -46,6 +46,7 @@ public class RepertuarController {
     @PostMapping("/screeningsForm")
     public String addScreening(Model model) throws ParseException {
         List<Movie> moviesList = this.movieService.getAllMovies();
+        model.addAttribute("action", "Add Screening");
         model.addAttribute("movies", moviesList);
         model.addAttribute("screening", new Seans());
         model.addAttribute("endpoint", "/add-screening");
@@ -68,6 +69,7 @@ public class RepertuarController {
             LocalDate date = screening.getDateAndTime().toLocalDate();
             LocalTime time = screening.getDateAndTime().toLocalTime();
 
+            model.addAttribute("action", "Edit Screening");
             model.addAttribute("screening", screening);
             model.addAttribute("date", date);
             model.addAttribute("time", time);

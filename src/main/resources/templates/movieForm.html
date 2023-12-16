@@ -5,7 +5,7 @@
 <div th:replace="fragments :: navbar-admin"></div>
 <div class="page">
 
-  <h1>Movie Form</h1>
+  <h1 th:text="${action}"></h1>
 
   <form th:action="${endpoint}" method="post" th:object="${movie}">
     <input type="hidden" id="id" name="id" th:if="${movie.id}" th:value="${movie.id}" />
@@ -41,6 +41,7 @@
     <p>
       <button type="submit">Save changes</button>
     </p>
+    <p class="error" th:if="${action eq 'Edit Movie'}">WARNING! After saving changes every order for this movie will be canceled!</p>
   </form>
 </div>
 <div th:replace="fragments :: footer"></div>

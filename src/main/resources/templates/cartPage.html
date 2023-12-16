@@ -14,9 +14,9 @@
             <div th:each="reservation : ${session.order.getReservations()}">
                 <ul>
                     <li th:text="${reservation.getSeans().getMovie().getTitle()}"></li>
-                    <li th:text="'Date: '+ ${reservation.getSeans().getDateAndTime()}"></li>
+                    <li th:text="'Date: '+ ${#temporals.format(reservation.getSeans().getDateAndTime(), 'dd-MM-yyyy HH:mm')}"></li>
                     <li th:text="'Your seats: '+${reservation.getReservedSeats()}"></li>
-                    <li th:text="'Price: '+${reservation.getReservationCost()}"></li>
+                    <li th:text="'Price: '+${#numbers.formatDecimal(reservation.getReservationCost(), 1, 2, 'COMMA')}"></li>
                     <li>
                         <form method="get" th:action="'/seats/'+${reservation.getSeans().getSeansId()}+'/edit'">
                             <input type="hidden" name="previousSeats" th:value="${reservation.getReservedSeats()}" />
@@ -33,7 +33,7 @@
                 </ul>
             </div>
             <div th:if="${session.order.getReservations().size()!=0}">
-                <p th:text="'TOTAL: '+${session.order.getPrice()}+'PLN'"></p>
+                <p th:text="'TOTAL: '+${#numbers.formatDecimal(session.order.getPrice(), 1, 2, 'COMMA')}+'PLN'"></p>
                 <form method="post" action="/order-validate">
                     <input type="hidden" name="orderId" th:value="${session.order.orderId}" />
                     <button> Confirm Order</button>

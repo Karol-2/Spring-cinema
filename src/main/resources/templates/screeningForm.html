@@ -4,7 +4,9 @@
 <body>
 <div th:replace="fragments :: navbar-admin"></div>
 <div class="page">
-  <h1>Screening Form</h1>
+
+  <h1 th:text="${action}"></h1>
+
   <form th:action="${endpoint}" method="get" th:object="${screening}">
     <input type="hidden" id="seansId" name="seansId" th:if="${screening.seansId}" th:value="${screening.seansId}" />
     <label for="movie">Movie:  </label>
@@ -26,6 +28,8 @@
     <p>
       <button type="submit">Save changes</button>
     </p>
+    <p class="error" th:if="${action eq 'Edit Screening'}">WARNING! After saving changes, every order for this screening will be cancelled!</p>
+
   </form>
 </div>
 <div th:replace="fragments :: footer"></div>

@@ -37,14 +37,14 @@
           <h4>Orders stats</h4>
           <p th:text="'Ticket price: '+ ${ticketPrice}+' PLN'"></p>
           <p th:text="'Number of Orders: '+ ${numOfOrders}"></p>
-          <p th:text="'Money earned: '+ ${moneyEarned} + ' PLN'"></p>
-          <p th:text="'Earnings per customer: '+ ${earnings}+' PLN'"></p>
+          <p th:text="'Money earned: '+ ${#numbers.formatDecimal(moneyEarned, 1, 2, 'COMMA')} + ' PLN'"></p>
+          <p th:text="'Earnings per customer: '+ ${#numbers.formatDecimal(earnings, 1, 2, 'COMMA')}+' PLN'"></p>
           <p th:text="'Sold seats: '+ ${numOfSeats}"></p>
           <h4>Movies stats</h4>
           <p th:text="'Number of Screenings: '+ ${numOfScreenings}"></p>
           <p th:text="'Movies shown: '+ ${numOfMovies}"></p>
           <p th:text="'Most popular movie: '+ ${mostPopular}"></p>
-          <p th:text="'Average percent of taken seats: '+ ${percentOfSeats}+'%'"></p>
+          <p th:text="'Average percent of taken seats: '+ ${#numbers.formatDecimal(percentOfSeats, 1, 2, 'COMMA')}+'%'"></p>
           <h4>User stats</h4>
           <p th:text="'Users registered: '+ ${numOfUsers}"></p>
       </div>

@@ -51,16 +51,9 @@ public class MovieController {
         return "movieDetailsPage";
     }
 
-    @PostMapping("/movieForm")
-    public String addMovie(Model model) throws ParseException {
-        model.addAttribute("newMovie", new Movie());
-        model.addAttribute("endpoint", "/add-movie");
-
-        return "movieForm";
-    }
-
     @GetMapping("/movieForm")
     public String movieForm(Model model) throws ParseException {
+        model.addAttribute("action", "Add Movie");
         model.addAttribute("movie", new Movie());
         model.addAttribute("endpoint", "/add-movie");
 
@@ -73,18 +66,18 @@ public class MovieController {
 
         if (movie != null) {
             model.addAttribute("movie", movie);
+            model.addAttribute("action", "Edit Movie");
             model.addAttribute("endpoint", "/edit-movie");
             return "movieForm";
-        } else {
-            // Obsługa sytuacji, gdy film o podanym id nie istnieje
-            return "redirect:/movieList"; // Przekierowanie na listę filmów lub inną stronę
         }
+        return "redirect:/movieList";
+
     }
     @PostMapping("/add-movie")
     public String addMovie(@ModelAttribute("newMovie") Movie newMovie) {
         System.out.println("Dodano film: " + newMovie.getTitle());
         this.movieService.addMovie(newMovie);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
     @GetMapping("/remove-movie/{id}")
