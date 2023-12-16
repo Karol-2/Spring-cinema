@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Reservation {
 
-    private final double TICKET_COST = 20.99;
+    public static double TICKET_COST = 20.99;
     private Long seansId;
     private Seans seans;
     private List<String> reservedSeats;

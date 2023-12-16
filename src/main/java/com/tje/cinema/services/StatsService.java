@@ -50,8 +50,6 @@ public class StatsService {
                         Collectors.summingLong(show -> show.getTakenSeats().size())
                 ));
 
-        System.out.println(movieFrequencyMap);
-
         if (movieFrequencyMap.values().stream().allMatch(count -> count == 0)) {
             return "-";
         }

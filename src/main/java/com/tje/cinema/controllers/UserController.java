@@ -1,12 +1,7 @@
 package com.tje.cinema.controllers;
 
 import com.tje.cinema.domain.AdminUser;
-import com.tje.cinema.domain.Movie;
-import com.tje.cinema.domain.Seans;
 import com.tje.cinema.domain.User;
-import com.tje.cinema.services.MovieService;
-import com.tje.cinema.services.RepertuarService;
-import com.tje.cinema.services.StatsService;
 import com.tje.cinema.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,21 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
-import java.time.LocalDate;
-import java.util.List;
 
 @Controller
 public class UserController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private MovieService movieService;
-    @Autowired
-    private RepertuarService repertuarService;
 
-    @Autowired
-    private StatsService statsService;
 
     @GetMapping("/login")
     public String showLoginPage(@RequestParam(name = "error", required = false) String error, Model model) {
@@ -109,27 +96,5 @@ public class UserController {
 
         return "redirect:/";
     }
-    @GetMapping("/admin")
-    public String admin(HttpSession session, Model model) {
-        List<Movie> moviesList = this.movieService.getAllMovies();
-        model.addAttribute("movies", moviesList);
-
-        LocalDate OD = LocalDate.of(2022,1,1);
-        LocalDate DO = LocalDate.of(2025,1,1);
-
-        List<Seans> screenings = this.repertuarService.getAllSeans();
-        model.addAttribute("screenings", screenings);
-        model.addAttribute("numOfOrders",statsService.getNumberOfOrders(OD, DO));
-        model.addAttribute("numOfScreenings",statsService.getNumberOfScreenings(OD, DO));
-        model.addAttribute("numOfMovies",statsService.getNumberofMoviesShown(OD, DO));
-        model.addAttribute("mostPopular",statsService.getMostPopularMovie(OD, DO));
-        model.addAttribute("numOfSeats",statsService.getSoldSeats(OD, DO));
-        model.addAttribute("moneyEarned",statsService.getMoneyEarned(OD, DO));
-        model.addAttribute("earnings",statsService.getEarningsPerOrder(OD, DO));
-        model.addAttribute("percentOfSeats",statsService.getPercentOfTakenSeats(OD, DO));
-        model.addAttribute("numOfUsers",statsService.getNumberOfUsersReg(OD, DO));
-        return "adminPanelPage";
-    }
-
 
 }

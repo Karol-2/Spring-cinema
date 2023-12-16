@@ -8,43 +8,52 @@
 <body>
   <h1>Admin panel</h1>
 
-  <h3>Statistics</h3>
+  <h2>Statistics</h2>
   <div class="grid-two">
       <div>
           <h4>Selected period</h4>
-          <label>
+          <form th:action="@{/admin/period}" method="get">
               <span>From</span>
-              <input type="date">
+              <input type="date" name="dateFrom">
               <span>To</span>
-              <input type="date">
-          </label>
-          <h4>Per day</h4>
-          <label>
-              <span>Select a day</span>
-              <input type="date">
-          </label>
-          <h4>Per month</h4>
-          <label>
-              <span>Select a month</span>
-              <input type="month">
-          </label>
+              <input type="date" name="dateTo">
+              <button type="submit"> Show </button>
+          </form>
 
+          <h4>Selected day</h4>
+          <form th:action="@{/admin/day}" method="get">
+              <span>Select a day</span>
+              <input type="date" name="selectedDay">
+              <button type="submit"> Show </button>
+          </form>
+
+          <h4>Selected month</h4>
+          <form th:action="@{/admin/month}" method="get">
+              <span>Select a month</span>
+              <input type="month" name="selectedMonth">
+              <button type="submit"> Show </button>
+          </form>
       </div>
-      <div>
+      <div th:if="${statsType}">
+          <h2 th:text="${statsType}"></h2>
+          <h4>Orders stats</h4>
+          <p th:text="'Ticket price: '+ ${ticketPrice}+' PLN'"></p>
           <p th:text="'Number of Orders: '+ ${numOfOrders}"></p>
+          <p th:text="'Money earned: '+ ${moneyEarned} + ' PLN'"></p>
+          <p th:text="'Earnings per customer: '+ ${earnings}+' PLN'"></p>
+          <h4>Movies stats</h4>
           <p th:text="'Number of Screenings: '+ ${numOfScreenings}"></p>
           <p th:text="'Movies shown: '+ ${numOfMovies}"></p>
           <p th:text="'Most popular movie: '+ ${mostPopular}"></p>
           <p th:text="'Sold seats: '+ ${numOfSeats}"></p>
-          <p th:text="'Money earned: '+ ${moneyEarned} + ' PLN'"></p>
-          <p th:text="'Earnings per customer: '+ ${earnings}+' PLN'"></p>
           <p th:text="'Average percent of taken seats: '+ ${percentOfSeats}+'%'"></p>
+          <h4>User stats</h4>
           <p th:text="'Users registered: '+ ${numOfUsers}"></p>
       </div>
   </div>
 
   <div>
-      <h3>Movies</h3>
+      <h2>Movies</h2>
       <form action="/movieForm" method="get">
           <button type="submit">Add Movie</button>
       </form>
@@ -56,7 +65,7 @@
           </li>
       </ol>
 
-      <h3>Screenings</h3>
+      <h2>Screenings</h2>
       <form action="/screeningsForm" method="post">
           <button type="submit">Add Screening</button>
       </form>
