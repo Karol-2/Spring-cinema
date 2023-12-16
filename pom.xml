@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.tje</groupId>
-	<artifactId>users</artifactId>
+	<artifactId>cinema</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>users</name>
-	<description>Spring app</description>
+	<name>CinemaTricity</name>
+	<description>Spring app that mocks cinema systems</description>
 
 	<properties>
 		<java.version>11</java.version>

@@ -4,18 +4,26 @@
 <body>
 <div th:replace="fragments :: navbar"></div>
 <div class="page">
-        <h1>Screenings</h1>
-        <div>
-            <a th:href="@{/movies(date='2024-01-29')}">Monday (29.01)</a>
-            <a th:href="@{/movies(date='2024-01-30')}">Tuesday (30.01)</a>
-            <a th:href="@{/movies(date='2024-01-31')}">Wednesday (31.01)</a>
-            <a th:href="@{/movies(date='2024-02-01')}">Thursday (01.02)</a>
-            <a th:href="@{/movies(date='2024-02-02')}">Friday (02.02)</a>
-            <a th:href="@{/movies(date='2024-02-03')}">Saturday (03.02)</a>
-            <a th:href="@{/movies(date='2024-02-04')}">Sunday (04.02)</a>
-        </div>
+    <h1>Screenings</h1>
+    <p>Select your own date or one of the ones below.</p>
+    <div>
+        <a th:href="@{/movies(date='2024-01-29')}">Monday (29.01)</a>
+        <a th:href="@{/movies(date='2024-01-30')}">Tuesday (30.01)</a>
+        <a th:href="@{/movies(date='2024-01-31')}">Wednesday (31.01)</a>
+        <a th:href="@{/movies(date='2024-02-01')}">Thursday (01.02)</a>
+        <a th:href="@{/movies(date='2024-02-02')}">Friday (02.02)</a>
+        <a th:href="@{/movies(date='2024-02-03')}">Saturday (03.02)</a>
+        <a th:href="@{/movies(date='2024-02-04')}">Sunday (04.02)</a>
+    </div>
+    <br>
+    <div>
+        <form method="get" action="/movies">
+            <label for="date">Choose other date</label>
+            <input type="date" required name="date" id="date">
+            <button>Show</button>
+        </form>
+    </div>
         <h1 th:text="'Screenings for ' + ${selectedDate}"></h1>
-
 
         <table th:if="${seances.size()>0}">
             <thead>
