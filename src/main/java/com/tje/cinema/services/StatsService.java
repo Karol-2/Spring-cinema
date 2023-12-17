@@ -102,8 +102,10 @@ public class StatsService {
 
     public long getNumberOfUsersReg(LocalDate dateFrom, LocalDate dateTo){
         return this.userService.getUserList().stream()
-            .filter(usr -> usr.getDateOfRegistration().isAfter(ChronoLocalDate.from(dateFrom.atStartOfDay()))
-                    && usr.getDateOfRegistration().isBefore(ChronoLocalDate.from(dateTo.atStartOfDay())))
+            .filter(usr -> usr.getDateOfRegistration().isEqual(dateFrom)
+                    || (usr.getDateOfRegistration().isAfter(ChronoLocalDate.from(dateFrom.atStartOfDay()))
+                    && usr.getDateOfRegistration().isBefore(ChronoLocalDate.from(dateTo.atStartOfDay()))
+                    ))
             .count();
     }
 }

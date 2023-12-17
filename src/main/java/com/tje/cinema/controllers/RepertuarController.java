@@ -91,7 +91,7 @@ public class RepertuarController {
             @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             @RequestParam("time") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
             Model model) {
-        // TODO: how it affects orders
+
         LocalDateTime dateAndTime = LocalDateTime.of(date,time);
         Movie movie = this.movieService.getMovieById(movieId);
         Seans newSeans = new Seans(seansId,movie,movie.getId(),dateAndTime);
@@ -120,7 +120,7 @@ public class RepertuarController {
         Seans screening = this.repertuarService.getSeansById(id);
 
         if (screening != null) {
-            //TODO: cancel all orders
+            //cancel all orders
             this.orderService.cancelEveryOrderOfSeans(id);
 
             this.repertuarService.removeById(id);

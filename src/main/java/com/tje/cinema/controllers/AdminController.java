@@ -54,7 +54,6 @@ public class AdminController {
             HttpSession session, Model model) {
         String title = "Statistics for " + selectedDay;
         return processAdminRequest(selectedDay, selectedDay.plusDays(1), model, title);
-        //TODO: check dates range
     }
 
     @GetMapping("/admin/month")
