@@ -2,20 +2,34 @@ package com.tje.cinema.domain;
 
 import com.tje.cinema.interfaces.UserInterface;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "users")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "userType", discriminatorType = DiscriminatorType.STRING)
 public class User implements UserInterface {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true, nullable = false)
     private String email;
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String password;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false,  insertable = false, updatable = false)
     private UserType userType;
+    @Column(name = "date_of_registration", nullable = false)
     private LocalDate dateOfRegistration;
 
     public User() {
         this.dateOfRegistration = LocalDate.now();
+        this.userType = UserType.REGISTERED;
     }
 
     public User(String email, String name,String password) {
@@ -87,7 +101,7 @@ public class User implements UserInterface {
     }
 
     public enum UserType {
-        REGISTERED, ADMIN
+        REGISTERED, ADMIN, User
     }
 
 

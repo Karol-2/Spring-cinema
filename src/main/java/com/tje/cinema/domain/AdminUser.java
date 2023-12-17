@@ -1,8 +1,11 @@
 package com.tje.cinema.domain;
 
 import com.tje.cinema.interfaces.AdminUserInterface;
-import java.time.LocalDateTime;
 
+import javax.persistence.*;
+import java.time.LocalDateTime;
+@Entity
+@DiscriminatorValue("ADMIN")
 public class AdminUser extends User implements AdminUserInterface {
     private LocalDateTime dateAdminGranted;
 

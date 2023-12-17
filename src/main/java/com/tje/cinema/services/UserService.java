@@ -1,47 +1,46 @@
 package com.tje.cinema.services;
 
+import com.tje.cinema.domain.AdminUser;
 import com.tje.cinema.domain.User;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.tje.cinema.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class UserService {
 
-    public UserService() {
-        this.setInitialUsers();
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+        setInitialUsers();
     }
 
-    private final List<User> userList = new ArrayList<>();
-    private long userIdCounter = 1;
 
-    public User getUserByEmail(String email) throws RuntimeException  {
-        return userList.stream()
-                .filter(user -> user.getEmail().equals(email))
-                .findFirst()
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
     }
 
     public void saveUser(User user) {
-        user.setId(userIdCounter++);
-        System.out.println("Utworzono użytkownika: "+ user);
-        userList.add(user);
+        userRepository.save(user);
     }
 
-    public List<User> getUserList(){
-        return this.userList;
+    public List<User> getUserList() {
+        return userRepository.findAll();
     }
 
+    private void setInitialUsers() {
+        if (userRepository.findByEmail("admin@cinematricity.com").isEmpty()) {
+            AdminUser admin = new AdminUser("admin@cinematricity.com","admin_Karol","itakniezgadniesz125");
+            userRepository.save(admin);
 
-    public void setInitialUsers() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
-
-        // Dodanie użytkowników z beans
-        Map<String, User> userBeans = context.getBeansOfType(User.class);
-        userBeans.values().forEach(user -> this.saveUser(user));
+        }
+        if(userRepository.findByEmail("user1@example.com").isEmpty()){
+            User user = new User("user1@example.com","k-krawczykiewicz","ABC!@#abc123");
+            user.setUserType(User.UserType.REGISTERED);
+            userRepository.save(user);
+        }
     }
 }
