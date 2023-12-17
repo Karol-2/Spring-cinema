@@ -12,6 +12,13 @@
                 <p th:text="'Price:' +${#numbers.formatDecimal(order.getPrice(), 1, 2, 'COMMA')}+'PLN'"></p>
                 <p th:text="'Date: '+${#temporals.format(order.getDate(), 'dd-MM-yyyy HH:mm')}"></p>
                 <p th:text="'Status: '+ ${order.getStatus()}"></p>
+                <div th:if="${order.status == T(com.tje.cinema.domain.Order$OrderStatus).NEW}">
+                    <form th:action="'/payment'" method="get">
+                        <input type="hidden" name="orderId" id="orderId" th:value="${order.getOrderId()}">
+                        <button type="submit">PAY</button>
+                    </form>
+                </div>
+
                 <p th:text="'Tickets:'"></p>
                 <ol >
                     <li th:each="reservation : ${order.getReservations()}">
