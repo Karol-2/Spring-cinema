@@ -3,6 +3,7 @@ package com.tje.cinema.controllers;
 import com.tje.cinema.domain.Movie;
 import com.tje.cinema.domain.Seans;
 import com.tje.cinema.services.MovieService;
+import com.tje.cinema.services.OrderService;
 import com.tje.cinema.services.RepertuarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,10 +26,12 @@ public class RepertuarController {
 
     private final RepertuarService repertuarService;
     private final MovieService movieService;
+    private final OrderService orderService;
     @Autowired
-    public RepertuarController(RepertuarService repertuarService, MovieService movieService) {
+    public RepertuarController(RepertuarService repertuarService, MovieService movieService, OrderService orderService) {
         this.repertuarService = repertuarService;
         this.movieService = movieService;
+        this.orderService = orderService;
     }
 
     @PostMapping("/movies")
@@ -117,8 +120,11 @@ public class RepertuarController {
         Seans screening = this.repertuarService.getSeansById(id);
 
         if (screening != null) {
-            this.repertuarService.removeById(screening.getSeansId());
-                //TODO: Add change status of orders to cancelled
+            //TODO: cancel all orders
+            this.orderService.cancelEveryOrderOfSeans(id);
+
+            this.repertuarService.removeById(id);
+
             return "redirect:/admin";
         } else {
 

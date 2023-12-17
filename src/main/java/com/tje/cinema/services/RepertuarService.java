@@ -27,7 +27,7 @@ public class RepertuarService {
         setInitialSeanses();
     }
 
-    private final List<Seans> seansDatabase = new ArrayList<Seans>();
+    private List<Seans> seansDatabase = new ArrayList<Seans>();
     private long seansIdCounter = 1;
 
 
@@ -80,6 +80,12 @@ public class RepertuarService {
         existingSeans.setMovie(movieObj);
 
         System.out.println("Edycja seansu o id " + seansId);
+    }
+
+    public void removeAllSeansOfMovie(long movieId){
+        this.seansDatabase = this.seansDatabase.stream()
+                .filter(seans -> seans.getMovieId() != movieId)
+                .collect(Collectors.toList());
     }
 
     public void setInitialSeanses() {

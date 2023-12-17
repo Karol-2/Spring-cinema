@@ -51,6 +51,27 @@ public class OrderService {
            foundOrder.setReservations(newReservations);
        }
     }
+    public void cancelEveryOrderOfMovie(long movieId){
+        List<Order> ordersToCancel = orderDatabase.stream()
+                .filter(order -> order.getReservations().stream()
+                        .anyMatch(reservation -> reservation.getSeans().getMovieId() == movieId))
+                .collect(Collectors.toList());
+
+        ordersToCancel.forEach(order -> {
+            order.setStatus(Order.OrderStatus.CANCELLED);
+        });
+    }
+
+    public void cancelEveryOrderOfSeans(long seansId){
+        List<Order> ordersToCancel = orderDatabase.stream()
+                .filter(order -> order.getReservations().stream()
+                        .anyMatch(reservation -> reservation.getSeans().getSeansId() == seansId))
+                .collect(Collectors.toList());
+
+        ordersToCancel.forEach(order -> {
+            order.setStatus(Order.OrderStatus.CANCELLED);
+        });
+    }
 
 
     public List<Order> getOrdersByUserId(long userId){
@@ -58,5 +79,7 @@ public class OrderService {
                 .filter(order -> order.getUser().getId() == userId)
                 .collect(Collectors.toList());
     }
+
+
 
 }

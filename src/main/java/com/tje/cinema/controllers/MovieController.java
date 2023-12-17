@@ -3,6 +3,7 @@ package com.tje.cinema.controllers;
 import com.tje.cinema.domain.Movie;
 import com.tje.cinema.domain.Seans;
 import com.tje.cinema.services.MovieService;
+import com.tje.cinema.services.OrderService;
 import com.tje.cinema.services.RepertuarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,11 +20,13 @@ public class MovieController {
 
     private final MovieService movieService;
     private final RepertuarService repertuarService;
+    private final OrderService orderService;
 
     @Autowired
-    public MovieController(MovieService movieService, RepertuarService repertuarService) {
+    public MovieController(MovieService movieService, RepertuarService repertuarService, OrderService orderService) {
         this.movieService = movieService;
         this.repertuarService = repertuarService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/movies")
@@ -85,8 +88,14 @@ public class MovieController {
         Movie movie = this.movieService.getMovieById(id);
 
         if (movie != null) {
+            //Removing all screenigs of this movie
+            this.repertuarService.removeAllSeansOfMovie(id);
+
+            //Cancel all orders with this movie
+            this.orderService.cancelEveryOrderOfMovie(id);
+
             this.movieService.removeMovieById(id);
-            //TODO: Add removing all screenigs of this movie
+
             return "redirect:/admin";
         } else {
 
