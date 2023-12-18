@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -168,6 +169,7 @@ public class OrderController {
     @GetMapping("/seats/{screeningId}/edit")
     public String seatsEdit(@PathVariable String screeningId,
                             @RequestParam("previousSeats") String previousSeatsParam,
+                            @RequestParam(name = "error", required = false) String error ,
                             Model model) throws ParseException {
         long screeningIdLong = Long.parseLong(screeningId);
         String[] previousSeats = previousSeatsParam
@@ -181,6 +183,7 @@ public class OrderController {
             Screening screening = this.repertuarService.getscreeningById(screeningIdLong);
             model.addAttribute("previousSeats", previousSeats);
             model.addAttribute("screening", screening);
+            model.addAttribute("error",error);
             System.out.println(screening);
         } catch (RuntimeException e) {
             return "redirect:/movies";
@@ -192,6 +195,8 @@ public class OrderController {
     public String editReservation(@RequestParam(name = "seat", required = false) List<String> selectedSeats,
                                   @RequestParam(name = "screeningId") Long screeningId,
                                   HttpSession session,
+                                  HttpServletRequest request,
+                                              RedirectAttributes redirectAttributes,
                                   Model model) throws ParseException {
 
         if (selectedSeats != null) {
@@ -208,9 +213,9 @@ public class OrderController {
             return "redirect:/cart";
 
         }
-        model.addAttribute("error","Choose at least one seat!"); //TODO: fix redirecting after empty choice
-
-        return "redirect:/cart";
+        redirectAttributes.addAttribute("error","Choose at least one seat!"); //TODO: fix redirecting after empty choice
+        String referer = "redirect:" + request.getHeader("Referer");
+        return referer;
     }
 
     @PostMapping("/deleteReservation")
