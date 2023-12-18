@@ -4,15 +4,15 @@
 <body>
 <div th:replace="fragments :: navbar"></div>
 <div class="page">
-    <h2 th:text="${seans.getMovie().getTitle()}"></h2>
-    <h3 th:text="${#temporals.format(seans.getDateAndTime(), 'dd-MM-yyyy HH:mm')}"></h3>
+    <h2 th:text="${screening.getMovie().getTitle()}"></h2>
+    <h3 th:text="${#temporals.format(screening.getDateAndTime(), 'dd-MM-yyyy HH:mm')}"></h3>
 
-    <form method="post" th:action="@{'/seats?seansId=' + ${seansId}}">
-        <div class="row" th:each="row: ${seans.getAllSeats()}">
+    <form method="post" th:action="@{'/seats?screeningId=' + ${screeningId}}">
+        <div class="row" th:each="row: ${screening.getAllSeats()}">
             <span th:each="seat : ${row}">
-                <span th:if="${seans.takenSeatsWithoutId != null and seans.getAllSeats() != null}">
-                    <span th:if="${#lists.contains(seans.takenSeatsWithoutId, seat)}">X</span>
-                    <input th:unless="${#lists.contains(seans.takenSeatsWithoutId, seat)}" type="checkbox" name="seat" th:value="${seat}">
+                <span th:if="${screening.takenSeatsWithoutId != null and screening.getAllSeats() != null}">
+                    <span th:if="${#lists.contains(screening.takenSeatsWithoutId, seat)}">X</span>
+                    <input th:unless="${#lists.contains(screening.takenSeatsWithoutId, seat)}" type="checkbox" name="seat" th:value="${seat}">
                 </span>
             </span>
         </div>

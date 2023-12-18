@@ -34,14 +34,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="seans : ${seances}">
+                <tr th:each="screening : ${seances}">
                     <td>
-                        <a th:href="@{/movies/details/{id}(id=${seans.getMovie().getId()})}" th:text="${seans.getMovie().getTitle()}"></a>
+                        <a th:href="@{/movies/details/{id}(id=${screening.getMovie().getId()})}" th:text="${screening.getMovie().getTitle()}"></a>
                     </td>
-                    <td th:text="${seans.getDateAndTime().toLocalTime()}">Movie Hour</td>
+                    <td th:text="${screening.getDateAndTime().toLocalTime()}">Movie Hour</td>
 
                     <td>
-                        <a th:href="@{'/seats/' + ${seans.getSeansId()}}" >Buy a ticket</a>
+                        <a th:href="@{'/seats/' + ${screening.getScreeningId()}}" >Buy a ticket</a>
                     </td>
 
                 </tr>

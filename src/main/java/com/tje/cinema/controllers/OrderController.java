@@ -2,7 +2,7 @@ package com.tje.cinema.controllers;
 
 import com.tje.cinema.domain.Order;
 import com.tje.cinema.domain.Reservation;
-import com.tje.cinema.domain.Seans;
+import com.tje.cinema.domain.Screening;
 import com.tje.cinema.domain.User;
 import com.tje.cinema.services.OrderService;
 import com.tje.cinema.services.RepertuarService;
@@ -54,9 +54,9 @@ public class OrderController {
 
         for (int index = 0; index < reservations.size(); index++) {
             Reservation reservation = reservations.get(index);
-            Seans seans = repertuarService.getSeansById(reservation.getSeansId());
-            if (new HashSet<>(seans.getTakenSeatsWithoutId()).containsAll(reservation.getReservedSeats())) {
-                String errorMessage = "Someone has already reserved your seats for " + seans.getMovieTitle() +
+            Screening screening = repertuarService.getscreeningById(reservation.getScreeningId());
+            if (new HashSet<>(screening.getTakenSeatsWithoutId()).containsAll(reservation.getReservedSeats())) {
+                String errorMessage = "Someone has already reserved your seats for " + screening.getMovieTitle() +
                          ", those tickets will be removed from cart";
 
                 reservations.remove(index);  // remove from order
@@ -81,16 +81,16 @@ public class OrderController {
         return "redirect:/cart";
     }
 
-    @GetMapping("/seats/{seansId}")
-    public String seats(@PathVariable Long seansId,
+    @GetMapping("/seats/{screeningId}")
+    public String seats(@PathVariable Long screeningId,
                         @RequestParam(name = "error", required = false) String error,
                         Model model) throws ParseException {
         try {
-            Seans seans = this.repertuarService.getSeansById(seansId);
+            Screening screening = this.repertuarService.getscreeningById(screeningId);
             model.addAttribute("error",error);
-            model.addAttribute("seans", seans);
-            model.addAttribute("seansId", seans.getSeansId());
-            System.out.println(seans);
+            model.addAttribute("screening", screening);
+            model.addAttribute("screeningId", screening.getScreeningId());
+            System.out.println(screening);
         } catch (RuntimeException e) {
             return "redirect:/movies";
         }
@@ -100,15 +100,15 @@ public class OrderController {
 
     @PostMapping("/seats")
     public String handleSeatSelection(@RequestParam(name = "seat", required = false) List<String> selectedSeats,
-                                      @RequestParam(name = "seansId") Long seansId,
+                                      @RequestParam(name = "screeningId") Long screeningId,
                                       HttpSession session,
                                       RedirectAttributes redirectAttributes,
                                       Model model) {
 
         if (selectedSeats != null) {
             // create reservation
-            Seans seans = repertuarService.getSeansById(seansId);
-            Reservation reservation = new Reservation(seans,selectedSeats,(User)session.getAttribute("user"));
+            Screening screening = repertuarService.getscreeningById(screeningId);
+            Reservation reservation = new Reservation(screening,selectedSeats,(User)session.getAttribute("user"));
 
             Object userOrder = session.getAttribute("order");
             if (userOrder != null){ // order already exists - add to it
@@ -127,26 +127,26 @@ public class OrderController {
         }
 
         redirectAttributes.addAttribute("error","Choose at least one seat!");
-        return "redirect:/seats/"+seansId;
+        return "redirect:/seats/"+screeningId;
     }
 
-    @GetMapping("/seats/{seansId}/edit")
-    public String seatsEdit(@PathVariable String seansId,
+    @GetMapping("/seats/{screeningId}/edit")
+    public String seatsEdit(@PathVariable String screeningId,
                             @RequestParam("previousSeats") String previousSeatsParam,
                             Model model) throws ParseException {
-        long seansIdLong = Long.parseLong(seansId);
+        long screeningIdLong = Long.parseLong(screeningId);
         String[] previousSeats = previousSeatsParam
                 .replaceAll("\\[", "")
                 .replaceAll("\\]", "")
                 .split(", ");
-        System.out.println("seansId: " + seansIdLong);
+        System.out.println("screeningId: " + screeningIdLong);
         System.out.println("prev seats: " + Arrays.toString(previousSeats));
 
         try {
-            Seans seans = this.repertuarService.getSeansById(seansIdLong);
+            Screening screening = this.repertuarService.getscreeningById(screeningIdLong);
             model.addAttribute("previousSeats", previousSeats);
-            model.addAttribute("seans", seans);
-            System.out.println(seans);
+            model.addAttribute("screening", screening);
+            System.out.println(screening);
         } catch (RuntimeException e) {
             return "redirect:/movies";
         }
@@ -155,7 +155,7 @@ public class OrderController {
 
     @PostMapping("/editReservation")
     public String editReservation(@RequestParam(name = "seat", required = false) List<String> selectedSeats,
-                                  @RequestParam(name = "seansId") Long seansId,
+                                  @RequestParam(name = "screeningId") Long screeningId,
                                   HttpSession session,
                                   Model model) throws ParseException {
 
@@ -163,7 +163,7 @@ public class OrderController {
             // find reservation
             Order userOrder = (Order)session.getAttribute("order");
             userOrder.getReservations().stream()
-                    .filter((res) -> res.getSeans().getSeansId().equals(seansId))
+                    .filter((res) -> res.getScreening().getScreeningId().equals(screeningId))
                     .findFirst()
                     .ifPresent((res) -> res.setReservedSeats(selectedSeats));
             userOrder.setPrice(userOrder.calculateCost(userOrder.getReservations()));
@@ -179,12 +179,12 @@ public class OrderController {
     }
 
     @PostMapping("/deleteReservation")
-    public String deleteReservation(@RequestParam(name = "seansId") Long seansId,
+    public String deleteReservation(@RequestParam(name = "screeningId") Long screeningId,
                                     HttpSession session) throws ParseException {
 
         Order userOrder = (Order) session.getAttribute("order");
         List<Reservation> updatedReservations = userOrder.getReservations().stream()
-                .filter(res -> !res.getSeans().getSeansId().equals(seansId))
+                .filter(res -> !res.getScreening().getScreeningId().equals(screeningId))
                 .collect(Collectors.toList());
 
         userOrder.setReservations(updatedReservations);

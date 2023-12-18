@@ -1,7 +1,7 @@
 package com.tje.cinema.controllers;
 
 import com.tje.cinema.domain.Movie;
-import com.tje.cinema.domain.Seans;
+import com.tje.cinema.domain.Screening;
 import com.tje.cinema.services.MovieService;
 import com.tje.cinema.services.OrderService;
 import com.tje.cinema.services.RepertuarService;
@@ -34,7 +34,7 @@ public class MovieController {
         if (date == null) {
             date = LocalDate.now();
         }
-        List<Seans> seances = this.repertuarService.getSeansesByDate(date);
+        List<Screening> seances = this.repertuarService.getscreeningesByDate(date);
 
         model.addAttribute("seances", seances);
         model.addAttribute("selectedDate", date);
@@ -89,7 +89,7 @@ public class MovieController {
 
         if (movie != null) {
             //Removing all screenigs of this movie
-            this.repertuarService.removeAllSeansOfMovie(id);
+            this.repertuarService.removeAllscreeningOfMovie(id);
 
             //Cancel all orders with this movie
             this.orderService.cancelEveryOrderOfMovie(id);

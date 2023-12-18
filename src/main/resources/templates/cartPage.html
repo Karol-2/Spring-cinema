@@ -13,19 +13,19 @@
             <h3>Here are your reservations:</h3>
             <div th:each="reservation : ${session.order.getReservations()}">
                 <ul>
-                    <li th:text="${reservation.getSeans().getMovie().getTitle()}"></li>
-                    <li th:text="'Date: '+ ${#temporals.format(reservation.getSeans().getDateAndTime(), 'dd-MM-yyyy HH:mm')}"></li>
+                    <li th:text="${reservation.getScreening().getMovie().getTitle()}"></li>
+                    <li th:text="'Date: '+ ${#temporals.format(reservation.getScreening().getDateAndTime(), 'dd-MM-yyyy HH:mm')}"></li>
                     <li th:text="'Your seats: '+${reservation.getReservedSeats()}"></li>
                     <li th:text="'Price: '+${#numbers.formatDecimal(reservation.getReservationCost(), 1, 2, 'COMMA')}"></li>
                     <li>
-                        <form method="get" th:action="'/seats/'+${reservation.getSeans().getSeansId()}+'/edit'">
+                        <form method="get" th:action="'/seats/'+${reservation.getScreening().getScreeningId()}+'/edit'">
                             <input type="hidden" name="previousSeats" th:value="${reservation.getReservedSeats()}" />
                             <button type="submit">Change Seats</button>
                         </form>
                     </li>
                     <li>
                         <form method="post" action="/deleteReservation">
-                            <input type="hidden" name="seansId" th:value="${reservation.getSeans().getSeansId()}" />
+                            <input type="hidden" name="ScreeningId" th:value="${reservation.getScreening().getScreeningId()}" />
                             <button type="submit">Remove Reservation</button>
                         </form>
 

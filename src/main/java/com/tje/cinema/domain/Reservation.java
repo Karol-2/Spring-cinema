@@ -5,42 +5,42 @@ import java.util.List;
 public class Reservation {
 
     public static double TICKET_COST = 20.99;
-    private Long seansId;
-    private Seans seans;
+    private Long screeningId;
+    private Screening screening;
     private List<String> reservedSeats;
     private User user;
     private double reservationCost;
 
 
     public Reservation(){}
-    public Reservation(Long seansId, List<String> reservedSeats, User user){
-        this.seansId = seansId;
+    public Reservation(Long screeningId, List<String> reservedSeats, User user){
+        this.screeningId = screeningId;
         this.reservedSeats = reservedSeats;
         this.user = user;
         this.reservationCost = reservedSeats.size() * this.TICKET_COST;
     }
-    public Reservation(Seans seans, List<String> reservedSeats, User user){
-        this.seansId = seans.getSeansId();
-        this.seans = seans;
+    public Reservation(Screening screening, List<String> reservedSeats, User user){
+        this.screeningId = screening.getScreeningId();
+        this.screening = screening;
         this.reservedSeats = reservedSeats;
         this.user = user;
         this.reservationCost = reservedSeats.size() * this.TICKET_COST;
     }
 
-    public Long getSeansId() {
-        return seansId;
+    public Long getScreeningId() {
+        return screeningId;
     }
 
-    public void setSeansId(Long seansId) {
-        this.seansId = seansId;
+    public void setScreeningId(Long screeningId) {
+        this.screeningId = screeningId;
     }
 
-    public Seans getSeans() {
-        return seans;
+    public Screening getScreening() {
+        return screening;
     }
 
-    public void setSeans(Seans seans) {
-        this.seans = seans;
+    public void setScreening(Screening screening) {
+        this.screening = screening;
     }
 
     public List<String> getReservedSeats() {
@@ -86,7 +86,7 @@ public class Reservation {
         return "Reservation:{" +
                 ", userId: "+ getUser().getId() +
                 ", seats: "+ getReservedSeats() +
-                ", seans: "+ getSeans() +
+                ", screening: "+ getScreening() +
                 "}";
     }
 }

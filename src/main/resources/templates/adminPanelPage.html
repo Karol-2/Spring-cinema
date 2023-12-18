@@ -70,8 +70,8 @@
       <ol>
           <li th:each="screening : ${screenings}">
               <p th:text="${screening.getMovie().getTitle() + ', ' + screening.getDateAndTime()}"></p>
-              <a th:href="@{'/screeningsForm/' + ${screening.getSeansId()}}"><button>Edit</button></a>
-              <a th:href="@{'/remove-screening/' + ${screening.getSeansId()}}"><button>Remove</button></a>
+              <a th:href="@{'/screeningsForm/' + ${screening.getScreeningId()}}"><button>Edit</button></a>
+              <a th:href="@{'/remove-screening/' + ${screening.getScreeningId()}}"><button>Remove</button></a>
           </li>
       </ol>
 

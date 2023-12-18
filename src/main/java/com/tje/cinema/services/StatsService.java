@@ -30,14 +30,14 @@ public class StatsService {
     }
 
     public long getNumberOfScreenings(LocalDate dateFrom, LocalDate dateTo){
-        return this.repertuarService.getAllSeans().stream()
+        return this.repertuarService.getAllscreening().stream()
                 .filter(showing -> showing.getDateAndTime().isAfter(dateFrom.atStartOfDay())
                         && showing.getDateAndTime().isBefore(dateTo.atStartOfDay()))
                 .count();
     }
 
     public long getNumberofMoviesShown(LocalDate dateFrom, LocalDate dateTo){
-        return this.repertuarService.getAllSeans().stream()
+        return this.repertuarService.getAllscreening().stream()
                 .filter(showing -> showing.getDateAndTime().isAfter(dateFrom.atStartOfDay())
                         && showing.getDateAndTime().isBefore(dateTo.atStartOfDay()))
                 .map( showing -> showing.getMovie())
@@ -46,7 +46,7 @@ public class StatsService {
     }
 
     public String getMostPopularMovie(LocalDate dateFrom, LocalDate dateTo) {
-        Map<String, Long> movieFrequencyMap = this.repertuarService.getAllSeans().stream()
+        Map<String, Long> movieFrequencyMap = this.repertuarService.getAllscreening().stream()
                 .filter(show -> show.getDateAndTime().isAfter(dateFrom.atStartOfDay())
                         && show.getDateAndTime().isBefore(dateTo.atStartOfDay()))
                 .collect(Collectors.groupingBy(

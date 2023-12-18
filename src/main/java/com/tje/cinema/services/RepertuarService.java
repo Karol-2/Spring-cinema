@@ -1,7 +1,7 @@
 package com.tje.cinema.services;
 
 import com.tje.cinema.domain.Movie;
-import com.tje.cinema.domain.Seans;
+import com.tje.cinema.domain.Screening;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -24,76 +24,76 @@ public class RepertuarService {
 
     @PostConstruct
     public void initialize() {
-        setInitialSeanses();
+        setInitialscreeninges();
     }
 
-    private List<Seans> seansDatabase = new ArrayList<Seans>();
-    private long seansIdCounter = 1;
+    private List<Screening> screeningDatabase = new ArrayList<Screening>();
+    private long screeningIdCounter = 1;
 
 
-    public void addSeans(Seans seans){
-        seans.setSeansId(seansIdCounter++);
-        System.out.println("Dodanie senasu, o id" + seans.getSeansId() + " dla "+ seans.getMovieId() + ", " + seans.getDateAndTime());
-        this.seansDatabase.add(seans);
+    public void addscreening(Screening screening){
+        screening.setScreeningId(screeningIdCounter++);
+        System.out.println("Dodanie senasu, o id" + screening.getScreeningId() + " dla "+ screening.getMovieId() + ", " + screening.getDateAndTime());
+        this.screeningDatabase.add(screening);
     }
 
-    public void addSeans(Seans seans, long id){
-        Movie movieObj = movieService.getMovieById(seans.getMovieId());
-        seans.setMovie(movieObj);
-        seans.setSeansId(id);
+    public void addscreening(Screening screening, long id){
+        Movie movieObj = movieService.getMovieById(screening.getMovieId());
+        screening.setMovie(movieObj);
+        screening.setScreeningId(id);
 
-        System.out.println("Dodanie senasu, o id" + seans.getSeansId() + " dla "+ seans.getMovieId() + ", " + seans.getDateAndTime());
-        this.seansDatabase.add(seans);
+        System.out.println("Dodanie senasu, o id" + screening.getScreeningId() + " dla "+ screening.getMovieId() + ", " + screening.getDateAndTime());
+        this.screeningDatabase.add(screening);
     }
-    public List<Seans> getAllSeans(){
-        return this.seansDatabase;
+    public List<Screening> getAllscreening(){
+        return this.screeningDatabase;
     }
     public void removeById(long id){
-        seansDatabase.removeIf(seans -> seans.getSeansId() == id);
+        screeningDatabase.removeIf(screening -> screening.getScreeningId() == id);
     }
 
-    public Seans getSeansById (long id){
-        return seansDatabase.stream()
-                .filter(seans -> seans.getSeansId().equals(id))
+    public Screening getscreeningById (long id){
+        return screeningDatabase.stream()
+                .filter(screening -> screening.getScreeningId().equals(id))
                 .findFirst()
-                .orElseThrow(()-> new RuntimeException("Seans not found with id: " + id));
+                .orElseThrow(()-> new RuntimeException("Screening not found with id: " + id));
     }
 
-    public List<Seans> getSeansesByDate(LocalDate date){
-        return seansDatabase.stream()
-                .filter(seans -> seans.getDateAndTime().toLocalDate().isEqual(date))
-                .map(seans -> {
-                    Movie movie = movieService.getMovieById(seans.getMovieId());
-                    return new Seans(seans.getSeansId(),movie,movie.getId(),seans.getDateAndTime());
+    public List<Screening> getscreeningesByDate(LocalDate date){
+        return screeningDatabase.stream()
+                .filter(screening -> screening.getDateAndTime().toLocalDate().isEqual(date))
+                .map(screening -> {
+                    Movie movie = movieService.getMovieById(screening.getMovieId());
+                    return new Screening(screening.getScreeningId(),movie,movie.getId(),screening.getDateAndTime());
                 })
                 .collect(Collectors.toList());
     }
 
-    public void editSeans(long seansId, Seans updatedSeans) {
-        Seans existingSeans = getSeansById(seansId);
+    public void editscreening(long screeningId, Screening updatedScreening) {
+        Screening existingScreening = getscreeningById(screeningId);
 
-        existingSeans.setMovieId(updatedSeans.getMovieId());
-        existingSeans.setDateAndTime(updatedSeans.getDateAndTime());
-        existingSeans.setTakenSeats(updatedSeans.getTakenSeats());
+        existingScreening.setMovieId(updatedScreening.getMovieId());
+        existingScreening.setDateAndTime(updatedScreening.getDateAndTime());
+        existingScreening.setTakenSeats(updatedScreening.getTakenSeats());
 
-        Movie movieObj = movieService.getMovieById(updatedSeans.getMovieId());
-        existingSeans.setMovie(movieObj);
+        Movie movieObj = movieService.getMovieById(updatedScreening.getMovieId());
+        existingScreening.setMovie(movieObj);
 
-        System.out.println("Edycja seansu o id " + seansId);
+        System.out.println("Edycja screeningu o id " + screeningId);
     }
 
-    public void removeAllSeansOfMovie(long movieId){
-        this.seansDatabase = this.seansDatabase.stream()
-                .filter(seans -> seans.getMovieId() != movieId)
+    public void removeAllscreeningOfMovie(long movieId){
+        this.screeningDatabase = this.screeningDatabase.stream()
+                .filter(screening -> screening.getMovieId() != movieId)
                 .collect(Collectors.toList());
     }
 
-    public void setInitialSeanses() {
+    public void setInitialscreeninges() {
         ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
 
-        // Dodanie Seansów z beans
-        Map<String, Seans> seansBeans = context.getBeansOfType(Seans.class);
-        seansBeans.values().forEach(seans -> this.addSeans(seans,seansIdCounter++));
+        // Dodanie screeningów z beans
+        Map<String, Screening> screeningBeans = context.getBeansOfType(Screening.class);
+        screeningBeans.values().forEach(screening -> this.addscreening(screening,screeningIdCounter++));
     }
 
 

@@ -2,7 +2,7 @@ package com.tje.cinema.controllers;
 
 import com.tje.cinema.domain.Movie;
 import com.tje.cinema.domain.Reservation;
-import com.tje.cinema.domain.Seans;
+import com.tje.cinema.domain.Screening;
 import com.tje.cinema.services.MovieService;
 import com.tje.cinema.services.RepertuarService;
 import com.tje.cinema.services.StatsService;
@@ -70,7 +70,7 @@ public class AdminController {
         List<Movie> moviesList = this.movieService.getAllMovies();
         model.addAttribute("movies", moviesList);
 
-        List<Seans> screenings = this.repertuarService.getAllSeans();
+        List<Screening> screenings = this.repertuarService.getAllscreening();
         model.addAttribute("screenings", screenings);
 
         model.addAttribute("statsType", statsType);

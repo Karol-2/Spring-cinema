@@ -2,7 +2,7 @@ package com.tje.cinema.controllers;
 
 import com.tje.cinema.domain.Order;
 import com.tje.cinema.domain.Reservation;
-import com.tje.cinema.domain.Seans;
+import com.tje.cinema.domain.Screening;
 import com.tje.cinema.services.OrderService;
 import com.tje.cinema.services.RepertuarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,10 +61,10 @@ public class PaymentController {
             List<Reservation> reservationsList = order.getReservations();
             for (Reservation reservation : reservationsList) {
 
-                Seans seans = reservation.getSeans();
-                HashMap<Long, List<String>> existingSeats = seans.getTakenSeats();
+                Screening screening = reservation.getScreening();
+                HashMap<Long, List<String>> existingSeats = screening.getTakenSeats();
                 existingSeats.put(orderId,reservation.getReservedSeats());
-                this.repertuarService.editSeans(seans.getSeansId(),seans);
+                this.repertuarService.editscreening(screening.getScreeningId(), screening);
             }
 
             return "redirect:/orders";

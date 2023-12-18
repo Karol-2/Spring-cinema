@@ -1,7 +1,7 @@
 package com.tje.cinema.controllers;
 
 import com.tje.cinema.domain.Movie;
-import com.tje.cinema.domain.Seans;
+import com.tje.cinema.domain.Screening;
 import com.tje.cinema.services.MovieService;
 import com.tje.cinema.services.OrderService;
 import com.tje.cinema.services.RepertuarService;
@@ -39,7 +39,7 @@ public class RepertuarController {
         if (date == null) {
             date = LocalDate.now();
         }
-        List<Seans> seances = repertuarService.getSeansesByDate(date);
+        List<Screening> seances = repertuarService.getscreeningesByDate(date);
 
         model.addAttribute("seances", seances);
         model.addAttribute("selectedDate", date);
@@ -51,7 +51,7 @@ public class RepertuarController {
         List<Movie> moviesList = this.movieService.getAllMovies();
         model.addAttribute("action", "Add Screening");
         model.addAttribute("movies", moviesList);
-        model.addAttribute("screening", new Seans());
+        model.addAttribute("screening", new Screening());
         model.addAttribute("endpoint", "/add-screening");
 
         return "screeningForm";
@@ -59,7 +59,7 @@ public class RepertuarController {
 
     @GetMapping("/screeningsForm/{id}")
     public String editMovieForm(@PathVariable Long id, Model model) {
-        Seans screening = this.repertuarService.getSeansById(id);
+        Screening screening = this.repertuarService.getscreeningById(id);
 
         if (screening != null) {
             List<Movie> moviesList = this.movieService.getAllMovies().stream()
@@ -86,7 +86,7 @@ public class RepertuarController {
 
     @GetMapping("/edit-screening")
     public String editScreening(
-            @RequestParam("seansId") Long seansId,
+            @RequestParam("screeningId") Long screeningId,
             @RequestParam("movie") Long movieId,
             @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             @RequestParam("time") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
@@ -94,8 +94,8 @@ public class RepertuarController {
 
         LocalDateTime dateAndTime = LocalDateTime.of(date,time);
         Movie movie = this.movieService.getMovieById(movieId);
-        Seans newSeans = new Seans(seansId,movie,movie.getId(),dateAndTime);
-        this.repertuarService.editSeans(seansId,newSeans);
+        Screening newScreening = new Screening(screeningId,movie,movie.getId(),dateAndTime);
+        this.repertuarService.editscreening(screeningId, newScreening);
 
         return "redirect:/admin";
     }
@@ -109,19 +109,19 @@ public class RepertuarController {
 
         LocalDateTime dateAndTime = LocalDateTime.of(date,time);
         Movie movie = this.movieService.getMovieById(movieId);
-        Seans newSeans = new Seans(movieId,movie,movie.getId(),dateAndTime);
-        this.repertuarService.addSeans(newSeans);
+        Screening newScreening = new Screening(movieId,movie,movie.getId(),dateAndTime);
+        this.repertuarService.addscreening(newScreening);
 
         return "redirect:/admin";
     }
 
     @GetMapping("/remove-screening/{id}")
     public String removeMovie(@PathVariable Long id, Model model) {
-        Seans screening = this.repertuarService.getSeansById(id);
+        Screening screening = this.repertuarService.getscreeningById(id);
 
         if (screening != null) {
             //cancel all orders
-            this.orderService.cancelEveryOrderOfSeans(id);
+            this.orderService.cancelEveryOrderOfscreening(id);
 
             this.repertuarService.removeById(id);
 

@@ -6,26 +6,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Seans {
-    private Long seansId;
+public class Screening {
+    private Long screeningId;
     private long movieId;
     private Movie movie;
     private LocalDateTime dateAndTime;
     private HashMap<Long, List<String>> takenSeats;
     private List<List<String>> allSeats;
-    public Seans(){
+    public Screening(){
         this.takenSeats = new HashMap<>();
         this.allSeats = this.generateSeatList(10,'A',2);
     };
-    public Seans(int movieId, LocalDateTime dateAndTime) {
+    public Screening(int movieId, LocalDateTime dateAndTime) {
         this.movieId = movieId;
         this.dateAndTime = dateAndTime;
         this.takenSeats = new HashMap<>();
         this.allSeats = new ArrayList<>();
         this.allSeats = this.generateSeatList(10,'A',2);
     }
-    public Seans(long id,Movie movie,long movieId, LocalDateTime dateAndTime) {
-        this.seansId = id;
+    public Screening(long id, Movie movie, long movieId, LocalDateTime dateAndTime) {
+        this.screeningId = id;
         this.movie = movie;
         this.movieId = movieId;
         this.dateAndTime = dateAndTime;
@@ -36,16 +36,16 @@ public class Seans {
         return this.movie.getTitle();
     }
 
-    public static Seans createSeansFromString(int movieId, String dateAndTimeString) {
-        return new Seans(movieId, LocalDateTime.parse(dateAndTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")));
+    public static Screening createScreeningFromString(int movieId, String dateAndTimeString) {
+        return new Screening(movieId, LocalDateTime.parse(dateAndTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")));
     }
 
-    public Long getSeansId() {
-        return seansId;
+    public Long getScreeningId() {
+        return screeningId;
     }
 
-    public void setSeansId(Long seansId) {
-        this.seansId = seansId;
+    public void setScreeningId(Long screeningId) {
+        this.screeningId = screeningId;
     }
 
     public long getMovieId() {
@@ -109,8 +109,8 @@ public class Seans {
 
     @Override
     public String toString(){
-        return "Seans:{" +
-                " id: " + getSeansId()+
+        return "Screening:{" +
+                " id: " + getScreeningId()+
                 ", movie: "+ getMovie() +
                 ", dateTime: "+ getDateAndTime() +
                 ", movieId: "+ getMovieId() +

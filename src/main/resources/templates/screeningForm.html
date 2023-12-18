@@ -8,7 +8,7 @@
   <h1 th:text="${action}"></h1>
 
   <form th:action="${endpoint}" method="get" th:object="${screening}">
-    <input type="hidden" id="seansId" name="seansId" th:if="${screening.seansId}" th:value="${screening.seansId}" />
+    <input type="hidden" id="screeningId" name="screeningId" th:if="${screening.screeningId}" th:value="${screening.screeningId}" />
     <label for="movie">Movie:  </label>
     <p>
       <select id="movie" name="movie" th:field="*{movie}" required>

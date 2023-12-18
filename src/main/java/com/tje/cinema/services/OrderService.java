@@ -54,7 +54,7 @@ public class OrderService {
     public void cancelEveryOrderOfMovie(long movieId){
         List<Order> ordersToCancel = orderDatabase.stream()
                 .filter(order -> order.getReservations().stream()
-                        .anyMatch(reservation -> reservation.getSeans().getMovieId() == movieId))
+                        .anyMatch(reservation -> reservation.getScreening().getMovieId() == movieId))
                 .collect(Collectors.toList());
 
         ordersToCancel.forEach(order -> {
@@ -62,10 +62,10 @@ public class OrderService {
         });
     }
 
-    public void cancelEveryOrderOfSeans(long seansId){
+    public void cancelEveryOrderOfscreening(long screeningId){
         List<Order> ordersToCancel = orderDatabase.stream()
                 .filter(order -> order.getReservations().stream()
-                        .anyMatch(reservation -> reservation.getSeans().getSeansId() == seansId))
+                        .anyMatch(reservation -> reservation.getScreening().getScreeningId() == screeningId))
                 .collect(Collectors.toList());
 
         ordersToCancel.forEach(order -> {
