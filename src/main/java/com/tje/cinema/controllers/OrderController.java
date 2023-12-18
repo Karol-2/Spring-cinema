@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -84,9 +84,44 @@ public class OrderController {
     @GetMapping("/seats/{screeningId}")
     public String seats(@PathVariable Long screeningId,
                         @RequestParam(name = "error", required = false) String error,
-                        Model model) throws ParseException {
+                        Model model,HttpSession session) throws ParseException {
         try {
             Screening screening = this.repertuarService.getscreeningById(screeningId);
+
+                    // screening is in order   seats/1/edit?previousSeats=%5BB-3%5D
+            if (session.getAttribute("order") != null) {
+                Order existingOrder = (Order) session.getAttribute("order");
+
+                List<Screening> orderScreenings = existingOrder.getReservations().stream()
+                        .map(reservation -> reservation.getScreening())
+                        .collect(Collectors.toList());
+
+                // if there is already a screening in the cart redirect to edit
+                for (Screening orderScreening : orderScreenings) {
+                    // Check if the screening matches any in the cart
+                    if (orderScreening.getScreeningId().equals(screening.getScreeningId())) {
+                        Reservation reservation = existingOrder.getReservations().stream()
+                                .filter(res -> Objects.equals(res.getScreeningId(), screeningId))
+                                .findFirst().orElse(null);
+
+                        assert reservation != null;
+                        System.out.println(reservation.getReservedSeats());
+
+                        // Encode
+                        String encodedReservedSeats;
+                        try {
+                            encodedReservedSeats = URLEncoder.encode(reservation.getReservedSeats().toString(), StandardCharsets.UTF_8.toString());
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                            return "redirect:/error";
+                        }
+
+                        return "redirect:/seats/" + screeningId + "/edit?previousSeats=" + encodedReservedSeats;
+                    }
+                }
+            }
+
+            //  screening is not in order
             model.addAttribute("error",error);
             model.addAttribute("screening", screening);
             model.addAttribute("screeningId", screening.getScreeningId());
