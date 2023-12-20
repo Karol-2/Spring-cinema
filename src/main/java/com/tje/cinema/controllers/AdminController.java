@@ -1,8 +1,6 @@
 package com.tje.cinema.controllers;
 
-import com.tje.cinema.domain.Movie;
-import com.tje.cinema.domain.Reservation;
-import com.tje.cinema.domain.Screening;
+import com.tje.cinema.domain.*;
 import com.tje.cinema.services.MovieService;
 import com.tje.cinema.services.RepertuarService;
 import com.tje.cinema.services.StatsService;
@@ -12,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
@@ -32,7 +31,11 @@ public class AdminController {
     }
 
     @GetMapping("/admin")
-    public String admin(HttpSession session, Model model) {
+    public String admin(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        if (!isAdmin(session)){
+            redirectAttributes.addAttribute("error","You don't have access to this page.");
+            return "redirect:/";
+        }
         LocalDate testFrom = LocalDate.of(2000, 1, 1);
         LocalDate testTo =  LocalDate.of(3000, 1, 1);
         String title = "Statistics of all time";
@@ -44,6 +47,10 @@ public class AdminController {
             @RequestParam(name = "dateFrom") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
             @RequestParam(name = "dateTo") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo,
             HttpSession session, Model model) {
+        if (!isAdmin(session)){
+            model.addAttribute("error","You don't have access to this page.");
+            return "redirect:/";
+        }
         String title = "Statistics from " + dateFrom + " to " + dateTo;
         return processAdminRequest(dateFrom, dateTo, model, title );
     }
@@ -52,6 +59,10 @@ public class AdminController {
     public String adminByDay(
             @RequestParam(name = "selectedDay") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate selectedDay,
             HttpSession session, Model model) {
+        if (!isAdmin(session)){
+            model.addAttribute("error","You don't have access to this page.");
+            return "redirect:/";
+        }
         String title = "Statistics for " + selectedDay;
         return processAdminRequest(selectedDay, selectedDay.plusDays(1), model, title);
     }
@@ -60,6 +71,10 @@ public class AdminController {
     public String adminByMonth(
             @RequestParam(name = "selectedMonth") @DateTimeFormat(pattern = "yyyy-MM") YearMonth selectedMonth,
             HttpSession session, Model model) {
+        if (!isAdmin(session)){
+            model.addAttribute("error","You don't have access to this page.");
+            return "redirect:/";
+        }
         LocalDate startDate = selectedMonth.atDay(1);
         LocalDate endDate = selectedMonth.atEndOfMonth();
         String title = "Statistics from " + startDate + " to " + endDate;
@@ -87,5 +102,13 @@ public class AdminController {
         model.addAttribute("numOfUsers", statsService.getNumberOfUsersReg(startDate, endDate));
 
         return "adminPanelPage";
+    }
+
+    private boolean isAdmin(HttpSession session){
+        if (session.getAttribute("user") != null){
+            AdminUser adminUser = (AdminUser) session.getAttribute("user");
+            return adminUser.getUserType().equals(User.UserType.ADMIN);
+        }
+        return false;
     }
 }

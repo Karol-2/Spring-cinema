@@ -6,7 +6,7 @@
     <link th:href="@{/styles/index.css}" rel="stylesheet" />
 <body>
 
-<nav th:fragment="navbar">
+<nav th:fragment="navbar" th:if="${session.user}">
     <h3>Hello, <span th:text="${session.user.getName()}"></span>!</h3>
     <a class="nav-element" href="/movies">Repertuar</a>
     <a class="nav-element" href="/orders">My Orders</a>
@@ -14,7 +14,7 @@
     <a class="nav-element" href="/logout">Log out</a>
 </nav>
 
-<nav th:fragment="navbar-admin">
+<nav th:fragment="navbar-admin" th:if="${session.user}">
     <h3>Hello, <span th:text="${session.user.getName()}"></span>!</h3>
     <h5>YOU HAVE ADMINISTRATOR ACCESS</h5>
     <a class="nav-element" href="/admin">Admin Panel</a>

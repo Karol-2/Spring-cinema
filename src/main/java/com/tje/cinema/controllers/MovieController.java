@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.Year;
 import java.util.List;
 
 @Controller
@@ -59,6 +60,7 @@ public class MovieController {
         model.addAttribute("action", "Add Movie");
         model.addAttribute("movie", new Movie());
         model.addAttribute("endpoint", "/add-movie");
+        model.addAttribute("currentYear", Year.now().getValue());
 
         return "movieForm";
     }
@@ -71,6 +73,7 @@ public class MovieController {
             model.addAttribute("movie", movie);
             model.addAttribute("action", "Edit Movie");
             model.addAttribute("endpoint", "/edit-movie");
+            model.addAttribute("currentYear", Year.now().getValue());
             return "movieForm";
         }
         return "redirect:/movieList";

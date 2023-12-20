@@ -27,10 +27,4 @@ public class AppController {
         return "homePage";
     }
 
-
-
-
-
-
-
 }

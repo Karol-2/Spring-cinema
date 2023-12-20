@@ -11,27 +11,27 @@
     <input type="hidden" id="id" name="id" th:if="${movie.id}" th:value="${movie.id}" />
     <p>
       <label for="title">Title:</label>
-      <input type="text" id="title" name="title" th:field="*{title}" required>
+      <input type="text" id="title" name="title" th:field="*{title}" required minlength="3">
     </p>
     <p>
       <label for="genre">Genre:</label>
-      <input type="text" id="genre" name="genre" th:field="*{genre}" required>
+      <input type="text" id="genre" name="genre" th:field="*{genre}" required minlength="3">
     </p>
     <p>
       <label for="year">Year:</label>
-      <input type="number" id="year" name="year" th:field="*{year}" required>
+      <input type="number" id="year" name="year" th:field="*{year}" required min="1900" th:max="${currentYear}">
     </p>
     <p>
       <label for="director">Director:</label>
-      <input type="text" id="director" name="director" th:field="*{director}" required>
+      <input type="text" id="director" name="director" th:field="*{director}" required minlength="3">
     </p>
     <p>
       <label for="actors">Actors:</label>
-      <input type="text" id="actors" name="actors" th:field="*{actors}" required>
+      <input type="text" id="actors" name="actors" th:field="*{actors}" required minlength="3">
     </p>
     <p>
       <label for="trailerLink">Trailer Link:</label>
-      <input type="text" id="trailerLink" name="trailerLink" th:field="*{trailerLink}" required>
+      <input type="url" id="trailerLink" name="trailerLink" th:field="*{trailerLink}" required>
     </p>
     <p>
       <label for="photos">Photos (comma-separated):</label>
