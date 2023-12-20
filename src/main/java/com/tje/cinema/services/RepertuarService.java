@@ -52,7 +52,7 @@ public class RepertuarService {
         screeningDatabase.removeIf(screening -> screening.getScreeningId() == id);
     }
 
-    public Screening getscreeningById (long id){
+    public Screening getscreeningById (long id) throws RuntimeException{
         return screeningDatabase.stream()
                 .filter(screening -> screening.getScreeningId().equals(id))
                 .findFirst()

@@ -22,7 +22,7 @@ public class MovieService {
     public void addMovie(Movie movie){
         movie.setId(movieIdCounter++);
         this.movieDatabase.add(movie);
-        System.out.println("Dodano film: "+movie.getTitle());
+        System.out.println("Add movie: "+movie.getTitle());
     }
     public void removeMovieById(long id) {
         movieDatabase.removeIf(movie -> movie.getId() == id);
@@ -37,7 +37,7 @@ public class MovieService {
                 .orElseThrow(()-> new RuntimeException("Movie not found with id: " + id));
     }
 
-    public void editMovie(long id, Movie updatedMovie) {
+    public void editMovie(long id, Movie updatedMovie) throws RuntimeException {
         Movie existingMovie = getMovieById(id);
 
         if (existingMovie != null) {
@@ -49,9 +49,8 @@ public class MovieService {
             existingMovie.setTrailerLink(updatedMovie.getTrailerLink());
             existingMovie.setPhotos(updatedMovie.getPhotos());
 
-            System.out.println("Zaktualizowano film: " + existingMovie.getTitle());
+            System.out.println("Edit movie: " + existingMovie.getTitle());
         } else {
-
             throw new RuntimeException("Movie not found with id: " + id);
         }
     }

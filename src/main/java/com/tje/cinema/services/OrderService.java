@@ -1,7 +1,6 @@
 package com.tje.cinema.services;
 
 import com.tje.cinema.domain.Order;
-import com.tje.cinema.domain.Reservation;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ public class OrderService {
         return this.orderDatabase;
     }
 
-    public Order getOrder(long orderId){
+    public Order getOrder(long orderId) throws RuntimeException{
         return this.orderDatabase.stream()
                 .filter(order -> order.getOrderId() == orderId)
                 .findFirst()
@@ -28,12 +27,12 @@ public class OrderService {
         orderDatabase.add(order);
         System.out.println("Dodano Zamówienie z id: "+order.getOrderId());
     }
-    public void removeOrder(Order order){
-        orderDatabase.remove(order);
-        System.out.println("Usunieto Zamówienie z id: "+order.getOrderId());
-    }
+//    public void removeOrder(Order order){
+//        orderDatabase.remove(order);
+//        System.out.println("Usunieto Zamówienie z id: "+order.getOrderId());
+//    }
 
-    public void finalizeOrder(Long orderFinalizedId){
+    public void finalizeOrder(Long orderFinalizedId) throws RuntimeException{
         orderDatabase.stream()
                 .filter(order -> order.getOrderId() == orderFinalizedId)
                 .findFirst()
@@ -42,15 +41,15 @@ public class OrderService {
         System.out.println("Sfinalizowano Zamówienie z id: " + orderFinalizedId);
     }
 
-    public void editReservations(Long orderId, List<Reservation> newReservations){
-       Order foundOrder =  orderDatabase.stream()
-                .filter(order -> order.getOrderId() == orderId)
-                .findFirst()
-                .orElseThrow(()-> new RuntimeException("Order doesn't exists"));
-       if(foundOrder != null){
-           foundOrder.setReservations(newReservations);
-       }
-    }
+//    public void editReservations(Long orderId, List<Reservation> newReservations){
+//       Order foundOrder =  orderDatabase.stream()
+//                .filter(order -> order.getOrderId() == orderId)
+//                .findFirst()
+//                .orElseThrow(()-> new RuntimeException("Order doesn't exists"));
+//       if(foundOrder != null){
+//           foundOrder.setReservations(newReservations);
+//       }
+//    }
     public void cancelEveryOrderOfMovie(long movieId){
         List<Order> ordersToCancel = orderDatabase.stream()
                 .filter(order -> order.getReservations().stream()
