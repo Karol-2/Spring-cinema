@@ -1,44 +1,43 @@
 package com.tje.cinema.services;
 
 import com.tje.cinema.domain.Movie;
+import com.tje.cinema.repositories.MovieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class MovieService {
 
-    public MovieService() {
+    private final MovieRepository movieRepository;
+
+    @Autowired
+    public MovieService(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
         this.setInitialMovies();
     }
-    private final List<Movie> movieDatabase = new ArrayList<>();
 
-    private long movieIdCounter = 1;
-
-    public void addMovie(Movie movie){
-        movie.setId(movieIdCounter++);
-        this.movieDatabase.add(movie);
+    public Movie addMovie(Movie movie){
         System.out.println("Add movie: "+movie.getTitle());
+        return movieRepository.save(movie);
     }
     public void removeMovieById(long id) {
-        movieDatabase.removeIf(movie -> movie.getId() == id);
+        movieRepository.deleteById(id);
 }
     public List<Movie> getAllMovies(){
-        return this.movieDatabase;
+        return (List<Movie>) movieRepository.findAll();
     }
     public Movie getMovieById(long id) throws RuntimeException {
-        return movieDatabase.stream()
-                .filter(movie -> movie.getId()==(id))
-                .findFirst()
-                .orElseThrow(()-> new RuntimeException("Movie not found with id: " + id));
+        return movieRepository.findById(id).orElse(null);
     }
 
-    public void editMovie(long id, Movie updatedMovie) throws RuntimeException {
-        Movie existingMovie = getMovieById(id);
+    public Movie editMovie(long id, Movie updatedMovie) throws RuntimeException {
+        Movie existingMovie = movieRepository.findById(id).orElse(null);
 
         if (existingMovie != null) {
             existingMovie.setTitle(updatedMovie.getTitle());
@@ -50,6 +49,7 @@ public class MovieService {
             existingMovie.setPhotos(updatedMovie.getPhotos());
 
             System.out.println("Edit movie: " + existingMovie.getTitle());
+            return movieRepository.save(existingMovie);
         } else {
             throw new RuntimeException("Movie not found with id: " + id);
         }
@@ -57,10 +57,20 @@ public class MovieService {
 
     public void setInitialMovies() {
         ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
-
-        // Dodanie Filmów z beans
         Map<String, Movie> movieBeans = context.getBeansOfType(Movie.class);
-        movieBeans.values().forEach(movie -> this.addMovie(movie));
+
+        for (Movie movieBean : movieBeans.values()) {
+            Movie movie = (Movie) movieBean;
+            System.out.println("Bean, " + movie.getTitle());
+
+            Optional<Movie> existingMovie = this.movieRepository.findByTitle(movieBean.getTitle());
+
+            if (!existingMovie.isPresent()) {
+
+                this.movieRepository.save(movieBean);
+                System.out.println("Add movie from beans: "+movieBean.getTitle());
+            }
+        }
     }
 
 }

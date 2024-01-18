@@ -1,16 +1,30 @@
 package com.tje.cinema.domain;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "movies")
 public class Movie {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(name = "title")
     private String title;
+    @Column(name = "genre")
     private String genre;
+    @Column(name = "year")
     private int year;
+    @Column(name = "director")
     private String director;
+    @Column(name = "actors")
     private String actors;
+    @Column(name = "trailer_link")
     private String trailerLink;
+    @ElementCollection
+    @CollectionTable(name = "movie_photos", joinColumns = @JoinColumn(name = "movie_id"))
+    @Column(name = "photo")
     private List<String> photos;
 
     public Movie() {}
