@@ -1,17 +1,29 @@
 package com.tje.cinema.domain;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Screening {
+@Entity
+@Table(name = "screenings")
+public class Screening { //TODO: fix seats objects
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "screening_id")
     private Long screeningId;
+    @Transient
     private long movieId;
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
     private Movie movie;
+    @Column(name = "date_and_time")
     private LocalDateTime dateAndTime;
+    @Transient
     private HashMap<Long, List<String>> takenSeats;
+    @Transient
     private List<List<String>> allSeats;
     public Screening(){
         this.takenSeats = new HashMap<>();

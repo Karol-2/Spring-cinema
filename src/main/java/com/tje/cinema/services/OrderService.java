@@ -27,10 +27,6 @@ public class OrderService {
         orderDatabase.add(order);
         System.out.println("Dodano Zamówienie z id: "+order.getOrderId());
     }
-//    public void removeOrder(Order order){
-//        orderDatabase.remove(order);
-//        System.out.println("Usunieto Zamówienie z id: "+order.getOrderId());
-//    }
 
     public void finalizeOrder(Long orderFinalizedId) throws RuntimeException{
         orderDatabase.stream()
@@ -41,15 +37,7 @@ public class OrderService {
         System.out.println("Sfinalizowano Zamówienie z id: " + orderFinalizedId);
     }
 
-//    public void editReservations(Long orderId, List<Reservation> newReservations){
-//       Order foundOrder =  orderDatabase.stream()
-//                .filter(order -> order.getOrderId() == orderId)
-//                .findFirst()
-//                .orElseThrow(()-> new RuntimeException("Order doesn't exists"));
-//       if(foundOrder != null){
-//           foundOrder.setReservations(newReservations);
-//       }
-//    }
+
     public void cancelEveryOrderOfMovie(long movieId){
         List<Order> ordersToCancel = orderDatabase.stream()
                 .filter(order -> order.getReservations().stream()

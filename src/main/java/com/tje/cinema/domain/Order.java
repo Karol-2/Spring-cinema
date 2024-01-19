@@ -1,17 +1,32 @@
 package com.tje.cinema.domain;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "orders")
 public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long orderId;
+    @Column(name = "price")
     private double price;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
+    @Column(name = "date")
     private LocalDateTime date;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    public Order() {}
+    public Order() {
+        this.reservations = new ArrayList<>();
+    }
 
     public Order(List<Reservation> reservations, LocalDateTime date, User user) {
         this.price = calculateCost(reservations);

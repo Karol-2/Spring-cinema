@@ -55,7 +55,7 @@ public class OrderController {
 
         for (int index = 0; index < reservations.size(); index++) {
             Reservation reservation = reservations.get(index);
-            Screening screening = repertuarService.getscreeningById(reservation.getScreeningId());
+            Screening screening = repertuarService.getscreeningById(reservation.getScreening().getScreeningId());
             if (new HashSet<>(screening.getTakenSeatsWithoutId()).containsAll(reservation.getReservedSeats())) {
                 String errorMessage = "Someone has already reserved your seats for " + screening.getMovieTitle() +
                          ", those tickets will be removed from cart";
@@ -102,7 +102,7 @@ public class OrderController {
                     // Check if the screening matches any in the cart
                     if (orderScreening.getScreeningId().equals(screening.getScreeningId())) {
                         Reservation reservation = existingOrder.getReservations().stream()
-                                .filter(res -> Objects.equals(res.getScreeningId(), screeningId))
+                                .filter(res -> Objects.equals(res.getScreening().getScreeningId(), screeningId))
                                 .findFirst().orElse(null);
 
                         assert reservation != null;
@@ -213,7 +213,7 @@ public class OrderController {
             return "redirect:/cart";
 
         }
-        redirectAttributes.addAttribute("error","Choose at least one seat!"); //TODO: fix redirecting after empty choice
+        redirectAttributes.addAttribute("error","Choose at least one seat!");
         String referer = "redirect:" + request.getHeader("Referer");
         return referer;
     }
