@@ -79,22 +79,25 @@ public class RepertuarService {
 
 
     public void setInitialScreenings() {
-        //this.screeningRepository.deleteAll();
-        ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+        List<Screening> existingScreenings = this.screeningRepository.findAll();
+        if(existingScreenings.size() == 0){
+            ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
 
-        Map<String, Screening> screeningBeans = context.getBeansOfType(Screening.class);
+            Map<String, Screening> screeningBeans = context.getBeansOfType(Screening.class);
 
-        for (Screening scrBean : screeningBeans.values()) {
-            Screening screening = scrBean;
+            for (Screening scrBean : screeningBeans.values()) {
+                Screening screening = scrBean;
 
-            Optional<Movie> foundMovie = this.movieRepository.findById(screening.getMovieId());
-            foundMovie.ifPresent(movie -> {
-                screening.setMovie(movie);
-                System.out.println("Adding new screening from beans");
-                this.screeningRepository.save(screening);
-            });
+                Optional<Movie> foundMovie = this.movieRepository.findById(screening.getMovieId());
+                foundMovie.ifPresent(movie -> {
+                    screening.setMovie(movie);
+                    System.out.println("Adding new screening from beans");
+                    this.screeningRepository.save(screening);
+                });
 
+            }
         }
+
     }
 
 

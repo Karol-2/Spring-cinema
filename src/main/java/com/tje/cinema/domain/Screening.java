@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "screenings")
-public class Screening { //TODO: fix seats objects
+public class Screening {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "screening_id")
@@ -24,7 +24,7 @@ public class Screening { //TODO: fix seats objects
     @Transient
     private HashMap<Long, List<String>> takenSeats;
     @Transient
-    private List<List<String>> allSeats;
+    private List<List<String>> allSeats; //TODO: fix seats objects
     public Screening(){
         this.takenSeats = new HashMap<>();
         this.allSeats = this.generateSeatList(10,'A',2);

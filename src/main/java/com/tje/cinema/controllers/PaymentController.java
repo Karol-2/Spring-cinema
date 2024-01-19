@@ -1,8 +1,6 @@
 package com.tje.cinema.controllers;
 
 import com.tje.cinema.domain.Order;
-import com.tje.cinema.domain.Reservation;
-import com.tje.cinema.domain.Screening;
 import com.tje.cinema.services.OrderService;
 import com.tje.cinema.services.RepertuarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 
 @Controller
+@Transactional
 public class PaymentController {
 
     private final OrderService orderService;
@@ -58,14 +56,14 @@ public class PaymentController {
             session.removeAttribute("order");
 
             // zarezerwowanie miejsc
-            List<Reservation> reservationsList = order.getReservations();
-            for (Reservation reservation : reservationsList) {
-
-                Screening screening = reservation.getScreening();
-                HashMap<Long, List<String>> existingSeats = screening.getTakenSeats();
-                existingSeats.put(orderId,reservation.getReservedSeats());
-                this.repertuarService.editscreening(screening.getScreeningId(), screening);
-            }
+//            List<Reservation> reservationsList = order.getReservations();
+//            for (Reservation reservation : reservationsList) {
+//
+//                Screening screening = reservation.getScreening();
+//                HashMap<Long, List<String>> existingSeats = screening.getTakenSeats();
+//                existingSeats.put(orderId,reservation.getReservedSeats());
+//                this.repertuarService.editscreening(screening.getScreeningId(), screening);
+//            }
 
             return "redirect:/orders";
         }

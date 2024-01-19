@@ -1,12 +1,14 @@
 package com.tje.cinema.domain;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "orders")
+@Transactional
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +41,7 @@ public class Order {
     public void addReservation(Reservation reservation) {
         this.reservations.add(reservation);
         this.setPrice(calculateCost(this.getReservations()));
+        reservation.setOrder(this);
     }
 
     public enum OrderStatus {

@@ -24,7 +24,7 @@ public class Reservation {
     private User user;
     @Column(name = "reservation_cost")
     private double reservationCost;
-    @ManyToOne
+    @ManyToOne( cascade = CascadeType.PERSIST)
     @JoinColumn(name = "order_id")
     private Order order;
 

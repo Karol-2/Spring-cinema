@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
@@ -26,11 +27,13 @@ import java.util.stream.Collectors;
 public class OrderController {
     private final OrderService orderService;
     private final RepertuarService repertuarService;
+    private final EntityManager entityManager;
 
     @Autowired
-    public OrderController(OrderService orderService, RepertuarService repertuarService) {
+    public OrderController(OrderService orderService, RepertuarService repertuarService, EntityManager entityManager) {
         this.orderService = orderService;
         this.repertuarService = repertuarService;
+        this.entityManager = entityManager;
     }
 
     @GetMapping("/orders")
@@ -38,6 +41,7 @@ public class OrderController {
         User user = (User)session.getAttribute("user");
         List<Order> orders= orderService.getOrdersByUserId(user.getId());
         model.addAttribute("orders",orders);
+        System.out.println(orders);
         return "userOrdersPage";
     }
     @GetMapping("/cart")
@@ -52,10 +56,12 @@ public class OrderController {
         Order order = (Order)session.getAttribute("order");
         //check if seats are still free
         List<Reservation> reservations = order.getReservations();
+        System.out.println(reservations);
 
         for (int index = 0; index < reservations.size(); index++) {
             Reservation reservation = reservations.get(index);
             Screening screening = repertuarService.getscreeningById(reservation.getScreening().getScreeningId());
+            System.out.println(screening.getMovie().getTitle());
             if (new HashSet<>(screening.getTakenSeatsWithoutId()).containsAll(reservation.getReservedSeats())) {
                 String errorMessage = "Someone has already reserved your seats for " + screening.getMovieTitle() +
                          ", those tickets will be removed from cart";
@@ -67,6 +73,7 @@ public class OrderController {
                 redirectAttributes.addAttribute("error", errorMessage);
                 return "redirect:/cart";
             }
+
         }
 
         //success

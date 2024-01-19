@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class OrderService {
     private final OrderRepository orderRepository;
     private final ReservationRepository reservationRepository;
@@ -29,6 +30,7 @@ public class OrderService {
     public Order getOrder(long orderId) throws RuntimeException{
         return this.orderRepository.findById(orderId).orElse(null);
     }
+    @Transactional
     public void addOrder(Order order){
 
        this.orderRepository.save(order);
