@@ -79,7 +79,7 @@ public class RepertuarService {
 
 
     public void setInitialScreenings() {
-        this.screeningRepository.deleteAll();
+        //this.screeningRepository.deleteAll();
         ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
 
         Map<String, Screening> screeningBeans = context.getBeansOfType(Screening.class);

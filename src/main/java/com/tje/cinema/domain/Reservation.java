@@ -16,10 +16,9 @@ public class Reservation {
     @ManyToOne
     @JoinColumn(name = "screening_id")
     private Screening screening;
-    @ElementCollection
-    @CollectionTable(name = "reserved_seats", joinColumns = @JoinColumn(name = "reservation_id"))
-    @Column(name = "seat")
-    private List<String> reservedSeats;
+
+    @Column(name = "seats")
+    private String reservedSeats;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -33,14 +32,14 @@ public class Reservation {
     public Reservation(){}
     public Reservation(Long screeningId, List<String> reservedSeats, User user){
         this.screeningId = screeningId;
-        this.reservedSeats = reservedSeats;
+        this.reservedSeats = this.arrayToString(reservedSeats);
         this.user = user;
         this.reservationCost = reservedSeats.size() * TICKET_COST;
     }
     public Reservation(Screening screening, List<String> reservedSeats, User user){
         this.screeningId = screening.getScreeningId();
         this.screening = screening;
-        this.reservedSeats = reservedSeats;
+        this.reservedSeats = this.arrayToString(reservedSeats);
         this.user = user;
         this.reservationCost = reservedSeats.size() * TICKET_COST;
     }
@@ -70,21 +69,13 @@ public class Reservation {
     }
 
     public List<String> getReservedSeats() {
-        return reservedSeats;
+        return this.stringToArray(this.reservedSeats);
     }
 
     public void setReservedSeats(List<String> reservedSeats) {
 
-        this.reservedSeats = reservedSeats;
+        this.reservedSeats = arrayToString(reservedSeats);
         this.reservationCost = reservedSeats.size() * TICKET_COST;
-    }
-    public void addReservedSeats(String seat) {
-        this.reservedSeats.add(seat);
-        this.reservationCost = reservedSeats.size() * TICKET_COST;
-    }
-    public void removeReservedSeat(String seat){
-        this.reservationCost = reservedSeats.size() * TICKET_COST;
-        this.reservedSeats.remove(seat);
     }
 
     public User getUser() {
@@ -113,6 +104,21 @@ public class Reservation {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    private List<String>stringToArray(String text){
+        return List.of(text.split(","));
+    }
+    private String arrayToString(List<String> list){
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            if(i != list.size()-1){
+                result.append(list.get(i)).append(",");
+            } else {
+                result.append(list.get(i));
+            }
+        }
+        return result.toString();
     }
 
     @Override

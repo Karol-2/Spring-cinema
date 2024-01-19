@@ -1,70 +1,70 @@
 package com.tje.cinema.services;
 
 import com.tje.cinema.domain.Order;
+import com.tje.cinema.domain.Reservation;
+import com.tje.cinema.repositories.OrderRepository;
+import com.tje.cinema.repositories.ReservationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
-    private final List<Order> orderDatabase = new ArrayList<>();
-    private long orderIdCounter = 1;
+    private final OrderRepository orderRepository;
+    private final ReservationRepository reservationRepository;
+
+    @Autowired
+    public OrderService(OrderRepository orderRepository, ReservationRepository reservationRepository){
+        this.orderRepository = orderRepository;
+        this.reservationRepository = reservationRepository;
+    }
+
 
     public List<Order> getOrders(){
-        return this.orderDatabase;
+        return this.orderRepository.findAll();
     }
 
     public Order getOrder(long orderId) throws RuntimeException{
-        return this.orderDatabase.stream()
-                .filter(order -> order.getOrderId() == orderId)
-                .findFirst()
-                .orElseThrow(()->new RuntimeException("Order not found"));
+        return this.orderRepository.findById(orderId).orElse(null);
     }
     public void addOrder(Order order){
-        order.setOrderId(orderIdCounter++);
-        orderDatabase.add(order);
-        System.out.println("Dodano Zamówienie z id: "+order.getOrderId());
-    }
 
+       this.orderRepository.save(order);
+        System.out.println("Dodano Zamówienie ");
+
+        List<Order> orderList = this.orderRepository.findOrderByDate(order.getDate());
+        if(orderList.size() >= 1){
+            Order orderId = orderList.get(0);
+            for (Reservation reservation:order.getReservations()) {
+                reservation.setOrder(orderId);
+                this.reservationRepository.save(reservation);
+            }
+        }
+
+
+    }
+    @Transactional
     public void finalizeOrder(Long orderFinalizedId) throws RuntimeException{
-        orderDatabase.stream()
-                .filter(order -> order.getOrderId() == orderFinalizedId)
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Order not found"))
-                .setStatus(Order.OrderStatus.COMPLETED);
+        this.orderRepository.finalizeOrder(orderFinalizedId);
         System.out.println("Sfinalizowano Zamówienie z id: " + orderFinalizedId);
     }
 
-
+    @Transactional
     public void cancelEveryOrderOfMovie(long movieId){
-        List<Order> ordersToCancel = orderDatabase.stream()
-                .filter(order -> order.getReservations().stream()
-                        .anyMatch(reservation -> reservation.getScreening().getMovieId() == movieId))
-                .collect(Collectors.toList());
-
-        ordersToCancel.forEach(order -> {
-            order.setStatus(Order.OrderStatus.CANCELLED);
-        });
+      this.orderRepository.cancelEveryOrderOfMovie(movieId);
+      System.out.println("Canceled every order of movie with id " + movieId);
     }
-
+    @Transactional
     public void cancelEveryOrderOfscreening(long screeningId){
-        List<Order> ordersToCancel = orderDatabase.stream()
-                .filter(order -> order.getReservations().stream()
-                        .anyMatch(reservation -> reservation.getScreening().getScreeningId() == screeningId))
-                .collect(Collectors.toList());
-
-        ordersToCancel.forEach(order -> {
-            order.setStatus(Order.OrderStatus.CANCELLED);
-        });
+       this.orderRepository.cancelEveryOrderOfscreening(screeningId);
+        System.out.println("Canceled every order of screenidng with id " + screeningId);
     }
 
 
     public List<Order> getOrdersByUserId(long userId){
-        return orderDatabase.stream()
-                .filter(order -> order.getUser().getId() == userId)
-                .collect(Collectors.toList());
+        return this.orderRepository.getOrdersByUserId(userId);
     }
 
 

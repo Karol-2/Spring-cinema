@@ -22,9 +22,9 @@
                 <p th:text="'Tickets:'"></p>
                 <ol >
                     <li th:each="reservation : ${order.getReservations()}">
-                        <p th:text="'Movie: '+${reservation.getScreening().getMovie().getTitle()}"></p>
+                        <p th:text="'Movie: '+${reservation.getScreening().getMovie()}"></p>
                         <p th:text="'Date and time: '+${#temporals.format(reservation.getScreening().getDateAndTime(), 'dd-MM-yyyy HH:mm')}"></p>
-                        <p th:text="'Seats: ' + ${#strings.arrayJoin(reservation.getReservedSeats(), ', ')}"></p>
+<!--                        <p th:text="'Seats: ' + ${reservation.getReservedSeats()}"></p>-->
                     </li>
 
                 </ol>
