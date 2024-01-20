@@ -1,8 +1,6 @@
 package com.tje.cinema.controllers;
 
-import com.tje.cinema.domain.Order;
 import com.tje.cinema.services.OrderService;
-import com.tje.cinema.services.RepertuarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,12 +19,10 @@ import java.util.Random;
 public class PaymentController {
 
     private final OrderService orderService;
-    private final RepertuarService repertuarService;
 
     @Autowired
-    public PaymentController(OrderService orderService, RepertuarService repertuarService) {
+    public PaymentController(OrderService orderService) {
         this.orderService = orderService;
-        this.repertuarService = repertuarService;
     }
 
     @GetMapping("/payment")
@@ -51,7 +47,6 @@ public class PaymentController {
                                   Model model) throws ParseException {
         if (code.equals(response)){
             //sukces
-            Order order = orderService.getOrder(orderId);
             orderService.finalizeOrder(orderId);
             session.removeAttribute("order");
 
