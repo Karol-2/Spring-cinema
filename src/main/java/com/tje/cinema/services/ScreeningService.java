@@ -17,13 +17,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class RepertuarService {
+public class ScreeningService {
     private final MovieService movieService;
     private final MovieRepository movieRepository;
 
     private final ScreeningRepository screeningRepository;
     @Autowired
-    public RepertuarService(MovieService movieService, ScreeningRepository screeningRepository, MovieRepository movieRepository) {
+    public ScreeningService(MovieService movieService, ScreeningRepository screeningRepository, MovieRepository movieRepository) {
         this.movieService = movieService;
         this.screeningRepository = screeningRepository;
         this.movieRepository = movieRepository;

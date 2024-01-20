@@ -1,10 +1,10 @@
-package com.tje.cinema.controllers;
+package com.tje.cinema.controllersWEB;
 
 import com.tje.cinema.domain.Movie;
 import com.tje.cinema.domain.Screening;
 import com.tje.cinema.services.MovieService;
 import com.tje.cinema.services.OrderService;
-import com.tje.cinema.services.RepertuarService;
+import com.tje.cinema.services.ScreeningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -22,14 +22,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-public class RepertuarController {
+public class ScreeningController {
 
-    private final RepertuarService repertuarService;
+    private final ScreeningService screeningService;
     private final MovieService movieService;
     private final OrderService orderService;
     @Autowired
-    public RepertuarController(RepertuarService repertuarService, MovieService movieService, OrderService orderService) {
-        this.repertuarService = repertuarService;
+    public ScreeningController(ScreeningService screeningService, MovieService movieService, OrderService orderService) {
+        this.screeningService = screeningService;
         this.movieService = movieService;
         this.orderService = orderService;
     }
@@ -39,7 +39,7 @@ public class RepertuarController {
         if (date == null) {
             date = LocalDate.now();
         }
-        List<Screening> seances = repertuarService.getscreeningesByDate(date);
+        List<Screening> seances = screeningService.getscreeningesByDate(date);
 
         model.addAttribute("seances", seances);
         model.addAttribute("selectedDate", date);
@@ -59,7 +59,7 @@ public class RepertuarController {
 
     @GetMapping("/screeningsForm/{id}")
     public String editMovieForm(@PathVariable Long id, Model model) {
-        Screening screening = this.repertuarService.getscreeningById(id);
+        Screening screening = this.screeningService.getscreeningById(id);
 
         if (screening != null) {
             List<Movie> moviesList = this.movieService.getAllMovies().stream()
@@ -95,7 +95,7 @@ public class RepertuarController {
         LocalDateTime dateAndTime = LocalDateTime.of(date,time);
         Movie movie = this.movieService.getMovieById(movieId);
         Screening newScreening = new Screening(screeningId,movie,movie.getId(),dateAndTime);
-        this.repertuarService.editscreening(screeningId, newScreening);
+        this.screeningService.editscreening(screeningId, newScreening);
 
         return "redirect:/admin";
     }
@@ -110,20 +110,20 @@ public class RepertuarController {
         LocalDateTime dateAndTime = LocalDateTime.of(date,time);
         Movie movie = this.movieService.getMovieById(movieId);
         Screening newScreening = new Screening(movieId,movie,movie.getId(),dateAndTime);
-        this.repertuarService.addscreening(newScreening);
+        this.screeningService.addscreening(newScreening);
 
         return "redirect:/admin";
     }
 
     @GetMapping("/remove-screening/{id}")
     public String removeMovie(@PathVariable Long id, Model model) {
-        Screening screening = this.repertuarService.getscreeningById(id);
+        Screening screening = this.screeningService.getscreeningById(id);
 
         if (screening != null) {
             //cancel all orders
             this.orderService.cancelEveryOrderOfscreening(id);
 
-            this.repertuarService.removeById(id);
+            this.screeningService.removeById(id);
 
             return "redirect:/admin";
         } else {

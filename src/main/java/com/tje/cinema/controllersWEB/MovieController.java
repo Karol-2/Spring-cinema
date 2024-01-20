@@ -1,10 +1,10 @@
-package com.tje.cinema.controllers;
+package com.tje.cinema.controllersWEB;
 
 import com.tje.cinema.domain.Movie;
 import com.tje.cinema.domain.Screening;
 import com.tje.cinema.services.MovieService;
 import com.tje.cinema.services.OrderService;
-import com.tje.cinema.services.RepertuarService;
+import com.tje.cinema.services.ScreeningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -20,13 +20,13 @@ import java.util.List;
 public class MovieController {
 
     private final MovieService movieService;
-    private final RepertuarService repertuarService;
+    private final ScreeningService screeningService;
     private final OrderService orderService;
 
     @Autowired
-    public MovieController(MovieService movieService, RepertuarService repertuarService, OrderService orderService) {
+    public MovieController(MovieService movieService, ScreeningService screeningService, OrderService orderService) {
         this.movieService = movieService;
-        this.repertuarService = repertuarService;
+        this.screeningService = screeningService;
         this.orderService = orderService;
     }
 
@@ -35,7 +35,7 @@ public class MovieController {
         if (date == null) {
             date = LocalDate.now();
         }
-        List<Screening> seances = this.repertuarService.getscreeningesByDate(date);
+        List<Screening> seances = this.screeningService.getscreeningesByDate(date);
 
         model.addAttribute("seances", seances);
         model.addAttribute("selectedDate", date);
@@ -92,7 +92,7 @@ public class MovieController {
 
         if (movie != null) {
             //Removing all screenigs of this movie
-            this.repertuarService.removeAllscreeningOfMovie(id);
+            this.screeningService.removeAllscreeningOfMovie(id);
 
             //Cancel all orders with this movie
             this.orderService.cancelEveryOrderOfMovie(id);

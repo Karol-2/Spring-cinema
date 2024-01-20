@@ -1,8 +1,8 @@
-package com.tje.cinema.controllers;
+package com.tje.cinema.controllersWEB;
 
 import com.tje.cinema.domain.*;
 import com.tje.cinema.services.MovieService;
-import com.tje.cinema.services.RepertuarService;
+import com.tje.cinema.services.ScreeningService;
 import com.tje.cinema.services.StatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,13 +20,13 @@ import java.util.List;
 @Controller
 public class AdminController {
     private final MovieService movieService;
-    private final RepertuarService repertuarService;
+    private final ScreeningService screeningService;
     private final StatsService statsService;
 
     @Autowired
-    public AdminController(MovieService movieService, RepertuarService repertuarService, StatsService statsService){
+    public AdminController(MovieService movieService, ScreeningService screeningService, StatsService statsService){
         this.movieService = movieService;
-        this.repertuarService = repertuarService;
+        this.screeningService = screeningService;
         this.statsService = statsService;
     }
 
@@ -85,7 +85,7 @@ public class AdminController {
         List<Movie> moviesList = this.movieService.getAllMovies();
         model.addAttribute("movies", moviesList);
 
-        List<Screening> screenings = this.repertuarService.getAllscreening();
+        List<Screening> screenings = this.screeningService.getAllscreening();
         model.addAttribute("screenings", screenings);
 
         model.addAttribute("statsType", statsType);

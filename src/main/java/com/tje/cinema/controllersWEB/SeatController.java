@@ -1,11 +1,11 @@
-package com.tje.cinema.controllers;
+package com.tje.cinema.controllersWEB;
 
 import com.tje.cinema.domain.Order;
 import com.tje.cinema.domain.Reservation;
 import com.tje.cinema.domain.Screening;
 import com.tje.cinema.domain.User;
 import com.tje.cinema.repositories.ReservationRepository;
-import com.tje.cinema.services.RepertuarService;
+import com.tje.cinema.services.ScreeningService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,11 +30,11 @@ import java.util.stream.Collectors;
 @Controller
 public class SeatController {
 
-    private final RepertuarService repertuarService;
+    private final ScreeningService screeningService;
     private final ReservationRepository reservationRepository;
 
-    public SeatController(RepertuarService repertuarService, ReservationRepository reservationRepository) {
-        this.repertuarService = repertuarService;
+    public SeatController(ScreeningService screeningService, ReservationRepository reservationRepository) {
+        this.screeningService = screeningService;
         this.reservationRepository = reservationRepository;
     }
 
@@ -47,7 +47,7 @@ public class SeatController {
 
         try {
 
-            Screening screening = this.repertuarService.getscreeningById(screeningId);
+            Screening screening = this.screeningService.getscreeningById(screeningId);
 
             List<Reservation> matchingReservations =this.reservationRepository.getReservationsByScreeningId(screening.getScreeningId());
             List<String> reservedSeats = this.makeOneSeatArray(matchingReservations);
@@ -116,7 +116,7 @@ public class SeatController {
 
         if (selectedSeats != null) {
             // create reservation
-            Screening screening = repertuarService.getscreeningById(screeningId);
+            Screening screening = screeningService.getscreeningById(screeningId);
             Reservation reservation = new Reservation(screening,selectedSeats,(User)session.getAttribute("user"));
 
             Object userOrder = session.getAttribute("order");
@@ -153,7 +153,7 @@ public class SeatController {
         System.out.println("prev seats: " + Arrays.toString(previousSeats));
 
         try {
-            Screening screening = this.repertuarService.getscreeningById(screeningIdLong);
+            Screening screening = this.screeningService.getscreeningById(screeningIdLong);
 
             List<Reservation> matchingReservations =this.reservationRepository.getReservationsByScreeningId(screening.getScreeningId());
             List<String> reservedSeats = this.makeOneSeatArray(matchingReservations);

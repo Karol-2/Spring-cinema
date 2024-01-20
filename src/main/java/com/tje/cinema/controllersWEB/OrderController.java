@@ -1,11 +1,11 @@
-package com.tje.cinema.controllers;
+package com.tje.cinema.controllersWEB;
 
 import com.tje.cinema.domain.Order;
 import com.tje.cinema.domain.Reservation;
 import com.tje.cinema.domain.Screening;
 import com.tje.cinema.domain.User;
 import com.tje.cinema.services.OrderService;
-import com.tje.cinema.services.RepertuarService;
+import com.tje.cinema.services.ScreeningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,13 +23,13 @@ import java.util.List;
 @Controller
 public class OrderController {
     private final OrderService orderService;
-    private final RepertuarService repertuarService;
+    private final ScreeningService screeningService;
 
 
     @Autowired
-    public OrderController(OrderService orderService, RepertuarService repertuarService) {
+    public OrderController(OrderService orderService, ScreeningService screeningService) {
         this.orderService = orderService;
-        this.repertuarService = repertuarService;
+        this.screeningService = screeningService;
     }
 
     @GetMapping("/orders")
@@ -56,7 +56,7 @@ public class OrderController {
 
         for (int index = 0; index < reservations.size(); index++) {
             Reservation reservation = reservations.get(index);
-            Screening screening = repertuarService.getscreeningById(reservation.getScreening().getScreeningId());
+            Screening screening = screeningService.getscreeningById(reservation.getScreening().getScreeningId());
             System.out.println(screening.getMovie().getTitle());
             if (new HashSet<>(screening.getTakenSeatsWithoutId()).containsAll(reservation.getReservedSeats())) {
                 String errorMessage = "Someone has already reserved your seats for " + screening.getMovieTitle() +

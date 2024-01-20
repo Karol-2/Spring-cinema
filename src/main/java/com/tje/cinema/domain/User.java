@@ -3,6 +3,10 @@ package com.tje.cinema.domain;
 import com.tje.cinema.interfaces.UserInterface;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -15,11 +19,19 @@ public class User implements UserInterface {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true, nullable = false)
+    @NotNull(message = "email is mandatory")
+    @NotBlank(message = "email is mandatory")
+    @Size(min = 5, max = 100, message = "email length should be between 5 and 100")
+    @Email(message = "enter valid email address")
     private String email;
     @Column(nullable = false)
+    @NotNull(message = "name is mandatory")
+    @Size(min = 2, max = 50, message = "name length should be between 2 and 50")
     private String name;
 
     @Column(nullable = false)
+    @NotNull(message = "password is mandatory")
+    @Size(min = 6, max = 50, message = "password length should be between 6 and 50")
     private String password;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false,  insertable = false, updatable = false)

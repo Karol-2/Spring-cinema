@@ -1,4 +1,4 @@
-package com.tje.cinema.controllers;
+package com.tje.cinema.controllersWEB;
 
 import com.tje.cinema.domain.AdminUser;
 import com.tje.cinema.domain.User;

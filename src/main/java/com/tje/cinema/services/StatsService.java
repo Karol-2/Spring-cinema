@@ -13,12 +13,12 @@ public class StatsService {
 
 
     private final OrderService orderService;
-    private final RepertuarService repertuarService;
+    private final ScreeningService screeningService;
     private final UserService userService;
     @Autowired
-    public StatsService(OrderService orderService, RepertuarService repertuarService, UserService userService) {
+    public StatsService(OrderService orderService, ScreeningService screeningService, UserService userService) {
         this.orderService = orderService;
-        this.repertuarService = repertuarService;
+        this.screeningService = screeningService;
         this.userService = userService;
     }
 
@@ -30,14 +30,14 @@ public class StatsService {
     }
 
     public long getNumberOfScreenings(LocalDate dateFrom, LocalDate dateTo){
-        return this.repertuarService.getAllscreening().stream()
+        return this.screeningService.getAllscreening().stream()
                 .filter(showing -> showing.getDateAndTime().isAfter(dateFrom.atStartOfDay())
                         && showing.getDateAndTime().isBefore(dateTo.atStartOfDay()))
                 .count();
     }
 
     public long getNumberofMoviesShown(LocalDate dateFrom, LocalDate dateTo){
-        return this.repertuarService.getAllscreening().stream()
+        return this.screeningService.getAllscreening().stream()
                 .filter(showing -> showing.getDateAndTime().isAfter(dateFrom.atStartOfDay())
                         && showing.getDateAndTime().isBefore(dateTo.atStartOfDay()))
                 .map( showing -> showing.getMovie())
@@ -46,7 +46,7 @@ public class StatsService {
     }
 
     public String getMostPopularMovie(LocalDate dateFrom, LocalDate dateTo) {
-        Map<String, Long> movieFrequencyMap = this.repertuarService.getAllscreening().stream()
+        Map<String, Long> movieFrequencyMap = this.screeningService.getAllscreening().stream()
                 .filter(show -> show.getDateAndTime().isAfter(dateFrom.atStartOfDay())
                         && show.getDateAndTime().isBefore(dateTo.atStartOfDay()))
                 .collect(Collectors.groupingBy(

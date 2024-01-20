@@ -5,6 +5,7 @@ import com.tje.cinema.domain.User;
 import com.tje.cinema.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -23,12 +24,31 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
     }
 
-    public void saveUser(User user) {
-        userRepository.save(user);
+    public User getUserById(Long id){
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public User saveUser(User user) {
+        return  userRepository.save(user);
+    }
+
+    @Transactional
+    public User editUser(User user) {
+        User userEdited = userRepository.findById(user.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        userEdited.setEmail(user.getEmail());
+        userEdited.setName(user.getName());
+        userEdited.setPassword(user.getPassword());
+
+        return userRepository.save(userEdited);
     }
 
     public List<User> getUserList() {
         return userRepository.findAll();
+    }
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
     }
 
     private void setInitialUsers() {

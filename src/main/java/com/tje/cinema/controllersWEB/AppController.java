@@ -1,4 +1,4 @@
-package com.tje.cinema.controllers;
+package com.tje.cinema.controllersWEB;
 
 import com.tje.cinema.domain.Movie;
 import com.tje.cinema.services.MovieService;

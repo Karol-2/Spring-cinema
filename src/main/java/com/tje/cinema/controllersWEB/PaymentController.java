@@ -1,4 +1,4 @@
-package com.tje.cinema.controllers;
+package com.tje.cinema.controllersWEB;
 
 import com.tje.cinema.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,17 +49,6 @@ public class PaymentController {
             //sukces
             orderService.finalizeOrder(orderId);
             session.removeAttribute("order");
-
-            // zarezerwowanie miejsc
-//            List<Reservation> reservationsList = order.getReservations();
-//            for (Reservation reservation : reservationsList) {
-//
-//                Screening screening = reservation.getScreening();
-//                HashMap<Long, List<String>> existingSeats = screening.getTakenSeats();
-//                existingSeats.put(orderId,reservation.getReservedSeats());
-//                this.repertuarService.editscreening(screening.getScreeningId(), screening);
-//            }
-
             return "redirect:/orders";
         }
         redirectAttributes.addAttribute("orderId",orderId);
