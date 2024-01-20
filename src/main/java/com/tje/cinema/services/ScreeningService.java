@@ -63,7 +63,6 @@ public class ScreeningService {
 
         existingScreening.setMovieId(updatedScreening.getMovieId());
         existingScreening.setDateAndTime(updatedScreening.getDateAndTime());
-        existingScreening.setTakenSeats(updatedScreening.getTakenSeats());
 
         Movie movieObj = movieService.getMovieById(updatedScreening.getMovieId());
         existingScreening.setMovie(movieObj);

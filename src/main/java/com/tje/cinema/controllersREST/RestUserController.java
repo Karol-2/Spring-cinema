@@ -40,7 +40,6 @@ public class RestUserController {
 
     @PostMapping()
     public ResponseEntity<?> addUser(@RequestBody @Valid User user){
-
         try{
             User foundUser = userService.getUserByEmail(user.getEmail());
             if (foundUser != null){

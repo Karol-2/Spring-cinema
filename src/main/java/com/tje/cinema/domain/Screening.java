@@ -1,6 +1,9 @@
 package com.tje.cinema.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -15,25 +18,23 @@ public class Screening {
     @Column(name = "screening_id")
     private Long screeningId;
     @Transient
+    @NotNull(message = "movieId is mandatory")
     private long movieId;
     @ManyToOne
     @JoinColumn(name = "movie_id")
     private Movie movie;
     @Column(name = "date_and_time")
+    @NotNull(message = "dateAndTime is mandatory")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dateAndTime;
     @Transient
-    private HashMap<Long, List<String>> takenSeats;
-    @Transient
-    private List<List<String>> allSeats; //TODO: fix seats objects
+    private List<List<String>> allSeats;
     public Screening(){
-        this.takenSeats = new HashMap<>();
         this.allSeats = this.generateSeatList(10,'A',2);
     };
     public Screening(int movieId, LocalDateTime dateAndTime) {
         this.movieId = movieId;
         this.dateAndTime = dateAndTime;
-        this.takenSeats = new HashMap<>();
-        this.allSeats = new ArrayList<>();
         this.allSeats = this.generateSeatList(10,'A',2);
     }
     public Screening(long id, Movie movie, long movieId, LocalDateTime dateAndTime) {
@@ -41,7 +42,6 @@ public class Screening {
         this.movie = movie;
         this.movieId = movieId;
         this.dateAndTime = dateAndTime;
-        this.takenSeats = new HashMap<>();
         this.allSeats = this.generateSeatList(10,'A',2);
     }
     public String getMovieTitle(){
@@ -85,7 +85,7 @@ public class Screening {
     }
 
     public HashMap<Long, List<String>> getTakenSeats() {
-        return takenSeats;
+        return new HashMap<>();
     }
 
     public List<String> getTakenSeatsWithoutId(){
@@ -99,17 +99,7 @@ public class Screening {
         return allSeats;
     }
 
-    public void setTakenSeats(HashMap<Long, List<String>> takenSeats) {
-        this.takenSeats = takenSeats;
-    }
 
-    public void addTakenSeats(List<String> seats, long orderId) {
-        this.takenSeats.put(orderId,seats);
-    }
-
-    public void removeTakenSeats(List<String> seats, long orderId) {
-        this.takenSeats.remove(orderId,seats);
-    }
 
     public List<List<String>> getAllSeats() {
         return allSeats;
