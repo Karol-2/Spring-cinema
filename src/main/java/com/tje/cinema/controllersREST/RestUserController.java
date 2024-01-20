@@ -71,7 +71,7 @@ public class RestUserController {
         try{
            User user =  userService.getUserById(id);
             if(user == null){
-                return new ResponseEntity<>("User doesn't exists!",HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("User doesn't exist!",HttpStatus.NOT_FOUND);
             }
         } catch (RuntimeException ignored) {}
         userService.deleteUserById(id);

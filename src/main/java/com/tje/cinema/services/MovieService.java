@@ -7,11 +7,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class MovieService {
 
     private final MovieRepository movieRepository;
@@ -36,8 +38,14 @@ public class MovieService {
         return movieRepository.findById(id).orElse(null);
     }
 
+    public Movie getMovieByTitle(String title){
+        return movieRepository.findByTitle(title).orElse(null);
+    }
+
     public Movie editMovie(long id, Movie updatedMovie) throws RuntimeException {
-        Movie existingMovie = movieRepository.findById(id).orElse(null);
+        Movie existingMovie = movieRepository
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("Movie not found with id: " + id));
 
         if (existingMovie != null) {
             existingMovie.setTitle(updatedMovie.getTitle());

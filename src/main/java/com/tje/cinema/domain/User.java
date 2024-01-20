@@ -26,11 +26,13 @@ public class User implements UserInterface {
     private String email;
     @Column(nullable = false)
     @NotNull(message = "name is mandatory")
+    @NotBlank(message = "name is mandatory")
     @Size(min = 2, max = 50, message = "name length should be between 2 and 50")
     private String name;
 
     @Column(nullable = false)
     @NotNull(message = "password is mandatory")
+    @NotBlank(message = "password is mandatory")
     @Size(min = 6, max = 50, message = "password length should be between 6 and 50")
     private String password;
     @Enumerated(EnumType.STRING)

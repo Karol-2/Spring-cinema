@@ -35,7 +35,7 @@ public class UserService {
     @Transactional
     public User editUser(User user) {
         User userEdited = userRepository.findById(user.getId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow();
 
         userEdited.setEmail(user.getEmail());
         userEdited.setName(user.getName());
