@@ -20,12 +20,12 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Modifying
     @Query("UPDATE Order o SET o.status = 'CANCELLED' WHERE o.orderId IN " +
-            "(SELECT r.order.orderId FROM Reservation r WHERE r.screening.movie.id = :movieId)")
+            "(SELECT r FROM Reservation r WHERE r.screening.movie.id = :movieId)")
     void cancelEveryOrderOfMovie(@Param("movieId") Long movieId);
 
     @Modifying
     @Query("UPDATE Order o SET o.status = 'CANCELLED' WHERE o.orderId IN " +
-            "(SELECT r.order.orderId FROM Reservation r WHERE r.screening.screeningId = :screeningId)")
+            "(SELECT r FROM Reservation r WHERE r.screening.screeningId = :screeningId)")
     void cancelEveryOrderOfscreening(@Param("screeningId") Long screeningId);
 
     @Query("SELECT o FROM Order o WHERE o.user.id = :userId")

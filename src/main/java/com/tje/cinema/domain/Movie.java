@@ -36,7 +36,7 @@ public class Movie {
     @Column(name = "actors")
     @NotNull(message = "actors field is mandatory")
     @NotBlank(message = "actors field is mandatory")
-    @Size(min = 5, max = 150, message = "actors field length should be between 5 and 150")
+    @Size(min = 1, max = 150, message = "actors field length should be between 1 and 150")
     private String actors;
     @Column(name = "trailer_link")
     @NotNull(message = "trailerLink field is mandatory")

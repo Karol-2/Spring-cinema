@@ -2,6 +2,8 @@ package com.tje.cinema.domain;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,13 +16,20 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long orderId;
     @Column(name = "price")
+    @NotNull(message = "price is mandatory")
+    @Min(value = 1, message = "price value must be at lest equal 1")
     private double price;
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @ElementCollection
+    @CollectionTable(name = "reservations", joinColumns = @JoinColumn(name = "order_id"))
+    @Column(name = "reservations")
+    @NotNull(message = "reservations list is mandatory")
     private List<Reservation> reservations;
     @Column(name = "date")
+    @NotNull(message = "date is mandatory")
     private LocalDateTime date;
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @NotNull(message = "user is mandatory")
     private User user;
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -41,7 +50,6 @@ public class Order {
     public void addReservation(Reservation reservation) {
         this.reservations.add(reservation);
         this.setPrice(calculateCost(this.getReservations()));
-        reservation.setOrder(this);
     }
 
     public enum OrderStatus {

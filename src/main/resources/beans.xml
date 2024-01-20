@@ -72,7 +72,7 @@
         <property name="genre" value="Drama"/>
         <property name="year" value="2023"/>
         <property name="director" value="DK Welchman, Hugh Welchman"/>
-        <property name="actors" value="Kamila Urzędowska, Robert Gulaczyk, Mirosław Baka, Ewa Kasprzyk, Sonia Mietielica, Andrzej Konopka, Małgorzata Kożuchowska, Sonia Bohosiewicz, Julia Wieniawa"/>
+        <property name="actors" value="Kamila Urzędowska, Robert Gulaczyk, Mirosław Baka, Andrzej Konopka, Małgorzata Kożuchowska, Sonia Bohosiewicz, Julia Wieniawa"/>
         <property name="trailerLink" value="https://www.youtube-nocookie.com/embed/rILKSimhfA4?si=p9EJ0HS-EKO0QHc7"/>
         <property name="photos" >
             <list>

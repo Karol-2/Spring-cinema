@@ -24,10 +24,6 @@ public class Reservation {
     private User user;
     @Column(name = "reservation_cost")
     private double reservationCost;
-    @ManyToOne( cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "order_id")
-    private Order order;
-
 
     public Reservation(){}
     public Reservation(Long screeningId, List<String> reservedSeats, User user){
@@ -96,14 +92,6 @@ public class Reservation {
 
     public void setReservationCost(double reservationCost) {
         this.reservationCost = reservationCost;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
     }
 
     private List<String>stringToArray(String text){
