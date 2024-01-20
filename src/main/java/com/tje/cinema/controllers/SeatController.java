@@ -4,6 +4,7 @@ import com.tje.cinema.domain.Order;
 import com.tje.cinema.domain.Reservation;
 import com.tje.cinema.domain.Screening;
 import com.tje.cinema.domain.User;
+import com.tje.cinema.repositories.ReservationRepository;
 import com.tje.cinema.services.RepertuarService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,17 +31,27 @@ import java.util.stream.Collectors;
 public class SeatController {
 
     private final RepertuarService repertuarService;
+    private final ReservationRepository reservationRepository;
 
-    public SeatController(RepertuarService repertuarService) {
+    public SeatController(RepertuarService repertuarService, ReservationRepository reservationRepository) {
         this.repertuarService = repertuarService;
+        this.reservationRepository = reservationRepository;
     }
 
     @GetMapping("/seats/{screeningId}")
     public String seats(@PathVariable Long screeningId,
                         @RequestParam(name = "error", required = false) String error,
                         Model model, HttpSession session) throws ParseException {
+
+
+
         try {
+
             Screening screening = this.repertuarService.getscreeningById(screeningId);
+
+            List<Reservation> matchingReservations =this.reservationRepository.getReservationsByScreeningId(screening.getScreeningId());
+            List<String> reservedSeats = this.makeOneSeatArray(matchingReservations);
+            model.addAttribute("reservedSeats", reservedSeats);
 
             // screening is in order   seats/1/edit?previousSeats=%5BB-3%5D
             if (session.getAttribute("order") != null) {
@@ -75,15 +86,24 @@ public class SeatController {
                 }
             }
 
+
+
             //  screening is not in order
             model.addAttribute("error",error);
             model.addAttribute("screening", screening);
             model.addAttribute("screeningId", screening.getScreeningId());
+
             System.out.println(screening);
         } catch (RuntimeException e) {
             return "redirect:/movies";
         }
         return "seatPage";
+    }
+
+    private List<String> makeOneSeatArray (List<Reservation> reservationList){
+        return reservationList.stream()
+                .flatMap(reservation -> reservation.getReservedSeats().stream())
+                .collect(Collectors.toList());
     }
 
 
@@ -134,6 +154,11 @@ public class SeatController {
 
         try {
             Screening screening = this.repertuarService.getscreeningById(screeningIdLong);
+
+            List<Reservation> matchingReservations =this.reservationRepository.getReservationsByScreeningId(screening.getScreeningId());
+            List<String> reservedSeats = this.makeOneSeatArray(matchingReservations);
+
+            model.addAttribute("reservedSeats", reservedSeats);
             model.addAttribute("previousSeats", previousSeats);
             model.addAttribute("screening", screening);
             model.addAttribute("error",error);
