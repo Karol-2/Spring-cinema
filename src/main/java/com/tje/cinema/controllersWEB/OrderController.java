@@ -5,6 +5,7 @@ import com.tje.cinema.domain.Reservation;
 import com.tje.cinema.domain.Screening;
 import com.tje.cinema.domain.User;
 import com.tje.cinema.services.OrderService;
+import com.tje.cinema.services.ReservationService;
 import com.tje.cinema.services.ScreeningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,19 +25,27 @@ import java.util.List;
 public class OrderController {
     private final OrderService orderService;
     private final ScreeningService screeningService;
+    private final ReservationService reservationService;
 
 
     @Autowired
-    public OrderController(OrderService orderService, ScreeningService screeningService) {
+    public OrderController(OrderService orderService, ScreeningService screeningService, ReservationService reservationService) {
         this.orderService = orderService;
         this.screeningService = screeningService;
+        this.reservationService = reservationService;
     }
 
     @GetMapping("/orders")
     public String orders(Model model,  HttpSession session) throws ParseException {
-        User user = (User)session.getAttribute("user");
-        List<Order> orders= orderService.getOrdersByUserId(user.getId());
-        model.addAttribute("orders",orders);
+        User user = (User) session.getAttribute("user");
+        List<Order> orders = orderService.getOrdersByUserId(user.getId());
+
+        for (Order order : orders) {
+            List<Reservation> reservations = reservationService.getReservationsByOrderId(order.getOrderId());
+            order.setReservations(reservations);
+        }
+
+        model.addAttribute("orders", orders);
         System.out.println(orders);
         return "userOrdersPage";
     }

@@ -17,6 +17,10 @@ public class Reservation {
     @JoinColumn(name = "screening_id")
     private Screening screening;
 
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
     @Column(name = "seats")
     private String reservedSeats;
     @ManyToOne
@@ -46,6 +50,14 @@ public class Reservation {
 
     public void setReservationId(Long reservationId) {
         this.reservationId = reservationId;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public Long getScreeningId() {

@@ -7,8 +7,8 @@ import com.tje.cinema.repositories.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,13 +16,11 @@ import java.util.List;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final ReservationRepository reservationRepository;
-    private final EntityManager entityManager;
 
     @Autowired
-    public OrderService(EntityManager entityManager,OrderRepository orderRepository, ReservationRepository reservationRepository){
+    public OrderService(OrderRepository orderRepository, ReservationRepository reservationRepository){
         this.orderRepository = orderRepository;
         this.reservationRepository = reservationRepository;
-        this.entityManager = entityManager;
     }
 
 
@@ -35,15 +33,17 @@ public class OrderService {
     }
 
     public Order addOrder(Order order) {
+        Order savedOrder = orderRepository.save(order);
+        List<Reservation> resWithId  = new ArrayList<>();
         for (Reservation reservation : order.getReservations()) {
-            entityManager.merge(reservation);
+            reservation.setOrder(savedOrder);
+            Reservation savedRes =  reservationRepository.save(reservation);
+            resWithId.add(savedRes);
+
         }
-        Order newOrder = this.orderRepository.save(order);
-        System.out.println("Dodano Zamówienie ");
+        savedOrder.setReservations(resWithId);
 
-
-
-        return newOrder;
+        return savedOrder;
     }
 
     public void finalizeOrder(Long orderFinalizedId) throws RuntimeException{

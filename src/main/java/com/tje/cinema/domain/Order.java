@@ -19,10 +19,7 @@ public class Order {
     @NotNull(message = "price is mandatory")
     @Min(value = 1, message = "price value must be at lest equal 1")
     private double price;
-    @ElementCollection
-    @CollectionTable(name = "reservations", joinColumns = @JoinColumn(name = "order_id"))
-    @Column(name = "reservations")
-    @NotNull(message = "reservations list is mandatory")
+    @Transient
     private List<Reservation> reservations;
     @Column(name = "date")
     @NotNull(message = "date is mandatory")
@@ -49,6 +46,7 @@ public class Order {
 
     public void addReservation(Reservation reservation) {
         this.reservations.add(reservation);
+        reservation.setOrder(this);
         this.setPrice(calculateCost(this.getReservations()));
     }
 
