@@ -104,7 +104,7 @@ public class MovieController {
                 this.movieService.removeMovieById(id);
                 redirectAttributes.addAttribute("message","Successfully removed movie: " + movie.getTitle());
             } catch (DataIntegrityViolationException e) {
-                String errorMsg = "ERROR: You need to remove every screening of "+ movie.getTitle() + " to remove this movie!";
+                String errorMsg = "ERROR: You need to remove every screening of "+ movie.getTitle() + " before removing this movie!";
                 redirectAttributes.addAttribute("message",errorMsg);
                 return "redirect:/admin";
 

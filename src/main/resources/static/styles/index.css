@@ -73,3 +73,11 @@ th {
     margin-bottom: 10px;
 }
 
+
+.screen{
+    background-color: black;
+    color: azure;
+    width: 270px;
+    height: 100px;
+
+}

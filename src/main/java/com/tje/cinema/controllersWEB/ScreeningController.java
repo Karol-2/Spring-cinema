@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -90,13 +91,14 @@ public class ScreeningController {
             @RequestParam("movie") Long movieId,
             @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             @RequestParam("time") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
+            RedirectAttributes ra,
             Model model) {
 
         LocalDateTime dateAndTime = LocalDateTime.of(date,time);
         Movie movie = this.movieService.getMovieById(movieId);
         Screening newScreening = new Screening(screeningId,movie,movie.getId(),dateAndTime);
         this.screeningService.editscreening(screeningId, newScreening);
-
+        ra.addAttribute("message","Successfully edited screening, id: " + screeningId);
         return "redirect:/admin";
     }
 
@@ -105,18 +107,19 @@ public class ScreeningController {
             @RequestParam("movie") Long movieId,
             @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             @RequestParam("time") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
+            RedirectAttributes ra,
             Model model) {
 
         LocalDateTime dateAndTime = LocalDateTime.of(date,time);
         Movie movie = this.movieService.getMovieById(movieId);
         Screening newScreening = new Screening(movieId,movie,movie.getId(),dateAndTime);
-        this.screeningService.addscreening(newScreening);
-
+        Screening savedScreening = this.screeningService.addscreening(newScreening);
+        ra.addAttribute("message","Successfully added screening, id: " + savedScreening.getScreeningId());
         return "redirect:/admin";
     }
 
     @GetMapping("/remove-screening/{id}")
-    public String removeMovie(@PathVariable Long id, Model model) {
+    public String removeMovie(@PathVariable Long id, Model model, RedirectAttributes ra) {
         Screening screening = this.screeningService.getscreeningById(id);
 
         if (screening != null) {
@@ -124,10 +127,10 @@ public class ScreeningController {
             this.orderService.cancelEveryOrderOfscreening(id);
 
             this.screeningService.removeById(id);
-
+            ra.addAttribute("message","Successfully removed screening, id: " + id);
             return "redirect:/admin";
         } else {
-
+            ra.addAttribute("message","Screening doesn't exist!");
             return "redirect:/admin";
         }
     }

@@ -66,7 +66,7 @@ public class AdminController {
             return "redirect:/";
         }
         String title = "Statistics for " + selectedDay;
-        return processAdminRequest(selectedDay, selectedDay.plusDays(1), model, title);
+        return processAdminRequest(selectedDay, selectedDay, model, title);
     }
 
     @GetMapping("/admin/month")
@@ -100,7 +100,6 @@ public class AdminController {
         model.addAttribute("numOfSeats", statsService.getSoldSeats(startDate, endDate));
         model.addAttribute("moneyEarned", statsService.getMoneyEarned(startDate, endDate));
         model.addAttribute("earnings", statsService.getEarningsPerOrder(startDate, endDate));
-        model.addAttribute("percentOfSeats", statsService.getPercentOfTakenSeats(startDate, endDate));
         model.addAttribute("numOfUsers", statsService.getNumberOfUsersReg(startDate, endDate));
 
         return "adminPanelPage";

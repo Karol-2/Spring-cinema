@@ -7,6 +7,7 @@
     <h2 th:text="${screening.getMovie().getTitle()}"></h2>
     <h3 th:text="${#temporals.format(screening.getDateAndTime(), 'dd-MM-yyyy HH:mm')}"></h3>
 
+    <div class="screen"></div>
     <form method="post" th:action="@{'/seats?screeningId=' + ${screeningId}}">
         <div class="row" th:each="row: ${screening.getAllSeats()}">
             <span th:each="seat : ${row}">

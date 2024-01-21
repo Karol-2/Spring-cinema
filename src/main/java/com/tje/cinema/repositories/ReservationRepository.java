@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
@@ -20,4 +21,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Transactional
     @Query("DELETE FROM Reservation r WHERE r.screening.screeningId = :screeningId")
     void deleteByScreeningId(Long screeningId);
+
+    @Query("SELECT r FROM Reservation r JOIN r.order o WHERE o.date BETWEEN :startTime AND :endTime")
+    List<Reservation> findReservationsByOrderDateBetween(@Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime);
 }

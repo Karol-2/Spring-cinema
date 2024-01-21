@@ -5,7 +5,9 @@
 <div th:replace="fragments :: navbar-admin"></div>
 <div class="page">
     <h1>Admin panel</h1>
-    <h1 style="text-align: center" th:text="${message}"> </h1>
+    <div th:if="message">
+        <h1 style="text-align: center" th:text="${message}"> </h1>
+    </div>
     <h2>Statistics</h2>
     <div class="grid-two">
       <div>
@@ -34,18 +36,17 @@
       </div>
       <div th:if="${statsType}">
           <h2 th:text="${statsType}"></h2>
-          <h4>Orders stats</h4>
+          <h4>Orders</h4>
           <p th:text="'Ticket price: '+ ${ticketPrice}+' PLN'"></p>
           <p th:text="'Number of Orders: '+ ${numOfOrders}"></p>
           <p th:text="'Money earned: '+ ${#numbers.formatDecimal(moneyEarned, 1, 2, 'COMMA')} + ' PLN'"></p>
           <p th:text="'Earnings per customer: '+ ${#numbers.formatDecimal(earnings, 1, 2, 'COMMA')}+' PLN'"></p>
           <p th:text="'Sold seats: '+ ${numOfSeats}"></p>
-          <h4>Movies stats</h4>
+          <h4>Movies</h4>
           <p th:text="'Number of Screenings: '+ ${numOfScreenings}"></p>
           <p th:text="'Movies shown: '+ ${numOfMovies}"></p>
           <p th:text="'Most popular movie: '+ ${mostPopular}"></p>
-          <p th:text="'Average percent of taken seats: '+ ${#numbers.formatDecimal(percentOfSeats, 1, 2, 'COMMA')}+'%'"></p>
-          <h4>User stats</h4>
+          <h4>Users</h4>
           <p th:text="'Users registered: '+ ${numOfUsers}"></p>
       </div>
   </div>
