@@ -6,10 +6,12 @@ import com.tje.cinema.services.MovieService;
 import com.tje.cinema.services.OrderService;
 import com.tje.cinema.services.ScreeningService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -66,7 +68,7 @@ public class MovieController {
     }
 
     @GetMapping("/movieForm/{id}")
-    public String editMovieForm(@PathVariable Long id, Model model) {
+    public String editMovieForm(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         Movie movie = this.movieService.getMovieById(id);
 
         if (movie != null) {
@@ -76,40 +78,46 @@ public class MovieController {
             model.addAttribute("currentYear", Year.now().getValue());
             return "movieForm";
         }
+
         return "redirect:/movieList";
 
     }
     @PostMapping("/add-movie")
-    public String addMovie(@ModelAttribute("newMovie") Movie newMovie) {
-        System.out.println("Dodano film: " + newMovie.getTitle());
+    public String addMovie(@ModelAttribute("newMovie") Movie newMovie, RedirectAttributes redirectAttributes) {
         this.movieService.addMovie(newMovie);
+        redirectAttributes.addAttribute("message","Successfully added movie: " + newMovie.getTitle());
         return "redirect:/admin";
     }
 
     @GetMapping("/remove-movie/{id}")
-    public String removeMovie(@PathVariable Long id, Model model) {
+    public String removeMovie(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         Movie movie = this.movieService.getMovieById(id);
 
         if (movie != null) {
             //Removing all screenigs of this movie
-            this.screeningService.removeAllscreeningOfMovie(id);
+            try {
 
-            //Cancel all orders with this movie
-            this.orderService.cancelEveryOrderOfMovie(id);
+                this.screeningService.removeAllscreeningOfMovie(id);
 
-            this.movieService.removeMovieById(id);
+                //Cancel all orders with this movie
+                this.orderService.cancelEveryOrderOfMovie(id);
+                this.movieService.removeMovieById(id);
+                redirectAttributes.addAttribute("message","Successfully removed movie: " + movie.getTitle());
+            } catch (DataIntegrityViolationException e) {
+                String errorMsg = "ERROR: You need to remove every screening of "+ movie.getTitle() + " to remove this movie!";
+                redirectAttributes.addAttribute("message",errorMsg);
+                return "redirect:/admin";
 
-            return "redirect:/admin";
-        } else {
-
-            return "redirect:/admin";
+            }
         }
+            return "redirect:/admin";
+
     }
 
     @PostMapping("/edit-movie")
-    public String editMovie(@ModelAttribute("newMovie") Movie newMovie) {
-        System.out.println("Zedytowano film: " + newMovie.getTitle());
+    public String editMovie(@ModelAttribute("newMovie") Movie newMovie, RedirectAttributes ra) {
         this.movieService.editMovie(newMovie.getId(),newMovie);
+        ra.addAttribute("message","Successfully edited movie: " + newMovie.getTitle());
         return "redirect:/admin";
     }
 

@@ -24,7 +24,7 @@ public class Order {
     @Column(name = "date")
     @NotNull(message = "date is mandatory")
     private LocalDateTime date;
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "user_id")
     @NotNull(message = "user is mandatory")
     private User user;

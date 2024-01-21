@@ -4,9 +4,11 @@ import com.tje.cinema.domain.Reservation;
 import com.tje.cinema.repositories.ReservationRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
@@ -20,6 +22,10 @@ public class ReservationService {
     }
     public List<Reservation> getReservationsByOrderId(Long orderId){
         return this.reservationRepository.getReservationsByOrderId(orderId);
+    }
+
+    public void deleteByScreeningId(Long screening_id){
+        this.reservationRepository.deleteByScreeningId(screening_id);
     }
 
 }

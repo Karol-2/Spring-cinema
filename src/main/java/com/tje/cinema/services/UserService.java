@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;

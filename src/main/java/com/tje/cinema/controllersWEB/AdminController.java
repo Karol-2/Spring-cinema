@@ -31,7 +31,8 @@ public class AdminController {
     }
 
     @GetMapping("/admin")
-    public String admin(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+    public String admin(@RequestParam(name = "message", required = false) String message,
+                        HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         if (!isAdmin(session)){
             redirectAttributes.addAttribute("error","You don't have access to this page.");
             return "redirect:/";
@@ -39,6 +40,7 @@ public class AdminController {
         LocalDate testFrom = LocalDate.of(2000, 1, 1);
         LocalDate testTo =  LocalDate.of(3000, 1, 1);
         String title = "Statistics of all time";
+        model.addAttribute("message",message);
         return processAdminRequest(testFrom,testTo, model, title);
     }
 

@@ -10,6 +10,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -17,16 +18,19 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class ScreeningService {
     private final MovieService movieService;
     private final MovieRepository movieRepository;
 
     private final ScreeningRepository screeningRepository;
+    private final ReservationService reservationService;
     @Autowired
-    public ScreeningService(MovieService movieService, ScreeningRepository screeningRepository, MovieRepository movieRepository) {
+    public ScreeningService(ReservationService reservationService,MovieService movieService, ScreeningRepository screeningRepository, MovieRepository movieRepository) {
         this.movieService = movieService;
         this.screeningRepository = screeningRepository;
         this.movieRepository = movieRepository;
+        this.reservationService = reservationService;
     }
 
     @PostConstruct
@@ -43,6 +47,10 @@ public class ScreeningService {
         return this.screeningRepository.findAll();
     }
     public void removeById(long id){
+
+        //remove this id from reservations
+        this.reservationService.deleteByScreeningId(id);
+
         this.screeningRepository.deleteById(id);
     }
 
