@@ -27,7 +27,7 @@ public class ReservationService {
         return this.reservationRepository.getOne(id);
     }
     public Reservation addReservation(Reservation newReservation){
-        return this.reservationRepository.save(newReservation) //TODO: sprawdź czy order id istnieje, user, screening, czy miejsca nie zajte
+        return this.reservationRepository.save(newReservation); //TODO: sprawdź czy order id istnieje, user, screening, czy miejsca nie zajte
     }
     public Reservation editReservation(Reservation editReservation){
         return editReservation; //TODO: implement
