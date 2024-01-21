@@ -3,6 +3,7 @@ package com.tje.cinema.services;
 import com.tje.cinema.domain.AdminUser;
 import com.tje.cinema.domain.User;
 import com.tje.cinema.repositories.UserRepository;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -48,8 +49,18 @@ public class UserService {
     public List<User> getUserList() {
         return userRepository.findAll();
     }
-    public void deleteUserById(Long id) {
-        userRepository.deleteById(id);
+    @Transactional
+    public void deleteUserById(Long id) throws RuntimeException {
+        try {
+            userRepository.deleteById(id);
+        } catch (Throwable t) {
+
+            if (t instanceof ConstraintViolationException) {
+                throw new RuntimeException("DB_ERROR: Cannot delete user. It is associated with an order.");
+            } else {
+                throw new RuntimeException("DB_ERROR: Database error during user deletion." + t.getMessage());
+            }
+        }
     }
 
     private void setInitialUsers() {

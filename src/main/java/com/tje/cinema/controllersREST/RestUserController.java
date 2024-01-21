@@ -66,15 +66,20 @@ public class RestUserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUserById(@PathVariable Long id) {
-
         try{
            User user =  userService.getUserById(id);
             if(user == null){
                 return new ResponseEntity<>("User doesn't exist!",HttpStatus.NOT_FOUND);
             }
-        } catch (RuntimeException ignored) {}
-        userService.deleteUserById(id);
-        return ResponseEntity.ok("Deleted user with id: " + id);
+        } catch (RuntimeException ignored) {System.out.println("d");}
+
+
+        try {
+            userService.deleteUserById(id);
+            return ResponseEntity.ok("Deleted user with id: " + id);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>("DB_ERROR: Cannot delete user. It is associated with an order.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
     }
 

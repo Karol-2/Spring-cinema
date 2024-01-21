@@ -23,6 +23,18 @@ public class ReservationService {
     public List<Reservation> getReservationsByOrderId(Long orderId){
         return this.reservationRepository.getReservationsByOrderId(orderId);
     }
+    public Reservation getReservation(Long id){
+        return this.reservationRepository.getOne(id);
+    }
+    public Reservation addReservation(Reservation newReservation){
+        return this.reservationRepository.save(newReservation) //TODO: sprawdź czy order id istnieje, user, screening, czy miejsca nie zajte
+    }
+    public Reservation editReservation(Reservation editReservation){
+        return editReservation; //TODO: implement
+    }
+    public void removeReservationById(long id) {
+        reservationRepository.deleteById(id);
+    }
 
     public void deleteByScreeningId(Long screening_id){
         this.reservationRepository.deleteByScreeningId(screening_id);

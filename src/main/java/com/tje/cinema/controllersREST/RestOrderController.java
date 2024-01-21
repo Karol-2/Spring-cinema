@@ -41,7 +41,7 @@ public class RestOrderController {
     public ResponseEntity<?> addOrder(@RequestBody @Valid Order order){
         Order result = this.orderService.addOrder(order);
         return new ResponseEntity<>(result,HttpStatus.OK);
-    } //TODO: sprawdź czy miejsca nie są już zajęte
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteOrderById(@PathVariable Long id) {
@@ -52,21 +52,9 @@ public class RestOrderController {
             }
         } catch (RuntimeException ignored) {}
         orderService.removeOrderById(id);
-        return ResponseEntity.ok("Deleted order and it's reservations with id: " + id);
+        return ResponseEntity.ok("Deleted order with id: " + id);
 
     }
-
-//    @PutMapping("/{id}")
-//    public ResponseEntity<?> editOrder(@RequestBody @Valid Order orderUpdated, @PathVariable Long id) {
-//        try{
-//            Order editedOrder = this.orderService.editOrder(id,orderUpdated);
-//            return new ResponseEntity<>(editedOrder, HttpStatus.OK);
-//        } catch (RuntimeException e){
-//            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
-//        }
-//    }
-
-
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
