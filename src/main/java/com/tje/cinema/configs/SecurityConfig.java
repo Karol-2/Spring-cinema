@@ -36,7 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/api/**").authenticated()
                     .anyRequest().permitAll()
                     .and()
+                .oauth2Login(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults());
+
 
     }
 }
