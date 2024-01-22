@@ -4,6 +4,7 @@ import com.tje.cinema.domain.Movie;
 import com.tje.cinema.services.MovieService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,7 @@ public class RestMovieController {
     }
 
     @PostMapping()
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addMovie(@RequestBody @Valid Movie movie){
 
         try{
@@ -54,6 +56,7 @@ public class RestMovieController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> editMovie(@RequestBody @Valid Movie movieUpdated,@PathVariable Long id) {
         try{
             Movie editedMovie = this.movieService.editMovie(id,movieUpdated);
@@ -63,7 +66,9 @@ public class RestMovieController {
         }
     }
 
+
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteMovieById(@PathVariable Long id) {
         try{
             Movie movie =  movieService.getMovieById(id);

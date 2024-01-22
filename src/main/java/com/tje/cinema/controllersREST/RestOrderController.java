@@ -4,6 +4,7 @@ import com.tje.cinema.domain.Order;
 import com.tje.cinema.services.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -23,11 +24,13 @@ public class RestOrderController {
     }
 
     @GetMapping()
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Order>> getAllOrders() {
         return ResponseEntity.ok(orderService.getOrders());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getOrderById(@PathVariable Long id) {
         Order order = orderService.getOrder(id);
 
@@ -38,12 +41,14 @@ public class RestOrderController {
         }
     }
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addOrder(@RequestBody @Valid Order order){
         Order result = this.orderService.addOrder(order);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteOrderById(@PathVariable Long id) {
         try{
             Order order =  orderService.getOrder(id);

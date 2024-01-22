@@ -22,13 +22,13 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/login")
+    @GetMapping("/web-login")
     public String showLoginPage(@RequestParam(name = "error", required = false) String error, Model model) {
         model.addAttribute("error", error);
         return "loginPage";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/web-login")
     public String loginUser(@RequestParam("email") String email,
                             @RequestParam("password") String password,
                             HttpSession session,
@@ -51,12 +51,12 @@ public class UserController {
                 return "redirect:/movies";
             } else { // hasła nie pasują
                 redirectAttributes.addAttribute("error", "Password doesn't match");
-                return "redirect:/login";
+                return "redirect:/web-login";
             }
 
         } catch (RuntimeException e) { //nie ma takiego loginu
             redirectAttributes.addAttribute("error", e.getMessage());
-            return "redirect:/login";
+            return "redirect:/web-login";
         }
     }
 
@@ -88,7 +88,7 @@ public class UserController {
         User newUser = new User(email, name, password);
         userService.saveUser(newUser);
 
-        return "redirect:/login";
+        return "redirect:/web-login";
     }
 
     @GetMapping("/logout")
