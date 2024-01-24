@@ -36,8 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests()
-                    .antMatchers("/api/stats/**").hasRole("USER")
-                    .antMatchers("/api/**").authenticated()
+                    .antMatchers("/api/stats/**").authenticated()
                     .anyRequest().permitAll()
                     .and()
                 .sessionManagement( session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -27,7 +27,7 @@ public class PaymentController {
 
     @GetMapping("/payment")
     public String payment(@RequestParam("orderId") Long orderId,
-                          @RequestParam(name = "error", required = false) String error,
+                          @RequestParam(name = "string", required = false) String error,
                           Model model) throws ParseException {
         Random random = new Random();
         int code = 100000 + random.nextInt(900000);
