@@ -14,6 +14,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT o FROM Order o WHERE CAST(o.date AS date) = :targetDate")
     List<Order> findOrderByDate(@Param("targetDate") LocalDate targetDate);
 
+    @Query("SELECT o FROM Order o WHERE o.user.id = :userId")
+    List<Order> getOrdersByUserId(@Param("userId") Long userId);
 
     @Modifying
     @Query("UPDATE Order o SET o.status = 'COMPLETED' WHERE o.orderId = :orderFinalizedId")
@@ -29,8 +31,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "(SELECT r FROM Reservation r WHERE r.screening.screeningId = :screeningId)")
     void cancelEveryOrderOfscreening(@Param("screeningId") Long screeningId);
 
-    @Query("SELECT o FROM Order o WHERE o.user.id = :userId")
-    List<Order> getOrdersByUserId(@Param("userId") Long userId);
 
 
 }
