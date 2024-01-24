@@ -91,7 +91,7 @@ public class UserController {
         return "redirect:/web-login";
     }
 
-    @GetMapping("/logout")
+    @GetMapping("/web-logout")
     public String logout(HttpSession session) {
         session.removeAttribute("user");
         session.invalidate();

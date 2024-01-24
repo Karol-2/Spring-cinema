@@ -20,13 +20,6 @@ public class LoginService implements UserDetailsService {
         com.tje.cinema.domain.User userEntity = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
-        if(userEntity.getUserType()== com.tje.cinema.domain.User.UserType.ADMIN){
-            return User.builder()
-                    .username(userEntity.getEmail())
-                    .password(userEntity.getPassword())
-                    .roles("ADMIN")
-                    .build();
-        }
 
         return User.builder()
                 .username(userEntity.getEmail())

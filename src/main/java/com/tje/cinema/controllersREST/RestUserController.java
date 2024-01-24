@@ -4,7 +4,6 @@ import com.tje.cinema.domain.User;
 import com.tje.cinema.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +23,6 @@ public class RestUserController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
 
@@ -36,13 +34,11 @@ public class RestUserController {
     }
 
     @GetMapping()
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getUserList());
     }
 
     @PostMapping()
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addUser(@RequestBody @Valid User user){
         try{
             User foundUser = userService.getUserByEmail(user.getEmail());
@@ -57,7 +53,6 @@ public class RestUserController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> editUser(@RequestBody @Valid User userUpdated, @PathVariable Long id){
 
         try{
@@ -70,7 +65,6 @@ public class RestUserController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUserById(@PathVariable Long id) {
         try{
            User user =  userService.getUserById(id);

@@ -4,7 +4,6 @@ import com.tje.cinema.domain.Reservation;
 import com.tje.cinema.services.ReservationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +23,11 @@ public class RestReservationController {
     }
 
     @GetMapping()
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Reservation>> getAllReservations() {
         return ResponseEntity.ok(reservationService.getAll());
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getReservationById(@PathVariable Long id) {
         Reservation reservation = reservationService.getReservation(id);
 
@@ -42,20 +39,17 @@ public class RestReservationController {
     }
 
     @GetMapping("/order/{order_id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getReservationsByOrderId(@PathVariable Long order_id) {
         return new ResponseEntity<> (reservationService.getReservationsByOrderId(order_id),HttpStatus.OK);
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addReservation(@RequestBody @Valid Reservation reservation){
         Reservation result = this.reservationService.addReservation(reservation);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> editReservation(@RequestBody @Valid Reservation resUpdated, @PathVariable Long id){
 
         try{
@@ -68,7 +62,6 @@ public class RestReservationController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteReservationById(@PathVariable Long id) {
         try{
             Reservation reservation =  reservationService.getReservation(id);

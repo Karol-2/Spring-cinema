@@ -40,7 +40,6 @@ public class RestMovieController {
     }
 
     @PostMapping()
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addMovie(@RequestBody @Valid Movie movie){
 
         try{

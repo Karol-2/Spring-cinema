@@ -6,7 +6,6 @@ import com.tje.cinema.services.MovieService;
 import com.tje.cinema.services.ScreeningService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +43,6 @@ public class RestScreeningController {
     }
 
     @PostMapping()
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addScreening(@RequestBody @Valid Screening screening){
         Screening result = this.screeningService.addscreening(screening);
 
@@ -60,7 +58,6 @@ public class RestScreeningController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> editScreening(@RequestBody @Valid Screening screening, @PathVariable Long id){
         try{
             Screening editedScreening = this.screeningService.editscreening(id,screening);
@@ -80,7 +77,6 @@ public class RestScreeningController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteScreeningById(@PathVariable Long id) {
         try{
             Screening screening =  screeningService.getscreeningById(id);
