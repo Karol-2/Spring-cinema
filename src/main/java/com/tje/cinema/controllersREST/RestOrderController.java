@@ -1,7 +1,9 @@
 package com.tje.cinema.controllersREST;
 
 import com.tje.cinema.domain.Order;
+import com.tje.cinema.domain.User;
 import com.tje.cinema.services.OrderService;
+import com.tje.cinema.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -16,15 +18,32 @@ import java.util.List;
 @RequestMapping("/api/orders")
 public class RestOrderController {
 
+
+    private final UserService userService;
+
     private final OrderService orderService;
 
-    public RestOrderController(OrderService orderService) {
+    public RestOrderController(UserService userService, OrderService orderService) {
+        this.userService = userService;
         this.orderService = orderService;
     }
 
     @GetMapping()
     public ResponseEntity<List<Order>> getAllOrders() {
         return ResponseEntity.ok(orderService.getOrders());
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<?> getAllOrdersByUserId(@PathVariable long id) {
+        try{
+            User user =  userService.getUserById(id);
+            if(user == null){
+                return new ResponseEntity<>("User doesn't exist!",HttpStatus.NOT_FOUND);
+            }
+        } catch (RuntimeException ignored) {}
+
+
+        return ResponseEntity.ok(orderService.getOrdersByUserId(id));
     }
 
     @GetMapping("/{id}")
@@ -37,6 +56,19 @@ public class RestOrderController {
             return new ResponseEntity<>("Order not found with id: " + id,HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/{id}/finalise")
+    public ResponseEntity<?> finaliseOrderById(@PathVariable Long id) {
+        Order order = orderService.getOrder(id);
+
+        if (order != null) {
+            String response = orderService.finalizeOrder(id);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Order not found with id: " + id,HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<?> addOrder(@RequestBody @Valid Order order){
         Order result = this.orderService.addOrder(order);

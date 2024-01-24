@@ -22,6 +22,12 @@ public class RestUserController {
         this.userService = userService;
     }
 
+
+    @GetMapping()
+    public ResponseEntity<List<User>> getAllUsers() {
+        return ResponseEntity.ok(userService.getUserList());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
@@ -31,11 +37,6 @@ public class RestUserController {
         } else {
             return new ResponseEntity<>("User not found with id: " + id,HttpStatus.NOT_FOUND);
         }
-    }
-
-    @GetMapping()
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(userService.getUserList());
     }
 
     @PostMapping()

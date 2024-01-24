@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,10 @@ public class OrderService {
     public Order getOrder(long orderId) throws RuntimeException{
         return this.orderRepository.findById(orderId).orElse(null);
     }
+    public List<Order> getOrdersByDate(LocalDate date){
+        return this.orderRepository.findOrderByDate(date);
+    }
+
 
     public Order addOrder(Order order) {
         Order savedOrder = orderRepository.save(order);
@@ -46,9 +51,10 @@ public class OrderService {
         return savedOrder;
     }
 
-    public void finalizeOrder(Long orderFinalizedId) throws RuntimeException{
+    public String finalizeOrder(Long orderFinalizedId) throws RuntimeException{
         this.orderRepository.finalizeOrder(orderFinalizedId);
         System.out.println("Sfinalizowano Zamówienie z id: " + orderFinalizedId);
+        return "Finalised order with id: " + orderFinalizedId;
     }
 
 

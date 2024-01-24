@@ -4,6 +4,7 @@ import com.tje.cinema.domain.Movie;
 import com.tje.cinema.domain.Screening;
 import com.tje.cinema.services.MovieService;
 import com.tje.cinema.services.ScreeningService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,6 +33,12 @@ public class RestScreeningController {
         return ResponseEntity.ok(screeningService.getAllscreening());
     }
 
+    @GetMapping("/date")
+    public ResponseEntity<List<Screening>> getAllScreeningsByDate(
+            @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
+        return ResponseEntity.ok(screeningService.getscreeningesByDate(date));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getScreeningById(@PathVariable Long id){
         Screening scr = screeningService.getscreeningById(id);
@@ -41,6 +49,8 @@ public class RestScreeningController {
             return new ResponseEntity<>("Screening not found with id: " + id,HttpStatus.NOT_FOUND);
         }
     }
+
+
 
     @PostMapping()
     public ResponseEntity<?> addScreening(@RequestBody @Valid Screening screening){

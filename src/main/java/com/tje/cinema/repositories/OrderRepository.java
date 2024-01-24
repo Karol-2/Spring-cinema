@@ -6,13 +6,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    @Query("SELECT o FROM Order o WHERE o.date = :targetDate")
-    List<Order> findOrderByDate(@Param("targetDate") LocalDateTime targetDate);
+    @Query("SELECT o FROM Order o WHERE CAST(o.date AS date) = :targetDate")
+    List<Order> findOrderByDate(@Param("targetDate") LocalDate targetDate);
+
 
     @Modifying
     @Query("UPDATE Order o SET o.status = 'COMPLETED' WHERE o.orderId = :orderFinalizedId")

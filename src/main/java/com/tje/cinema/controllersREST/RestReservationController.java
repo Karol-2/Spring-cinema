@@ -27,6 +27,11 @@ public class RestReservationController {
         return ResponseEntity.ok(reservationService.getAll());
     }
 
+    @GetMapping("/order/{order_id}")
+    public ResponseEntity<?> getReservationsByOrderId(@PathVariable Long order_id) {
+        return new ResponseEntity<> (reservationService.getReservationsByOrderId(order_id),HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getReservationById(@PathVariable Long id) {
         Reservation reservation = reservationService.getReservation(id);
@@ -38,10 +43,6 @@ public class RestReservationController {
         }
     }
 
-    @GetMapping("/order/{order_id}")
-    public ResponseEntity<?> getReservationsByOrderId(@PathVariable Long order_id) {
-        return new ResponseEntity<> (reservationService.getReservationsByOrderId(order_id),HttpStatus.OK);
-    }
 
     @PostMapping
     public ResponseEntity<?> addReservation(@RequestBody @Valid Reservation reservation){
@@ -73,7 +74,6 @@ public class RestReservationController {
         return ResponseEntity.ok("Deleted reservation " + id);
 
     }
-
 
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
